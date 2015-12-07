@@ -7,6 +7,8 @@ package mae.iqra;
  * Oct 19, 2009  text & area added -- compiled with java 4
  * Sep 25, 2011  GIF --> gif
  * Apr-May 2012  V3.0 Arabic text
+ * Mar 21, 2015  Scaler
+ * Dec 05, 2015  Bookmarks
  */
 
 import java.io.*;
@@ -27,7 +29,7 @@ import mae.util.Scaler;
 public class Iqra3 extends MouseAdapter 
     implements MouseMotionListener, ActionListener, ChangeListener {
     
-    final static String TITLE = "Iqra V3.04"; 
+    final static String TITLE = "Iqra V3.05"; 
     final static String QUR = "Quran.txt"; 
     final static String KUR = "Kuran.txt"; 
     final static String NAM = "iqra.names";
@@ -73,6 +75,16 @@ public class Iqra3 extends MouseAdapter
         */
         gotoSura(1);
         pan.slider.requestFocusInWindow(); 
+    }
+    public void setState(String s) {
+        int[] a = Mark.split(s);
+        gotoPage(a[0]);
+        html.select(a[1], a[2]);
+    }
+    public String getState() {
+        int i = html.getSelectionStart();
+        int j = html.getSelectionEnd();
+        return Mark.combine(curPage, i, j);
     }
     public int suraFromPage(int k) {
         int i = 0;

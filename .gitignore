@@ -1,6 +1,8 @@
+iqra.ser
+iqra.mark
+SSS.exception
 # Java class files
 *.class
-SSS.exception
 
 # Windows image file caches
 Thumbs.db
