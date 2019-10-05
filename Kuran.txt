@@ -1,4 +1,4 @@
-﻿
+﻿ ¶
 1) Fatiha Suresi
 Rahman ve Rahim olan Allah'ın adıyla
 1. Hamd, alemlerin Rabbi Allah'a mahsustur.
@@ -9,7 +9,6 @@ Rahman ve Rahim olan Allah'ın adıyla
 6. Nimete erdirdiğin kimselerin yoluna; 
 7. gazaba uğrayanların, ya da sapıtanların yoluna değil. 
 
-¶
 2) Bakara Suresi
 Bismillahirrahmanirrahim
 1. Elif, Lam, Mim.
@@ -5860,13 +5859,13 @@ Bismillahirrahmanirrahim
 26-31. Sonra yeryüzünü iyice yarmakta ve orada taneli ekinler, üzümler, sebzeler, zeytin, hurma ağaçları ve bahçelerde koca koca ağaçlı meyveler ve çayırlar bitirmekteyiz. 
 32. Bunlar sizin ve hayvanlarınız için geçimliktir. 
 33. O muazzam gürültü, kıyamet kopup geldiği zaman;
+¶
 34-6. O gün, kişi kardeşinden, annesinden, babasından, karısından ve oğullarından, kaçar. 
 37. O gün, herkesin kendine yeter derdi vardır. 
 38-9. O gün bir takım yüzler aydınlıktır, gülmekte ve sevinmektedir. 
 40-41. O gün bir takım yüzler de tozlanmış ve onları karanlık bürümüştür. 
 42. İşte bunlar inkarcı olanlar, Allah'ın buyruğundan çıkanlardır.
 
-¶
 81) Tekvir Suresi
 Bismillahirrahmanirrahim
 1. Güneş dürülüp ışığı kalmadığı zaman; 
@@ -5885,7 +5884,9 @@ Bismillahirrahmanirrahim
 15-6. Gündüz sinip geceleri gözüken gezegenlere and olsun; 
 17. Kararmaya başlayan geceye and olsun; 
 18. Ağarmaya başlayan sabaha and olsun ki,
-19-21. Bu Kuran, arşın sahibi katında değerli, güçlü, sözü dinlenen ve güvenilen şerefli bir elçinin getirdiği sözdür. 
+19-20. Bu Kuran, arşın sahibi katında değerli, güçlü, şerefli bir elçinin getirdiği sözdür.
+¶
+21. O sözü dinlenen ve güvenilen (bir elçidir)
 22. Arkadaşınız (Muhammed) asla deli değildir. 
 23. And olsun ki, o, Cebrail'i apaçık ufukta görmüştür. 
 24. Peygamber, görülmeyenler hakkında söylediklerinden ötürü töhmet altında tutulamaz. 
@@ -5894,7 +5895,6 @@ Bismillahirrahmanirrahim
 27-8. Kuran, ancak aranızda doğru yola girmeyi dileyene ve alemlere bir öğüttür. 
 29. Alemlerin Rabbi olan Allah dilemedikçe sizler bir şey dileyemezsiniz. 
 
-¶
 82) İnfitar Suresi
 Bismillahirrahmanirrahim
 1. Gök yarıldığı zaman, 
@@ -5936,6 +5936,7 @@ Bismillahirrahmanirrahim
 22-3. İyiler, şüphesiz, nimet içinde ve tahtlar üzerinde etrafı seyrederler. 
 24. Onları, yüzlerindeki nimet pırıltısından tanırsın. 
 25-6. Sonunda misk kokusu bırakan, ağzı kapalı saf bir içecekten içerler. İyi şeyler için yarışanlar, bunun için yarışsınlar. 
+¶
 27-8. Onun katkısı gözdelerin içtiği yüce kaynaktandır. 
 29. Suçlular, şüphesiz, inanmış olanlara gülerlerdi. 
 30. Yanlarından geçtikleri zaman da birbirlerine göz kırparlardı. 
@@ -5945,7 +5946,6 @@ Bismillahirrahmanirrahim
 34. Bugün de, inananlar inkarcılara gülerler. 
 35-6. Tahtlar üzerinde, inkarcıların yaptıkları şeylerin karşılığının nasıl verildiğini seyrederler. 
 
-¶
 84) İnşikak Suresi
 Bismillahirrahmanirrahim
 1-2. Gök yarılıp Rabbine boyun eğdiği zaman, ki gök boyun eğecektir. 
@@ -5954,6 +5954,7 @@ Bismillahirrahmanirrahim
 7-9. Amel defteri kendisine sağından verilen kimse, kolay geçireceği bir hesaba çekilir ve arkadaşlarının yanına sevinçle döner. 
 10-2. Ama amel defteri kendisine arkasından verilen kimse: "Mahvoldum" diye bağırır ve çılgın alevli cehenneme girer. 
 13. Çünkü o, dünyada, adamlarının yanında iken zevk içindeydi. 
+¶
 14. Zira; o, bir daha dirilip dönmeyeceğini sanmıştı. 
 15. Bilin ki, Rabbi onu şüphesiz görmekteydi.
 16. Akşamın alaca karanlığına and olsun;
@@ -5967,7 +5968,6 @@ Bismillahirrahmanirrahim
 24. Onlara can yakıcı azabı müjde et. 
 25. Yalnız, inanıp yararlı işler işleyenlere, onlara, kesintisiz ecir vardır. 
 
-¶
 85) Buruc Suresi
 Bismillahirrahmanirrahim
 1. İçinde burçları bulunan göğe and olsun; 
@@ -5977,6 +5977,7 @@ Bismillahirrahmanirrahim
 8-9. Bu inkarcıların, inananlara kızmaları; onların sadece, göklerin ve yerin hükümranlığı kendisinde bulunan ve övülmeğe layık ve güçlü olan Allah'a inanmış olmalarındandır. Allah her şeye  şahittir. 
 10. Ama inanmış erkek ve kadınlara işkence ederek onları dinlerinden çevirmeğe uğraşanlar, eğer tevbe etmezlerse, onlara cehennem azabı vardır. Yakıcı azap da onlaradır. 
 11. Şüphesiz inanıp yararlı işler işleyenlere, onlara, içlerinden ırmaklar akan cennetler vardır. Bu, büyük kurtuluştur. 
+¶
 12. Doğrusu Rabbinin yakalaması amansızdır. 
 13. Önce yaratıp sonra bunu tekrar eden O'dur. 
 14-5. Yüce Arşın sahibi, çok seven, bağışlayan O'dur. 
@@ -5986,7 +5987,6 @@ Bismillahirrahmanirrahim
 20. Oysa Allah onları ardlarından çevirmiştir. 
 21-2. Doğrusu sana vahyedilen bu Kitap, Levhi Mahfuz'da bulunan şanlı bir Kuran'dır. 
 
-¶
 86) Tarık Suresi
 Bismillahirrahmanirrahim
 1. Göğe ve gece ortaya çıkana and olsun. 
@@ -5997,13 +5997,14 @@ Bismillahirrahmanirrahim
 6-7. O, erkek ve kadının beli ile göğüsleri arasından atılagelen bir sudan yaratılmıştır. 
 8-9. Şüphesiz Allah, gizliliklerin ortaya çıkacağı gün, insanı tekrar yaratmaya Kadirdir. 
 10. O gün, insanın gücü de, yardımcısı da olmaz. 
-11-2. Yağmurun dönüşünü sağlayan göğe ve yarılan yeryüzüne and olsun ki,
+11-12. Yağmurun dönüşünü sağlayan göğe ve yarılan yeryüzüne and olsun ki,
 13. Doğrusu bu Kuran kesin bir sözdür. 
 14. O, eğlence için değildir. 
 15. Gerçekten onlar düzen kuruyorlar. 
 16. Ben de bir düzen kurmaktayım. 
-17. Sen inkarcılara mehil ver; onlara mukabeleyi biraz geri bırak. 
+17. Sen inkarcılara mehil ver; onlara mukabeleyi biraz geri bırak.
 
+¶
 87) Ala Suresi
 Bismillahirrahmanirrahim
 1. Yüce Rabbinin adını tesbih et. 
@@ -6024,7 +6025,6 @@ Bismillahirrahmanirrahim
 17. Oysa ahiret daha iyi ve daha bakidir.
 18-9. Doğrusu bu hükümler ilk sahifelerde, İbrahim ve Musa'nın sahifelerinde de vardır.
 
-¶
 88) Gaşiye Suresi
 Bismillahirrahmanirrahim
 1. Her şeyi kaplayacak kıyametin haberi sana gelmedi mi? 
@@ -6037,6 +6037,7 @@ Bismillahirrahmanirrahim
 9. Yaptıklarından hoşnutturlar.
 10. Yüksek bir cennettedirler. 
 11. Orada boş söz işitmezler. 
+¶
 12. Orada akan kaynak vardır. 
 13. Orada, yükseltilmiş tahtlar vardır. 
 14. Yerleştirilmiş kaseler, 
@@ -6049,7 +6050,6 @@ Bismillahirrahmanirrahim
 25. Doğrusu onların dönüşü Bize'dir. 
 26. Şüphesiz sonra hesaplarını görmek de Bize düşmektedir. 
 
-¶
 89) Fecr Suresi
 Bismillahirrahmanirrahim
 1. Tanyerinin ağarmasına and olsun; 
@@ -6060,6 +6060,7 @@ Bismillahirrahmanirrahim
 9-12. Vadide kayaları kesip yontan Semud milletine, memleketlerde aşırı giden, oralarda bozgunculuğu artıran, sarsılmaz bir saltanat sahibi Firavun'a Rabbinin ne ettiğini görmedin mi? 
 13. Rabbin onları azap kırbacından geçirmiştir. 
 14. Doğrusu Rabbin hep gözetlemektedir. 
+¶
 15. Rabbin denemek için bir insana iyilik edip, nimet verdiği zaman, o: "Rabbim beni şerefli kıldı" der. 
 16. Ama onu sınamak için rızkını daraltıp bir ölçüye göre verdiği zaman: "Rabbim bana hor baktı" der. 
 17. Hayır; yetime karşı cömert davranmıyorsunuz. 
@@ -6077,7 +6078,6 @@ Bismillahirrahmanirrahim
 29. "Ey can! İyi kullarımın arasına gir." 
 30. "Cennetime gir."
 
-¶
 90) Beled Suresi
 Bismillahirrahmanirrahim
 1-2. Bu, Mekke şehrine yemin ederim; ki sen bu şehirde oturmuşsun. 
@@ -6086,6 +6086,7 @@ Bismillahirrahmanirrahim
 5. İnsanoğlu, kendisine kimsenin güç yetiremiyeceğini mi sanıyor?
 6. "Yığın yığın mal tüketmişimdir" diyor. 
 7. O, kimsenin kendisini görmediğini mi zannediyor?
+¶
 8-9. Biz onun için iki göz, bir dil ve iki dudak var etmedik mi? 
 10. Biz ona eğri ve doğru iki yolu da göstermedik mi? 
 11. Ama o, zor geçidi aşmaya girişemedi. 
@@ -6097,7 +6098,6 @@ Bismillahirrahmanirrahim
 19. Ayetlerimizi inkar edenler, işte onlar amel defterleri sollarından verilenlerdir. 
 20. Onlar her yönden ateşle kapatılacaklardır. 
 
-¶
 91) Şems Suresi
 Bismillahirrahmanirrahim
 1. Güneşe ve onun ışığına, 
@@ -6115,6 +6115,7 @@ Bismillahirrahmanirrahim
 14. Onu yalanladılar ve deveyi boğazladılar. Bunun üzerine Rableri, suçlarından dolayı onların üzerine katmerli azap indirdi; yerle bir etti onları.
 15. Bu işin sonundan O'nun korkusu yoktur. 
 
+¶
 92) Leyl Suresi
 Bismillahirrahmanirrahim
 1. Kararıp ortalığı bürüdüğü zaman geceye and olsun. 
@@ -6132,12 +6133,12 @@ Bismillahirrahmanirrahim
 19-0. O yaptığı iyiliği birinden karşılık görmek için değil, ancak yüce Rabbinin hoşnutluğunu gözeterek yapmıştır. 
 21. Elbette kendisi de hoşnut olacaktır. 
 
-¶
 93) Duha Suresi
 Bismillahirrahmanirrahim
 1. Kuşluk vaktine and olsun; 
 2. Sükuna erdiği zaman geceye and olsun ki, 
 3. Rabbin seni ne bıraktı ve ne de sana darıldı. 
+¶
 4. Doğrusu ahiret senin için dünyadan daha hayırlıdır. 
 5. Rabbin şüphesiz sana verecek ve sen de hoşnut olacaksın. 
 6. Seni öksüz bulup da barındırmadı mı? 
@@ -6157,7 +6158,6 @@ Bismillahirrahmanirrahim
 7. Öyleyse, bir işi bitirince diğerine giriş;
 8. Ve ümit edeceğini yalnız Rabbinden iste. 
 
-¶
 95) Tin Suresi
 Bismillahirrahmanirrahim
 1. İncir ve zeytine and olsun, 
@@ -6165,6 +6165,7 @@ Bismillahirrahmanirrahim
 3. And olsun bu güvenli Mekke şehrine ki: 
 4. Biz insanı en güzel şekilde yarattık, 
 5. Sonra onu aşağıların en aşağısı kıldık. 
+¶
 6. Yalnız, inanıp yararlı iş işleyenler bunun dışındadır. Onlara kesintisiz ecir vardır. 
 7. Öyleyken, sana dini yalan saydırtan nedir? 
 8. Allah, hükmedenlerin en iyi hükmedeni değil midir? 

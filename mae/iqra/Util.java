@@ -55,12 +55,22 @@ public class Util {
            char[] c = new char[is.available()];
            Reader in = new InputStreamReader(is, UTF);
            //byte[] b = new byte[is.available()];
-           in.read(c); in.close();   //is.read(b); is.close();
+           in.read(c); in.close();
            String s = new String(c); //b, UTF
-           return s.split("¶"); 
+           return s.split("Â¶"); 
         } catch (Exception x) {
            System.out.println(x); 
            return null;
+        }
+    }
+    public static String[] readFile(String name) {
+        return readText(toStream(name));
+    }
+    public static InputStream toStream(String name) {
+        try {
+           return new FileInputStream(name);
+        } catch (Exception x) {
+           return Util.class.getResourceAsStream(name); 
         }
     }
 }

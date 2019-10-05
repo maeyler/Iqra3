@@ -29,11 +29,10 @@ import mae.util.Scaler;
 public class Iqra3 extends MouseAdapter 
     implements MouseMotionListener, ActionListener, ChangeListener {
     
-    final static String TITLE = "Iqra V3.05"; 
-    final static String QUR = "Quran.txt"; 
-    final static String KUR = "Kuran.txt"; 
-    final static String NAM = "iqra.names";
-    final static String MAP = "/mucem.ser";
+    final static String TITLE = "Iqra V3.06"; 
+    final static String QUR = "/Quran.txt"; 
+    final static String KUR = "/Kuran.txt"; 
+    final static String NAM = "/iqra.names";
     final static int SIZE = (Scaler.RESOLUTION<100? 5 : 6);
     //Scaler.HTML_SIZE; //+ 1;  //4,5,6
     final static String HEAD = "<FONT size="+SIZE+" FACE=me_quran><center>";
@@ -62,17 +61,14 @@ public class Iqra3 extends MouseAdapter
         pan = new Panel(this);  //exit, this);
         popup = new JPopupMenu();
         html = pan.html;
+        InputStream is;
         
-        qur = Util.readText(getClass().getResourceAsStream(QUR));
+        qur = Util.readFile(QUR);
            System.out.println(QUR+" "+qur.length); 
-        kur = Util.readText(getClass().getResourceAsStream(KUR));
+        kur = Util.readFile(KUR);
            System.out.println(KUR+" "+kur.length); 
-        readNames(getClass().getResourceAsStream(NAM)); 
+        readNames(); 
            System.out.println("readNames "+names.length); 
-        /*readMap(getClass().getResourceAsStream(MAP)); 
-        if (map == null) map = new HashMap<String,Reference>();
-           System.out.println("readMap "+map.size()); 
-        */
         gotoSura(1);
         pan.slider.requestFocusInWindow(); 
     }
@@ -99,12 +95,12 @@ public class Iqra3 extends MouseAdapter
         if (i == j) return (k == i);
         return (i<=k && k<j);
     }
-     void setPage(int k) { // 0<k<=P
+     void setPage(int k) { // 0<=k<=P
         if (!suraContainsPage(k))
            setSura(suraFromPage(k));
         curPage = k;
-        pan.setText(kur[k-1]);
-        pan.setHTML(toHTML(qur[k-1]));
+        pan.setText(kur[k]);
+        pan.setHTML(toHTML(qur[k]));
         pan.scrollToTop();
     }
     public void gotoPage(int k) {
@@ -215,11 +211,11 @@ public class Iqra3 extends MouseAdapter
         } 
     }
     
-    public void readNames(InputStream is) {
+    public void readNames() {
         try {
-           BufferedReader in = new BufferedReader(
-              new InputStreamReader(is, "Cp1254")
-           );
+           BufferedReader in = new BufferedReader( 
+              new InputStreamReader(Util.toStream(NAM)) 
+           ); 
            for (int i=1; i<=M; i++) {
                String s = in.readLine();
                int j = s.indexOf(9); //TAB
