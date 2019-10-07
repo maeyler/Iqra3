@@ -1,14 +1,15 @@
 const CACHE ='VM'
 const FILES = [
+  '/Iqra3/',
   '/Iqra3/iqra.names',
   '/Iqra3/Quran.txt',
   '/Iqra3/Kuran.txt',
+  '/Iqra3/me_quran.ttf',
   '/Visual-Mujam/', 
   '/Visual-Mujam/Mujam.html',
   '/Visual-Mujam/Mujam.css',
   '/Visual-Mujam/Mujam.js',
   '/Visual-Mujam/data.txt',
-//  '/Visual-Mujam/README' error
   '/Visual-Mujam/Utilities.js'
 ]
 function installCB(e) {
