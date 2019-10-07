@@ -3,29 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" href="mae/iqra/iqra.gif">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.png">
     <title>Iqra V3.06</title>
 
   <style> 
-    body { max-width: 705px }
-    #sure { width: 50px }
-    #sayfa { width: 50px }
-    #slider { width: 100% }
+    body { 
+      max-width: 710px;
+      margin: 0;
+    }
+    h3, p, #d3 { 
+      margin: 8px;
+    }
+    #sure {
+      text-align: right;
+      width: 40px;
+    }
+    #sayfa { 
+      width: 40px;
+    }
+    #slider {
+      width: 100%;
+    }
     #text, #html {
       display: inline-block;
       vertical-align: middle;
       overflow-y: auto;
-      border: black 1px solid;
+      height: 530px;
       width: 340px; 
-      padding: 4px;
+      border: black 1px solid;
+      padding: 5px;
     }
     #text { 
-      font: 12px sansserif, arial;
+      font: 13px sansserif, arial;
     }
     #html { 
       font: 16px me_quran, serif;
       text-align: center;
-      height: 520px;
     }
 	@font-face {
 	  font-family: me_quran;
@@ -33,30 +47,38 @@
 	}
 
   </style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      if (navigator.serviceWorker.controller)
+        console.log('service worker already running')
+      else if (location.protocol.startsWith('http')) 
+        navigator.serviceWorker.register('sw.js')
+        .then((reg) => { console.log('SW Registered', reg.active) })
+        .catch(alert)
+    }
+  </script>
 </head>
 
-<h2 id=title></h2>
+<h3 id=title></h3>
 
-<div>
+<div id=d3>
+  <input id=geri  type=button value='<' onClick=setState(hist.pop())>&emsp;  
   <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
-  <span id=isim></span> &emsp;
-  <input id=geri  type=button value='<' onClick=setState(hist.pop())>
-  &emsp; Sayfa
+  <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
 </div>
   <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
 <div>
   <div id=text>Türkçe</div>
-  <textarea id=html readonly>Arabic</textarea>
+  <div id=html readonly>Arabic</div>
 </div>
-<hr />
-<p>Ref: <a href="https://www.w3schools.com/js/" 
-   target="NewTab">JS Tutorial</a>
+<hr size=4 color="#ccc" />
+<p>Ref: <a id=link target="NewTab">kuranmeali.com</a>
 </p>
 
 <script>
 "use strict";
-const URL = "http://maeyler.github.io/Iqra3/"; 
+const URL = "https://maeyler.github.io/Iqra3/";
 const QUR = "Quran.txt"; 
 const KUR = "Kuran.txt"; 
 const NAM = "iqra.names";
@@ -69,19 +91,24 @@ const P = 604; //pages
 const qur = new Array(P+1);
 const kur = new Array(P+1);
 var curSura, curPage;
+const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
     
 function setState(s) {
-    let [p, ss, se] = s.split(/:|-/);
+    //let [p, ss, se] = s.split(/:|-/);
+    let p = s, ss = 0; 
     setPage(p, false);
     slider.value = p;
+    if (!ss) return;
     html.selectionStart = ss;
     html.selectionEnd = se;
     html.focus()
 }
 function getState() {
-    let i = html.selectionStart;
+ /* let i = html.selectionStart;
     let j = html.selectionEnd;
-    return (curPage+':'+i+'-'+j);
+    if (i == j) */
+      return curPage+''
+    //return curPage+':'+i+'-'+j;
 }
 function suraFromPage(k) {
     let i = 1;
@@ -102,11 +129,12 @@ function setPage(k, save) { // 1<=k<=P
     if (curPage == k) return;
     if (curPage && save) hist.push(getState())
     setSura(suraFromPage(k));
+    link.href = LINK+k;
     curPage = k;
     sayfa.value = k;
     text.innerText = (kur[k]);
-    //remove line breaks inhereted from Java
-    html.innerText = (qur[k].replace(/<BR>/g,''));
+    //remove line breaks inherited from Java
+    html.innerHTML = (qur[k]);  //.replace(/<BR>/g,''));
     //html.scrollTo(0);
 }
 function gotoPage(k) {
@@ -117,7 +145,7 @@ function setSura(k) {
     if (curSura == k) return;
     curSura = k;
     sure.value = k;
-    isim.innerText = names[k]+" Suresi";
+    isim.innerText = names[k]  //+" Suresi";
     /*file = new File("sound", "s"+k+".mp3");
     if (!file.exists())
          file = new File("sound", "s"+k+".wav");
