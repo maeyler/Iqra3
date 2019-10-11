@@ -5,14 +5,31 @@
     <meta name="viewport" content="width=device-width">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icon.png">
-    <title>Iqra V3.06</title>
+    <title>Iqra V3.07</title>
 
   <style> 
     body { 
-      max-width: 710px;
+      max-width: 715px;
       margin: 0;
     }
-    h3, p, #d3 { 
+    #d1 { 
+      position: fixed;
+      left: 0; 
+      bottom: 0;
+      margin: 0;
+    }
+    #slider {
+      position: relative;
+      top: 8px;
+      width: 83vw;
+      max-width: 620px;
+      margin: 0;
+    }
+    #solB, #sagB { 
+      width: 25px;
+      margin: 0;
+    }
+    .nomargin { 
       margin: 8px;
     }
     #sure {
@@ -21,9 +38,6 @@
     }
     #sayfa { 
       width: 40px;
-    }
-    #slider {
-      width: 100%;
     }
     #text, #html {
       display: inline-block;
@@ -36,9 +50,17 @@
     }
     #text { 
       font: 13px sansserif, arial;
+      text-align: left;
     }
     #html { 
       font: 16px me_quran, serif;
+      text-align: justify;
+    }
+    .ortala { 
+      text-align: center;
+      background: #5f5;
+    }
+    .besmele { 
       text-align: center;
     }
 	@font-face {
@@ -59,22 +81,29 @@
   </script>
 </head>
 
-<h3 id=title></h3>
-
-<div id=d3>
-  <input id=geri  type=button value='<' onClick=setState(hist.pop())>&emsp;  
+<body>
+<h3 id=title class=nomargin></h3>
+<div id=d1>
+  <input id=solB  type=button value='⇐' onClick=gotoPage(curPage-1)>
+  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
+  <input id=sagB  type=button value='⇒' onClick=gotoPage(curPage+1)>
+</div>
+<div id=d3 class=nomargin>
+  <input id=geri  type=button value='◀' onClick=setState(hist.pop())> &nbsp;
+  Sure  
   <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
 </div>
-  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
-<div>
+<div id=d4>
   <div id=text>Türkçe</div>
   <div id=html readonly>Arabic</div>
 </div>
 <hr size=4 color="#ccc" />
-<p>Ref: <a id=link target="NewTab">kuranmeali.com</a>
+<p class=nomargin>Ref: 
+  <a id=link target="NewTab">kuranmeali.com</a>
 </p>
+<p class=nomargin>&emsp;</p>
 
 <script>
 "use strict";
@@ -124,8 +153,6 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function setPage(k, save) { // 1<=k<=P
-    if (!k || k < 1) k = 1;
-    if (k > P) k = P;
     if (curPage == k) return;
     if (curPage && save) hist.push(getState())
     setSura(suraFromPage(k));
@@ -133,11 +160,13 @@ function setPage(k, save) { // 1<=k<=P
     curPage = k;
     sayfa.value = k;
     text.innerText = (kur[k]);
-    //remove line breaks inherited from Java
-    html.innerHTML = (qur[k]);  //.replace(/<BR>/g,''));
+    html.innerHTML = processBR(qur[k]);
     //html.scrollTo(0);
 }
 function gotoPage(k) {
+    if (!k || k < 1) k = 1;
+    if (k > P) k = P;
+    k = Number(k);
     setPage(k, true);
     slider.value = k;
 }
@@ -161,15 +190,13 @@ function gotoSura(k) {
 function readNames() {
     function toNames(t) {
       let i = 0;
-      //remove line breaks inhereted from Java
-      //t = t.replace(/<BR>/g,'')
       for (let s of t.split('\n')) {
         i++; let j = s.indexOf('\t'); //TAB
         names[i] = s.substring(j+1);
         first[i] = Number(s.substring(0, j));
       }
-      console.log("readNames", i, names.length); 
-      setTimeout(gotoSura, 1000)
+      console.log("readNames", names.length); 
+      setTimeout(gotoSura, 500)
     }
     fetch(URL+NAM).then(x => x.text()).then(toNames)
 }
@@ -181,12 +208,28 @@ function readText(name, array) {
     }
     fetch(URL+name).then(x => x.text()).then(toLines)
 }
-
+function processStr(s) {
+    const bismi = /^(بِسْمِ|بِّسْمِ)/
+    if (!s) return ''
+    if (s[0] == '\n')  //first Page has a NL
+      return processStr(s.substring(1))
+    if (s.startsWith('سورة'))
+      return '<div class=ortala>'+s+'</div>'
+    if (s.length<50 && bismi.test(s))
+      return '<div class=besmele>'+s+'</div>'
+    //default: ignore the last char LEFT
+    return s.substring(0, s.length-2)
+    //s+' &nbsp;' -- doesn't work
+}
+function processBR(page) {
+    if (!page) return ''
+    let a = page.split(/<BR>\n?/)
+    //if (a.length < 3) return page
+    //console.log(page.length, a.length)
+    return a.map(processStr).join('\n')
+}
     title.innerText = document.title;
-    //sample.innerText = increment.toString();
-    readNames(); 
-    readText(QUR, qur);
-    readText(KUR, kur);
+    readNames(); readText(QUR, qur); readText(KUR, kur);
     slider.focus(); 
 </script>
 
