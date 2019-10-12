@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="iqra.css" media="all">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icon.png">
-    <title>Iqra V3.8</title>
+    <title>Iqra V3.08b</title>
 
   <style> 
   </style>
@@ -23,8 +23,8 @@
 </head>
 
 <body>
-<h3 id=title class=marjin>Iqra
-<span id=d3 class=marjin>
+<h3 id=title>Iqra</h3>
+<div id=d3>
   <button id=geri onClick=setState(hist.pop())>◀</button>
   Sure  
   <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
@@ -32,21 +32,18 @@
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
   <button id=trans onClick=translation()>T</button>
   <button><a id=link target="NewTab">K</a></button>
-  <button id=select onClick=doSelect(getSelection())>S</button>
-</span>
-</h3>
-<div id=d1>
-  <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
-  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
-  <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
 </div>
+
 <div id=d4>
   <div id=text>Türkçe</div>
   <div id=html readonly>Arabic</div>
 </div>
-<p class=marjin>
-</p>
-<p class=marjin>&emsp;</p>
+<div id=d1>
+  <button id=select onClick=doSelect(getSelection())>S</button>
+  <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
+  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
+  <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
+</div>
 
 <script>
 "use strict";
@@ -192,7 +189,7 @@ function processBR(page) {
     //console.log(page.length, a.length)
     return a.map(processStr).join('\n')
 }
-    //title.innerText = document.title;
+    title.innerText = document.title;
     readNames(); readText(QUR, qur); readText(KUR, kur);
     slider.focus(); 
 </script>
