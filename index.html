@@ -3,71 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="iqra.css" media="all">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icon.png">
-    <title>Iqra V3.07</title>
+    <title>Iqra V3.8</title>
 
   <style> 
-    body { 
-      max-width: 715px;
-      margin: 0;
-    }
-    #d1 { 
-      position: fixed;
-      left: 0; 
-      bottom: 0;
-      margin: 0;
-    }
-    #slider {
-      position: relative;
-      top: 8px;
-      width: 83vw;
-      max-width: 620px;
-      margin: 0;
-    }
-    #solB, #sagB { 
-      width: 25px;
-      margin: 0;
-    }
-    .nomargin { 
-      margin: 8px;
-    }
-    #sure {
-      text-align: right;
-      width: 40px;
-    }
-    #sayfa { 
-      width: 40px;
-    }
-    #text, #html {
-      display: inline-block;
-      vertical-align: middle;
-      overflow-y: auto;
-      height: 530px;
-      width: 340px; 
-      border: black 1px solid;
-      padding: 5px;
-    }
-    #text { 
-      font: 13px sansserif, arial;
-      text-align: left;
-    }
-    #html { 
-      font: 16px me_quran, serif;
-      text-align: justify;
-    }
-    .ortala { 
-      text-align: center;
-      background: #5f5;
-    }
-    .besmele { 
-      text-align: center;
-    }
-	@font-face {
-	  font-family: me_quran;
-	  src: url("me_quran.ttf")
-	}
-
   </style>
   <script>
     if ('serviceWorker' in navigator) {
@@ -82,28 +23,30 @@
 </head>
 
 <body>
-<h3 id=title class=nomargin></h3>
-<div id=d1>
-  <input id=solB  type=button value='⇐' onClick=gotoPage(curPage-1)>
-  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
-  <input id=sagB  type=button value='⇒' onClick=gotoPage(curPage+1)>
-</div>
-<div id=d3 class=nomargin>
-  <input id=geri  type=button value='◀' onClick=setState(hist.pop())> &nbsp;
+<h3 id=title class=marjin>Iqra
+<span id=d3 class=marjin>
+  <button id=geri onClick=setState(hist.pop())>◀</button>
   Sure  
   <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
+  <button id=trans onClick=translation()>T</button>
+  <button><a id=link target="NewTab">K</a></button>
+  <button id=select onClick=doSelect(getSelection())>S</button>
+</span>
+</h3>
+<div id=d1>
+  <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
+  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
+  <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
 </div>
 <div id=d4>
   <div id=text>Türkçe</div>
   <div id=html readonly>Arabic</div>
 </div>
-<hr size=4 color="#ccc" />
-<p class=nomargin>Ref: 
-  <a id=link target="NewTab">kuranmeali.com</a>
+<p class=marjin>
 </p>
-<p class=nomargin>&emsp;</p>
+<p class=marjin>&emsp;</p>
 
 <script>
 "use strict";
@@ -122,15 +65,36 @@ const kur = new Array(P+1);
 var curSura, curPage;
 const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
     
+function translation() {
+    if (html.style.display) {
+      html.style.display = ''
+      select.style.display = ''
+      text.style.display = ''
+    } else { //hide html
+      html.style.display = 'none'
+      select.style.display = 'none'
+      text.style.display = 'inherit'
+    }
+}
+function doSelect(s) {
+    s = s.toString()
+    if (!s) alert("Select some Arabic text")
+    else {
+      let e = new RegExp(s, 'g')
+      let t = "<span class=mavi>$&</span>"
+      let p = processBR(qur[curPage]);
+      html.innerHTML = p.replace(e, t)
+    }
+}
 function setState(s) {
     //let [p, ss, se] = s.split(/:|-/);
     let p = s, ss = 0; 
     setPage(p, false);
     slider.value = p;
     if (!ss) return;
-    html.selectionStart = ss;
+/*    html.selectionStart = ss;
     html.selectionEnd = se;
-    html.focus()
+    html.focus()*/
 }
 function getState() {
  /* let i = html.selectionStart;
@@ -228,7 +192,7 @@ function processBR(page) {
     //console.log(page.length, a.length)
     return a.map(processStr).join('\n')
 }
-    title.innerText = document.title;
+    //title.innerText = document.title;
     readNames(); readText(QUR, qur); readText(KUR, kur);
     slider.focus(); 
 </script>
