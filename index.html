@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="iqra.css" media="all">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="icon.png">
-    <title>Iqra V3.08b</title>
+    <title>Iqra V3.09</title>
 
   <style> 
   </style>
@@ -25,12 +25,12 @@
 <body>
 <h3 id=title>Iqra</h3>
 <div id=d3>
-  <button id=geri onClick=setState(hist.pop())>◀</button>
+  <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
   <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
-  <button id=trans onClick=translation()>T</button>
+  <button id=trans onClick=doTrans()>T</button>
   <button><a id=link target="NewTab">K</a></button>
 </div>
 
@@ -52,7 +52,6 @@ const QUR = "Quran.txt";
 const KUR = "Kuran.txt"; 
 const NAM = "iqra.names";
 const LEFT = 0xFD3E, RIGHT = 0xFD3F;
-const hist = []; //previous pages
 const M = 114; //suras
 const names = new Array(M+1);
 const first = new Array(M+1);
@@ -61,8 +60,9 @@ const qur = new Array(P+1);
 const kur = new Array(P+1);
 var curSura, curPage;
 const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
+const LS = location.protocol.startsWith('http') && localStorage;
     
-function translation() {
+function doTrans() {
     if (html.style.display) {
       html.style.display = ''
       select.style.display = ''
@@ -83,23 +83,6 @@ function doSelect(s) {
       html.innerHTML = p.replace(e, t)
     }
 }
-function setState(s) {
-    //let [p, ss, se] = s.split(/:|-/);
-    let p = s, ss = 0; 
-    setPage(p, false);
-    slider.value = p;
-    if (!ss) return;
-/*    html.selectionStart = ss;
-    html.selectionEnd = se;
-    html.focus()*/
-}
-function getState() {
- /* let i = html.selectionStart;
-    let j = html.selectionEnd;
-    if (i == j) */
-      return curPage+''
-    //return curPage+':'+i+'-'+j;
-}
 function suraFromPage(k) {
     let i = 1;
     while (k > first[i]) i++;
@@ -113,40 +96,35 @@ function suraContainsPage(k) {
     if (i == j) return (k == i);
     return (i<=k && k<j);
 }
-function setPage(k, save) { // 1<=k<=P
+function gotoPage(k) { // 1<=k<=P
+    if (!k || k < 1) k = 1;
+    if (k > P) k = P;
+    k = Number(k);
     if (curPage == k) return;
-    if (curPage && save) hist.push(getState())
     setSura(suraFromPage(k));
     link.href = LINK+k;
     curPage = k;
     sayfa.value = k;
+    slider.value = k;
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
+    document.title = 'Iqra p'+k;
+    location.hash = 'p='+k  //# is added by browser
+    if (LS) localStorage.iqraPage = k
     //html.scrollTo(0);
 }
-function gotoPage(k) {
-    if (!k || k < 1) k = 1;
-    if (k > P) k = P;
+function setSura(k) { // 1<=k<=M
     k = Number(k);
-    setPage(k, true);
-    slider.value = k;
-}
-function setSura(k) {
     if (curSura == k) return;
     curSura = k;
     sure.value = k;
     isim.innerText = names[k]  //+" Suresi";
-    /*file = new File("sound", "s"+k+".mp3");
-    if (!file.exists())
-         file = new File("sound", "s"+k+".wav");
-    pan.iqra.setVisible(file.exists());*/
 }
 function gotoSura(k) {
     if (!k || k < 1)  k = 1;
     if (k > M) k = M;
     setSura(k);
     gotoPage(first[k]);
-    //if (playing && pan.iqra.isVisible()) audio();
 }
 function readNames() {
     function toNames(t) {
@@ -157,7 +135,7 @@ function readNames() {
         first[i] = Number(s.substring(0, j));
       }
       console.log("readNames", names.length); 
-      setTimeout(gotoSura, 500)
+      setTimeout(initialPage, 500)
     }
     fetch(URL+NAM).then(x => x.text()).then(toNames)
 }
@@ -185,11 +163,22 @@ function processStr(s) {
 function processBR(page) {
     if (!page) return ''
     let a = page.split(/<BR>\n?/)
-    //if (a.length < 3) return page
-    //console.log(page.length, a.length)
     return a.map(processStr).join('\n')
 }
-    title.innerText = document.title;
+function gotoHashPage() {
+  let h = location.hash
+  //console.log(h)
+  if (!h.startsWith('#p=')) return false
+  gotoPage(h.substring(3))
+  return true
+}
+function initialPage() {
+    if (!gotoHashPage()) {
+      gotoPage(LS? localStorage.iqraPage : 1)
+    }
+}
+    //title.innerText = document.title;
+    window.onhashchange = gotoHashPage;
     readNames(); readText(QUR, qur); readText(KUR, kur);
     slider.focus(); 
 </script>
