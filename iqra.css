@@ -102,7 +102,7 @@
     .ortala { 
       text-align: center;
       margin-top: 4px;
-      background: #5f5 url("image/sura.png");
+      background: url("image/sura.png");
       background-repeat: no-repeat;
       background-size: contain;
     }
