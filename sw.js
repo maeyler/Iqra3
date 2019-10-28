@@ -12,11 +12,11 @@ const FILES = [
   '/Iqra3/manifest.json'
 ]
 function installCB(e) {
-  console.log('install', CACHE, e);
+  console.log(CACHE, e);
   e.waitUntil(
     caches.open(CACHE)
     .then(cache => cache.addAll(FILES))
-    .catch(alert)
+    .catch(console.log)
   )
 }
 self.addEventListener('install', installCB)
@@ -29,13 +29,13 @@ function cacheCB(e) { //cache first
        console.log('not in', CACHE, e.request.url)
        return fetch(e.request)
     })
-    .catch(alert)
+    .catch(console.log)
   )
 }
 self.addEventListener('fetch', cacheCB)
 
 function activateCB(e) {
-  console.log('activate', CACHE);
+  console.log(CACHE, e);
   e.waitUntil(
     caches.delete('VM')
     .then(r => { if (r) console.log('deleted VM') })

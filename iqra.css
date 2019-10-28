@@ -100,15 +100,14 @@
       margin: 0;
     }
     .ortala { 
-      text-align: center;
       margin-top: 4px;
       background: url("image/sura.png");
       background-repeat: no-repeat;
       background-size: contain;
     }
-    .besmele { 
+    .besmele, .ortala { 
       text-align: center;
-      color: #711;
+      color: #070;
     }
     .mavi { 
       color: blue;
