@@ -1,5 +1,6 @@
-const CACHE ='VM'
+const CACHE ='Mujam2'
 const FILES = [
+  '/Iqra3/',
   '/Iqra3/index.html',
   '/Iqra3/iqra.css',
   '/Iqra3/icon.png',
@@ -8,37 +9,37 @@ const FILES = [
   '/Iqra3/Kuran.txt',
   '/Iqra3/iqra.names',
   '/Iqra3/me_quran.ttf',
-  '/Iqra3/manifest.json',
-  '/Visual-Mujam/Mujam.html',
-  '/Visual-Mujam/Mujam.css',
-  '/Visual-Mujam/Mujam.js',
-  '/Visual-Mujam/data.txt',
-  '/Visual-Mujam/Utilities.js',
-  '/Visual-Mujam/buckwalter.js',
-  '/Visual-Mujam/images/small.png',
-  '/Visual-Mujam/images/large.png',
-  '/Visual-Mujam/manifest.json'
+  '/Iqra3/manifest.json'
 ]
 function installCB(e) {
-  console.log('install', e);
+  console.log('install', CACHE, e);
   e.waitUntil(
     caches.open(CACHE)
     .then(cache => cache.addAll(FILES))
-    .catch(console.log)
+    .catch(alert)
   )
 }
 self.addEventListener('install', installCB)
 
 function cacheCB(e) { //cache first
-  let req = e.request, found = false;
-  for (let f of FILES)
-    if (req.url.includes(f)) {
-      found = true; break
-    }
-  if (!found) console.log('not in cache', req.url);
   e.respondWith(
-    found? caches.match(req) : fetch(req)
+    caches.match(e.request)
+    .then(r => {
+       if (r) return r
+       console.log('not in', CACHE, e.request.url)
+       return fetch(e.request)
+    })
+    .catch(alert)
   )
 }
 self.addEventListener('fetch', cacheCB)
+
+function activateCB(e) {
+  console.log('activate', CACHE);
+  e.waitUntil(
+    caches.delete('VM')
+    .then(r => { if (r) console.log('deleted VM') })
+  )
+}
+addEventListener('activate', activateCB);
 

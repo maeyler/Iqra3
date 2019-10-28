@@ -12,18 +12,18 @@
   </style>
   <script>
     if ('serviceWorker' in navigator) {
-      if (navigator.serviceWorker.controller)
-        console.log('service worker already running')
-      else if (location.protocol.startsWith('http')) 
+      //if (navigator.serviceWorker.controller)
+      //  console.log('service worker already running') else
+      if (location.protocol.startsWith('http')) 
         navigator.serviceWorker.register('sw.js')
-        .then((reg) => { console.log('SW Registered', reg.active) })
+        .then(reg => { console.log('SW Registered', reg.scope) })
         .catch(alert)
     }
   </script>
 </head>
 
 <body>
-<h3 id=title>Iqra V3.09b</h3>
+<h3 id=title>Iqra V3.09c</h3>
 <div id=d3>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
