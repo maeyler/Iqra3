@@ -23,7 +23,7 @@
 </head>
 
 <body>
-<h3 id=title>Iqra V3.09a</h3>
+<h3 id=title>Iqra V3.09b</h3>
 <div id=d3>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
@@ -39,7 +39,7 @@
   <div id=html readonly>Arabic</div>
 </div>
 <div id=d1>
-  <button id=select onClick=doSelect(getSelection())>S</button>
+  <button id=markW onClick=markSelection()>M</button>
   <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
   <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
   <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
@@ -65,23 +65,35 @@ const LS = location.protocol.startsWith('http') && localStorage;
 function doTrans() {
     if (html.style.display) {
       html.style.display = ''
-      select.style.display = ''
+      markW.style.display = ''
       text.style.display = ''
     } else { //hide html
       html.style.display = 'none'
-      select.style.display = 'none'
+      markW.style.display = 'none'
       text.style.display = 'inherit'
     }
 }
-function doSelect(s) {
-    s = s.toString()
+function markSelection() {
+    let s = getSelection().toString()
     if (!s) alert("Select some Arabic text")
-    else {
-      let e = new RegExp(s, 'g')
-      let t = "<span class=mavi>$&</span>"
-      let p = processBR(qur[curPage]);
-      html.innerHTML = p.replace(e, t)
-    }
+    else markPattern(s)
+}
+function numberToArabic(n) { //n is an integer
+    let t = ''
+    for (let c of String(n)) 
+      t += String.fromCodePoint(Number(c)+1632)
+    return t
+}
+function markVerse(n) {
+    markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?')
+}
+function markPattern(e, cls='mavi') {
+  //if (e.constructor.name != "RegExp")
+    if (typeof e == "string")
+        e = new RegExp(e, 'g')
+    let t = "<span class="+cls+">$&</span>"
+    let p = processBR(qur[curPage]);
+    html.innerHTML = p.replace(e, t)
 }
 function suraFromPage(k) {
     let i = 1;
@@ -127,11 +139,13 @@ function gotoSura(k) {
     gotoPage(first[k]);
 }
 function doTouchS(evt) {
+    //evt.preventDefault()
     swipe.t = new Date().getTime()
     swipe.x = evt.touches[0].pageX
     swipe.y = evt.touches[0].pageY
 }
 function doTouchE(evt) {
+    //evt.preventDefault()
     let ct = evt.changedTouches
     if (ct.length == 0) return
     let dt = new Date().getTime() - swipe.t
@@ -154,7 +168,7 @@ function readNames() {
         first[i] = Number(s.substring(0, j));
       }
       console.log("readNames", names.length); 
-      setTimeout(initialPage, 500)
+      //setTimeout(initialPage, 500)
     }
     fetch(URL+NAM).then(x => x.text()).then(toNames)
 }
@@ -163,6 +177,7 @@ function readText(name, array) {
       let a = t.split('¶');
       for (let i=0; i<a.length; i++) array[i] = a[i]    
       console.log(name, a.length); 
+      if (qur[0] && kur[0]) initialPage();
     }
     fetch(URL+name).then(x => x.text()).then(toLines)
 }
@@ -186,24 +201,27 @@ function processBR(page) {
 }
 function gotoHashPage() {
   let h = location.hash
-  //console.log(h)
   if (!h.startsWith('#p=')) return false
   gotoPage(h.substring(3))
   return true
 }
 function initialPage() {
     if (!gotoHashPage()) {
+      console.log("initialPage")
       gotoPage(LS? localStorage.iqraPage : 1)
     }
 }
+var mujam  //not used
     //title.innerText = document.title;
-    window.addEventListener("hashchange", gotoHashPage);
     const swipe = { t:0, x:0, y:0 }
     text.addEventListener("touchstart", doTouchS);
     html.addEventListener("touchstart", doTouchS);
     text.addEventListener("touchend", doTouchE);
     html.addEventListener("touchend", doTouchE);
     readNames(); readText(QUR, qur); readText(KUR, kur);
+    window.addEventListener("hashchange", gotoHashPage);
+    if (opener && opener.location.href.includes('Mujam'))
+        mujam = opener
     slider.focus(); 
 </script>
 

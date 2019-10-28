@@ -1,16 +1,23 @@
 const CACHE ='VM'
 const FILES = [
-  '/Iqra3/',
-  '/Iqra3/iqra.names',
+  '/Iqra3/index.html',
+  '/Iqra3/iqra.css',
+  '/Iqra3/icon.png',
+  '/Iqra3/image/sura.png',
   '/Iqra3/Quran.txt',
   '/Iqra3/Kuran.txt',
+  '/Iqra3/iqra.names',
   '/Iqra3/me_quran.ttf',
-  '/Visual-Mujam/', 
+  '/Iqra3/manifest.json',
   '/Visual-Mujam/Mujam.html',
   '/Visual-Mujam/Mujam.css',
   '/Visual-Mujam/Mujam.js',
   '/Visual-Mujam/data.txt',
-  '/Visual-Mujam/Utilities.js'
+  '/Visual-Mujam/Utilities.js',
+  '/Visual-Mujam/buckwalter.js',
+  '/Visual-Mujam/images/small.png',
+  '/Visual-Mujam/images/large.png',
+  '/Visual-Mujam/manifest.json'
 ]
 function installCB(e) {
   console.log('install', e);
@@ -25,13 +32,12 @@ self.addEventListener('install', installCB)
 function cacheCB(e) { //cache first
   let req = e.request, found = false;
   for (let f of FILES)
-    if (req.url.endsWith(f)) {
-      found = true; return
+    if (req.url.includes(f)) {
+      found = true; break
     }
-  console.log('cache', req.url, found);
-  let p = found? caches.match(req) : fetch(req)
+  if (!found) console.log('not in cache', req.url);
   e.respondWith(
-    p.then(r1 => r1, console.log)
+    found? caches.match(req) : fetch(req)
   )
 }
 self.addEventListener('fetch', cacheCB)
