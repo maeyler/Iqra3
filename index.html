@@ -2,24 +2,133 @@
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="iqra.css" media="all">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="icon.png">
+    <meta name="viewport"    content="width=device-width" />
+    <meta name="theme-color" content="cyan" />
+    <meta name="author"      content="M A Eyler, Istanbul, 2019" />
+    <meta name="description" content="Reader for the Quran" />
+    <link rel="icon" href="image/icon.png">
     <title>Iqra</title>
 
-  <style> 
-  </style>
-  <script>
-    if ('serviceWorker' in navigator) {
-      //if (navigator.serviceWorker.controller)
-      //  console.log('service worker already running') else
-      if (location.protocol.startsWith('http')) 
-        navigator.serviceWorker.register('sw.js')
-        .then(reg => { console.log('SW Registered', reg.scope) })
-        .catch(alert)
+<style> 
+@media screen and (max-width: 800px) {
+    body { 
+      width: 100%;
+      margin: 0;
+      background: #bbF;
+      text-align: center;
     }
-  </script>
+    button { 
+      width: 25px;
+      margin: 0;
+    }
+    #title, #geri { 
+      display: none;
+    }
+    #d3 { 
+      font: 12px sansserif, arial;
+      font-weight: normal;
+      margin: 8px 0;
+    }
+    #text, #html {
+      background: white;
+      padding: 4px 8px;
+    }
+    #text { 
+      display: none;
+      font: 3.4vw/1.2 sansserif, arial;
+      text-align: left;
+    }
+    #html { 
+      font: 4.6vw/2 me_quran, serif;
+      text-align: justify;
+    }
+    #sure {
+      text-align: right;
+      width: 40px;
+    }
+    #sayfa { 
+      width: 40px;
+    }
+}
+
+@media screen and (min-width: 801px) {
+    body { 
+      margin: 0;
+      background: #cfc;
+      text-align: center;
+    }
+    button { 
+      width: 30px;
+      margin: 0;
+    }
+    #title {
+      margin: 0;
+      display: inline-block;
+    }
+    #trans { 
+      display: none;
+    }
+    #d3 { 
+      display: inline-block;
+      font: 14px sansserif, arial;
+      font-weight: normal;
+      margin: 8px;
+    }
+    #text, #html {
+      display: inline-block;
+      vertical-align: middle;
+      overflow-y: auto;
+      height: 84vh;
+      border: black 1px solid;
+      background: white;
+      padding: 4px 8px;
+    }
+    #text { 
+      font: 15px sansserif, arial;
+      text-align: left;
+      width: 400px; 
+    }
+    #html { 
+      font: 18px/2 me_quran, serif;
+      text-align: justify;
+      width: 400px; 
+    }
+    #sure {
+      text-align: right;
+      width: 40px;
+    }
+    #sayfa { 
+      width: 40px;
+    }
+}
+    #d1 { 
+      margin-bottom: 8px;
+    }
+    #slider {
+      position: relative;
+      top: 6px;
+      width: 72%;
+      max-width: 604px;
+      margin: 0;
+    }
+    .ortala { 
+      margin-top: 4px;
+      background: url("image/sura.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    .besmele, .ortala { 
+      text-align: center;
+      color: #070;
+    }
+    .mavi { 
+      color: blue;
+    }
+	@font-face {
+	  font-family: me_quran;
+	  src: url("image/me_quran.ttf")
+	}
+</style>
 </head>
 
 <body>
@@ -47,7 +156,7 @@
 
 <script>
 "use strict";
-const URL = "https://maeyler.github.io/Iqra3/";
+const URL = "https://maeyler.github.io/Iqra3/data/";
 const QUR = "Quran.txt"; 
 const KUR = "Kuran.txt"; 
 const NAM = "iqra.names";
@@ -211,8 +320,6 @@ function initialPage() {
       gotoPage(LS? localStorage.iqraPage : 1)
     }
 }
-var mujam  //not used
-    //title.innerText = document.title;
     const swipe = { t:0, x:0, y:0 }
     text.addEventListener("touchstart", doTouchS);
     html.addEventListener("touchstart", doTouchS);
@@ -220,8 +327,6 @@ var mujam  //not used
     html.addEventListener("touchend", doTouchE);
     readNames(); readText(QUR, qur); readText(KUR, kur);
     window.addEventListener("hashchange", gotoHashPage);
-    if (opener && opener.location.href.includes('Mujam'))
-        mujam = opener
     slider.focus(); 
 </script>
 

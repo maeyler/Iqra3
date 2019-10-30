@@ -2,13 +2,22 @@
 
 Desktop Quran reader with Turkish translation
 
-This project started in 1992 using the Arabic text from DOS program Salsabil
+V1. The project started in 1992 using the Arabic text from simple DOS program Salsabil. Turkish translation was copied from Diyanet.
 
-Turkish translation was copied from Diyanet
+(Easy View running under Mac OS, code in Object Pascal)
 
-When [the Quranic Arabic Corpus](http://corpus.quran.com) was released, we used their data in V3.01 in 2012
+V2. A simplified translation to Windows using Turbo Pascal (not much success)
 
-(C) 1992, 2015 by M Akif Eyler
+V3. When [Quranic Arabic Corpus](http://corpus.quran.com) was released, we used their data in 2012 using Java
+
+Here is [V3.05 as jar file](code/iqra.jar) best viewed with [me_quran font](image/me_quran.ttf)
+
+V3.06 written as a web page using JavaScript
+
+V3.10 combined Iqra with Visual Mujam project
+
+
+(C) 1992, 2012, 2019 by M Akif Eyler -- GNU License below is also applicable to Iqra3
 
 Copied using [GNU License](http://corpus.quran.com/download/)
 ````
