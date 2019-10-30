@@ -1,20 +1,22 @@
 ### Iqra version 3
 
-Desktop Quran reader with Turkish translation
+Desktop and mobile Quran reader with Turkish translation
 
-V1. The project started in 1992 using the Arabic text from simple DOS program Salsabil. Turkish translation was copied from Diyanet.
+V1. The project started in 1992 using the Arabic text from simple DOS program Salsabil
 
-(Easy View running under Mac OS, code in Object Pascal)
+Turkish translation was copied from Diyanet
 
-V2. A simplified translation to Windows using Turbo Pascal (not much success)
+(Easy View running under Mac OS, code in Think Pascal)
+
+V2. A simplified translation to Windows using Turbo Pascal (1998)
 
 V3. When [Quranic Arabic Corpus](http://corpus.quran.com) was released, we used their data in 2012 using Java
 
-Here is [V3.05 as jar file](code/iqra.jar) best viewed with [me_quran font](image/me_quran.ttf)
+Here is [V3.05 as jar file](https://github.com/maeyler/Iqra3/code/iqra.jar) best viewed with [me_quran font](https://github.com/maeyler/Iqra3/image/me_quran.ttf)
 
-V3.06 written as a web page using JavaScript
+V3.06 written as a web page using JavaScript (2019, first mobile version)
 
-V3.10 combined Iqra with Visual Mujam project
+V3.10 combined Iqra with [Visual Mujam project](https://maeyler.github.io/Visual-Mujam/)
 
 
 (C) 1992, 2012, 2019 by M Akif Eyler -- GNU License below is also applicable to Iqra3

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"    content="width=device-width" />
+    <meta name="theme-color" content="cyan" />
+    <meta name="author"      content="M A Eyler, Istanbul, 2019" />
+    <meta name="description" content="Reader for the Quran" />
+    <link rel="stylesheet" href="code/reader.css" media="all">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="image/icon.png">
+    <script src="code/reader.js"></script>
+    <title>Iqra</title>
+<style> 
+</style>
+
+</head>
+
+<body>
+<h3 id=title>Iqra V3.10</h3>
+<div id=d3>
+  <button id=geri onClick=history.go(-1)>◀</button>
+  Sure  
+  <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
+  <span id=isim></span>&emsp; Sayfa
+  <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
+  <button id=trans onClick=doTrans()>T</button>
+  <button><a id=link target="NewTab">K</a></button>
+</div>
+
+<div id=d4>
+  <div id=text>Türkçe</div>
+  <div id=html readonly>Arabic</div>
+</div>
+<div id=d1>
+  <button id=markW onClick=markSelection()>M</button>
+  <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
+  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
+  <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
+</div>
+
+<script>
+"use strict";
+    if ('serviceWorker' in navigator) {
+      if (location.protocol.startsWith('http')) 
+        navigator.serviceWorker.register('code/sw.js')
+        .then(reg => { console.log('SW Registered', reg.scope) })
+        .catch(alert)
+    }
+    initReader()
+</script>
+
+</body>
+</html>

@@ -100,8 +100,8 @@
       margin: 0;
     }
     .ortala { 
-      margin-top: 4px;
-      background: url("image/sura.png");
+      margin-top: 8px;
+      background: url("../image/sura.png");
       background-repeat: no-repeat;
       background-size: contain;
     }
@@ -114,6 +114,6 @@
     }
 	@font-face {
 	  font-family: me_quran;
-	  src: url("me_quran.ttf")
+	  src: url("../image/me_quran.ttf")
 	}
 

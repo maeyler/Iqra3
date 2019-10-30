@@ -1,14 +1,15 @@
-const CACHE ='Mujam2'
+const CACHE ='rdr1'
 const FILES = [
   '/Iqra3/',
-  '/Iqra3/index.html',
-  '/Iqra3/iqra.css',
-  '/Iqra3/icon.png',
+  '/Iqra3/reader.html',
+  '/Iqra3/code/reader.js',
+  '/Iqra3/code/reader.css',
+  '/Iqra3/data/Quran.txt',
+  '/Iqra3/data/Kuran.txt',
+  '/Iqra3/data/iqra.names',
   '/Iqra3/image/sura.png',
-  '/Iqra3/Quran.txt',
-  '/Iqra3/Kuran.txt',
-  '/Iqra3/iqra.names',
-  '/Iqra3/me_quran.ttf',
+  '/Iqra3/image/icon.png',
+  '/Iqra3/image/me_quran.ttf',
   '/Iqra3/manifest.json'
 ]
 function installCB(e) {
@@ -19,7 +20,7 @@ function installCB(e) {
     .catch(console.log)
   )
 }
-self.addEventListener('install', installCB)
+addEventListener('install', installCB)
 
 function cacheCB(e) { //cache first
   e.respondWith(
@@ -32,7 +33,7 @@ function cacheCB(e) { //cache first
     .catch(console.log)
   )
 }
-self.addEventListener('fetch', cacheCB)
+addEventListener('fetch', cacheCB)
 
 function activateCB(e) {
   console.log(CACHE, e);

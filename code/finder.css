@@ -1,0 +1,69 @@
+    body {
+        max-width: 520px;
+        width: 100%;
+        font-size: 12px;
+        font-family: arial, sans-serif;
+    }
+    p { 
+        width: 490px;
+        margin: 8px 0px;
+    }
+    select {
+        font: 17px me_quran, serif;
+        margin-right: 8px;
+        padding-right: 4px;
+        direction: rtl;
+        color: blue;
+    }
+    button { 
+        padding: 4px; 
+    }
+    table { 
+        border-collapse: collapse; 
+        text-align: center;
+        cursor: default;
+    }
+    th { 
+        width: 20px;
+        height: 20px;
+        color: #666666; 
+        font-weight: normal;
+        padding: 0px; 
+    }
+    td { 
+        width: 20px;
+        height: 20px;
+        border: 1px solid blue; 
+        padding: 0px; 
+    }
+    select:hover .t1, button:hover .t1, th:hover .t1, 
+    td:hover .t1, td:hover .t2 { 
+        visibility: visible; 
+    }
+    .t1, .t2 {
+        visibility: hidden;
+        font-size: 12px;
+        font-weight: normal;
+        text-align: center;
+        padding: 5px;
+        position: absolute;
+        cursor: pointer;
+    }
+    .t1 {
+        background-color: cyan;
+        color: black;
+    }
+    .t2 {
+        background-color: blue;
+        color: white;
+    }
+    #corpus {
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+	@font-face {
+	  font-family: me_quran;
+	  src: url("../image/me_quran.ttf")
+	}
+

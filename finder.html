@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="google" content="notranslate">
+    <link rel="manifest" href="manifest.json"> 
+    <link rel="stylesheet" href="code/finder.css" media="all">
+    <link rel="icon" href="image/icon.png">
+    <script src="code/finder.js"></script>
+    <script src="code/utilities.js"></script>
+    <script src="code/buckwalter.js"></script>
+    <title>Finder </title>
+  <script>
+    if ('serviceWorker' in navigator) {
+      if (location.protocol.startsWith('http')) 
+        navigator.serviceWorker.register('code/sw.js')
+        .then(reg => { console.log('Service Worker', reg.scope) })
+        .catch(alert)
+    }
+  </script>
+</head>
+
+<body>
+<p><select id=menu1 onChange="selectLetter()">
+   <span class='t1'>Select first letter of the root</span>
+   </select>
+   Root: <select id=menu2 onChange="selectRoot()">
+   <span class='t1'>Select root or proper name</span>
+   </select>
+   <span id=out>output will be here</span> &nbsp;
+   <select id=menu3 onChange="selectWord()">
+   <span class='t1'>Select word</span>
+   </select>
+   <button id=combine onClick="selectRoot()">C
+   <span class='t1'>Combine words</span>
+   </button>
+</p>
+
+<table id="tablo" onClick="doClick1(event)"></table>
+
+<script>
+"use strict";
+    const TITLE = document.title; 
+    initialize();
+</script>
+
+</body>
+</html>
