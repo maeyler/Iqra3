@@ -109,7 +109,7 @@ function parseRefs(str) {
  */
 function report2(t) {
     // convert the one space to em-space " "
-    function convert(s) { // NOT USED
+    function convert(s) {
         const EM_SPACE = String.fromCharCode(8195);
         return s.replace(" ", EM_SPACE);
     }
@@ -126,7 +126,7 @@ function report2(t) {
             let s = line[j],
                 k = s.indexOf("\t");
             if (k <= 0) break;
-            let word = s.substring(0, k);
+            let word = convert(s.substring(0, k));
             wordToRefs.set(word, s.substring(k + 1));
             list.push(word);
             j++;
@@ -311,7 +311,7 @@ function displayRef(word, [page, refA]) {
         }
         if (i > m) {
           row += "<td colspan=15>"
-           +"Visual Mujam "+VERSION+" (C) 2019 MAE </td>"
+           +"Iqra "+VERSION+" (C) 2019 MAE </td>"
            +"<td id=corpus onClick=doClick2()>K</td>"
         }
         text += "<tr>" + row + "</tr>";
@@ -319,7 +319,7 @@ function displayRef(word, [page, refA]) {
     // end of creation.
     tablo.innerHTML = text;
     document.title = TITLE + " -- " + word;
-    let t1 = "on " + refA.length + " pages";
+    let t1 = refA.length + " sayfada";
     if (nc == 0)
         out.innerText = "(too many verses)";
     else out.innerText = t1; //nc+" instances "+t1;
@@ -394,7 +394,7 @@ function gotoHashRoot() {
  * @param none
  * 
  */
-function initialize() {
+function initFinder() {
     // destructure for sajda
     let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
     [sajda, ] = parseRefs(str);

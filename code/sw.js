@@ -1,4 +1,4 @@
-const CACHE ='rdr1'
+const CACHE ='iqra1'
 const FILES = [
   '/Iqra3/',
   '/Iqra3/reader.html',
@@ -7,9 +7,16 @@ const FILES = [
   '/Iqra3/data/Quran.txt',
   '/Iqra3/data/Kuran.txt',
   '/Iqra3/data/iqra.names',
+  '/Visual-Mujam/data.txt',  //will be modified
   '/Iqra3/image/sura.png',
   '/Iqra3/image/icon.png',
+  '/Iqra3/image/iconF.png',
   '/Iqra3/image/me_quran.ttf',
+  '/Iqra3/finder.html',
+  '/Iqra3/code/finder.js',
+  '/Iqra3/code/finder.css',
+  '/Iqra3/code/utilities.js',
+  '/Iqra3/code/buckwalter.js',
   '/Iqra3/manifest.json'
 ]
 function installCB(e) {
@@ -37,9 +44,10 @@ addEventListener('fetch', cacheCB)
 
 function activateCB(e) {
   console.log(CACHE, e);
+  const OLD = 'rdr1'
   e.waitUntil(
-    caches.delete('VM')
-    .then(r => { if (r) console.log('deleted VM') })
+    caches.delete(OLD)
+    .then(r => { if (r) console.log('deleted', OLD) })
   )
 }
 addEventListener('activate', activateCB);

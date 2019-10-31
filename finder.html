@@ -3,37 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <meta name="google" content="notranslate">
-    <link rel="manifest" href="manifest.json"> 
+    <meta name="theme-color" content="#EFEF96" />
+    <meta name="author"      content="M A Eyler, Istanbul, 2019" />
+    <meta name="description" content="Reader for the Quran" />
     <link rel="stylesheet" href="code/finder.css" media="all">
-    <link rel="icon" href="image/icon.png">
+    <link rel="manifest" href="manifest.json"> 
+    <link rel="icon" href="image/iconF.png">
     <script src="code/finder.js"></script>
     <script src="code/utilities.js"></script>
     <script src="code/buckwalter.js"></script>
-    <title>Finder </title>
-  <script>
-    if ('serviceWorker' in navigator) {
-      if (location.protocol.startsWith('http')) 
-        navigator.serviceWorker.register('code/sw.js')
-        .then(reg => { console.log('Service Worker', reg.scope) })
-        .catch(alert)
-    }
-  </script>
+    <title>Mucem </title>
 </head>
 
 <body>
 <p><select id=menu1 onChange="selectLetter()">
-   <span class='t1'>Select first letter of the root</span>
+   <span class='t1'>Aranan kökün ilk harfi</span>
    </select>
-   Root: <select id=menu2 onChange="selectRoot()">
-   <span class='t1'>Select root or proper name</span>
+   Kök: <select id=menu2 onChange="selectRoot()">
+   <span class='t1'>Aranan kök ya da özel isim</span>
    </select>
    <span id=out>output will be here</span> &nbsp;
    <select id=menu3 onChange="selectWord()">
-   <span class='t1'>Select word</span>
+   <span class='t1'>Aranan kelime</span>
    </select>
    <button id=combine onClick="selectRoot()">C
-   <span class='t1'>Combine words</span>
+   <span class='t1'>Kelimeleri birleştir</span>
    </button>
 </p>
 
@@ -41,8 +35,14 @@
 
 <script>
 "use strict";
+    if ('serviceWorker' in navigator) {
+      if (location.protocol.startsWith('http')) 
+        navigator.serviceWorker.register('code/sw.js')
+        .then(reg => { console.log('Service Worker', reg.scope) })
+        .catch(alert)
+    }
     const TITLE = document.title; 
-    initialize();
+    initFinder();
 </script>
 
 </body>

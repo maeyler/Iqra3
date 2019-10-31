@@ -12,6 +12,7 @@ const qur = new Array(P+1);
 const kur = new Array(P+1);
 const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
 const LS = location.protocol.startsWith('http') && localStorage;
+const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var finder
    
@@ -66,6 +67,7 @@ function gotoPage(k) { // 1<=k<=P
     if (k > P) k = P;
     k = Number(k);
     if (curPage == k) return;
+    console.log('Page', k);
     setSura(suraFromPage(k));
     link.href = LINK+k;
     curPage = k;
@@ -166,12 +168,15 @@ function initialPage() {
 }
 function initReader() {
     //title.innerText = document.title;
-    const swipe = { t:0, x:0, y:0 }
     text.addEventListener("touchstart", doTouchS);
     html.addEventListener("touchstart", doTouchS);
     text.addEventListener("touchend", doTouchE);
     html.addEventListener("touchend", doTouchE);
-    readNames(); readText(QUR, qur); readText(KUR, kur);
+    try {
+        readNames(); readText(QUR, qur); readText(KUR, kur);
+    } catch(err) { 
+        isim.innerText = ""+err;
+    }
     window.addEventListener("hashchange", gotoHashPage);
     if (opener && opener.location.href.includes('Mujam'))
         finder = opener

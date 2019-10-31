@@ -12,7 +12,7 @@ V2. A simplified translation to Windows using Turbo Pascal (1998)
 
 V3. When [Quranic Arabic Corpus](http://corpus.quran.com) was released, we used their data in 2012 using Java
 
-Here is [V3.05 as jar file](https://github.com/maeyler/Iqra3/code/iqra.jar) best viewed with [me_quran font](https://github.com/maeyler/Iqra3/image/me_quran.ttf)
+Here is [V3.05 as jar file](https://github.com/maeyler/Iqra3/blob/master/code/iqra.jar) best viewed with [me_quran font](https://github.com/maeyler/Iqra3/blob/master/image/me_quran.ttf)
 
 V3.06 written as a web page using JavaScript (2019, first mobile version)
 
