@@ -19,7 +19,8 @@ const FILES = [
   '/Iqra3/code/buckwalter.js',
   '/Iqra3/manifest.json'
 ]
-function installCB(e) {
+
+function installCB(e) {  //CB means call-back
   console.log(CACHE, e);
   e.waitUntil(
     caches.open(CACHE)
