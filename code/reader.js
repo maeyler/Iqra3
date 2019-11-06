@@ -181,5 +181,63 @@ function initReader() {
     if (opener && opener.location.href.includes('Mujam'))
         finder = opener
     //slider.focus(); 
+    menuFn();
+
 }
 
+
+/********************
+ * Start of Menu functions -- can be added to a class :3 
+ * ref:   Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
+
+ */
+
+
+
+function menuFn() {
+  const menu = document.querySelector(".menu");
+  const menuOption = document.querySelector(".menu-option");
+  let menuVisible = false;
+
+
+
+  const toggleMenu = command => {
+      console.log("toggle" + command)
+      menu.style.display = command === "show" ? "block" : "none";
+      menuVisible = !menuVisible;
+  };
+
+  const setPosition = ({ top, left }) => {
+      menu.style.left = `${left}px`;
+      menu.style.top = `${top}px`;
+      toggleMenu("show");
+  };
+
+  html.addEventListener("click", e => {
+      if (menuVisible) toggleMenu("hide");
+  });
+  // should be added by a function - future note  to myself.
+  menuOption.addEventListener("click", e => {
+
+      switch (e.target.innerText) {
+          case "Mark Selection":
+              markSelection()
+              break;
+      }
+      toggleMenu("hide");
+  });
+
+  html.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      const origin = {
+          left: e.pageX,
+          top: e.pageY
+      };
+      setPosition(origin);
+      return false;
+  });
+}
+
+/**
+* End of menu functions 
+***********************************************/

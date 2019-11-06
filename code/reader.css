@@ -117,3 +117,56 @@
 	  src: url("../image/me_quran.ttf")
 	}
 
+
+/* Menu Style */
+
+
+/*Ref: https://stackoverflow.com/questions/17005878/how-to-disable-text-selection-in-li 
+  Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
+*/
+
+
+.menu {
+  width: 120px;
+  z-index: 1;
+  box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  display: none;
+  transition: 0.2s display ease-in;
+  background: #cfc;
+}
+
+.menu .menu-options {
+  list-style: none;
+  padding: 10px 0;
+  z-index: 1;
+  /*  */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.menu .menu-options .menu-option {
+  font-weight: 500;
+  z-index: 1;
+  font-size: 14px;
+  padding: 10px 40px 10px 20px;
+  cursor: pointer;
+  /*  */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.menu .menu-options .menu-option:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+
+/* End of menu style */
