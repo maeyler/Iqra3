@@ -27,16 +27,20 @@ function doTrans() {
       text.style.display = 'inherit'
     }
 }
-function markSelection() {
-    let s = getSelection().toString()
-    if (!s) alert("Select some Arabic text")
-    else markPattern(s)
-}
 function numberToArabic(n) { //n is an integer
     let t = ''
     for (let c of String(n)) 
       t += String.fromCodePoint(Number(c)+1632)
     return t
+}
+function forceSelection() {
+    let s = getSelection().toString()
+    if (s) return s
+    else alert("Önce Arapça bir kelime seçin")
+}
+function markSelection() {
+    let s = forceSelection()
+    if (s) markPattern(s)
 }
 function markVerse(n) {
     markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?')
@@ -93,26 +97,51 @@ function gotoSura(k) {
     setSura(k);
     gotoPage(first[k]);
 }
-function doTouchS(evt) {
+function dragSt(evt) {
     //evt.preventDefault()
-    swipe.t = new Date().getTime()
-    swipe.x = evt.touches[0].pageX
-    swipe.y = evt.touches[0].pageY
+    swipe.t = Date.now()
+    swipe.x = Math.round(evt.touches[0].clientX)
+    swipe.y = Math.round(evt.touches[0].clientY)
+    //console.log("dragSt", swipe)
 }
-function doTouchE(evt) {
-    //evt.preventDefault()
-    let ct = evt.changedTouches
-    if (ct.length == 0) return
-    let dt = new Date().getTime() - swipe.t
-    if (dt > 300) return //max time
-    let dx = Math.abs(ct[0].pageX - swipe.x)
-    let dy = Math.abs(ct[0].pageY - swipe.y)
-    //console.log(dt, dx, dy)
-    if (dx < 40) return //min distance
-    if (dx < 8*dy) return //not horizontal
-    let right = ct[0].pageX > swipe.x
-    console.log("swipe "+(right? "R" : "L"))
-    gotoPage(right? curPage+1 : curPage-1)
+function drag(evt) {
+    if (!swipe.t) return
+    let trg = evt.target
+    let dx = Math.round(evt.touches[0].clientX) - swipe.x
+    let dy = Math.round(evt.touches[0].clientY) - swipe.y
+    if (Math.abs(dx) < 3*Math.abs(dy)) { //not horizontal
+        console.log("cancel", dx, dy)
+        trg.style.transform = ""; swipe.t = 0; 
+        return  //swipe cancelled
+    }
+    evt.preventDefault(); 
+    let tr = "translate("+dx+"px, 0)"
+    trg.style.transform = tr;
+}
+function dragEnd(evt) {
+    if (!swipe.t) return
+    let trg = evt.target
+    evt.preventDefault()
+    let dt = Date.now() - swipe.t
+    let xx = evt.changedTouches[0].clientX
+    let dx = Math.round(xx) - swipe.x
+    let tr1 = trg.style.transform //initial
+    trg.style.transform = ""; swipe.t = 0
+    let w2 = 0  //animation width
+    let W = trg.clientWidth
+    if (dt>300 && 3*Math.abs(dx)<W) return
+    //max 300 msec delay or min W/3 drag
+    if (dx>=0 && curPage<P) { //swipe right
+        gotoPage(curPage+1); w2 = W+"px"
+    } 
+    if (dx<0  && curPage>1) { //swipe left
+        gotoPage(curPage-1); w2 = -W+"px"
+    }
+    if (!w2) return //page not modified
+    if (!tr1) tr1 = "translate(0,0)"
+    let tr2 = "translate("+w2+",0)" //final position
+    //console.log("animate", tr2)
+    trg.animate({transform:[tr1, tr2]}, 300)
 }
 function readNames() {
     function toNames(t) {
@@ -146,7 +175,7 @@ function processStr(s) {
     if (s.length<50 && bismi.test(s))
       return '<div class=besmele>'+s+'</div>'
     //default: ignore the last char LEFT
-    return s.substring(0, s.length-2)
+    return s  //.substring(0, s.length-2)
     //s+' &nbsp;' -- doesn't work
 }
 function processBR(page) {
@@ -168,76 +197,73 @@ function initialPage() {
 }
 function initReader() {
     //title.innerText = document.title;
-    text.addEventListener("touchstart", doTouchS);
-    html.addEventListener("touchstart", doTouchS);
-    text.addEventListener("touchend", doTouchE);
-    html.addEventListener("touchend", doTouchE);
+    text.addEventListener("touchstart", dragSt);
+    html.addEventListener("touchstart", dragSt);
+    text.addEventListener("touchmove", drag);
+    html.addEventListener("touchmove", drag);
+    text.addEventListener("touchend", dragEnd);
+    html.addEventListener("touchend", dragEnd);
+    //d4.style.overflowX = "hidden"; //for swipe right
+    //html.style.direction = "rtl";
     try {
         readNames(); readText(QUR, qur); readText(KUR, kur);
     } catch(err) { 
         isim.innerText = ""+err;
     }
     window.addEventListener("hashchange", gotoHashPage);
-    if (opener && opener.location.href.includes('Mujam'))
+    if (opener && opener.location.href.includes('Iqra3'))
         finder = opener
     //slider.focus(); 
     menuFn();
-
 }
-
-
 /********************
- * Start of Menu functions -- can be added to a class :3 
- * ref:   Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
-
+ * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
+ * Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
  */
-
-
-
 function menuFn() {
   const menu = document.querySelector(".menu");
-  const menuOption = document.querySelector(".menu-option");
-  let menuVisible = false;
+  const options = document.querySelector(".options");
+  //let menuVisible = false;
 
-
-
-  const toggleMenu = command => {
-      console.log("toggle" + command)
-      menu.style.display = command === "show" ? "block" : "none";
-      menuVisible = !menuVisible;
-  };
-
-  const setPosition = ({ top, left }) => {
-      menu.style.left = `${left}px`;
-      menu.style.top = `${top}px`;
-      toggleMenu("show");
-  };
-
-  html.addEventListener("click", e => {
-      if (menuVisible) toggleMenu("hide");
-  });
-  // should be added by a function - future note  to myself.
-  menuOption.addEventListener("click", e => {
-
-      switch (e.target.innerText) {
-          case "Mark Selection":
-              markSelection()
-              break;
+  const showMenu = () => { menu.style.display = "block" }
+  const hideMenu = () => { menu.style.display = "" }
+  
+  options.onclick = (e) => {
+      e.preventDefault()
+      let s = forceSelection()
+      let m = e.target.innerText.substring(0,4)
+      if (s) switch (m) {
+          case "Copy":
+              navigator.clipboard.writeText(s)
+              break
+          case "Mark":
+              markPattern(s)
+              break
       }
-      toggleMenu("hide");
-  });
+      hideMenu()
+  }
+  document.onkeydown = (e) => {
+    if (e.key == 'Escape') hideMenu()
+  }
+  document.onclick = (e) => { hideMenu() }
 
-  html.addEventListener("contextmenu", e => {
-      e.preventDefault();
-      const origin = {
-          left: e.pageX,
-          top: e.pageY
-      };
-      setPosition(origin);
-      return false;
-  });
+  const setPosition = (x, y) => {
+      //cannot use menu.clientWidth
+      let w = d4.clientWidth
+      x = Math.min(x, w - 130) 
+      menu.style.left = x+'px'
+      let h = d4.clientHeight
+      y = Math.min(y, h - 40) 
+      menu.style.top = y+'px'
+      showMenu()
+  };
+  html.oncontextmenu = (e) => {
+      e.preventDefault()
+      setPosition(e.clientX, e.clientY)
+      return false
+  }
 }
-
 /**
 * End of menu functions 
 ***********************************************/
+

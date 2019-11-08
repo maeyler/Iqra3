@@ -29,6 +29,7 @@
     #html { 
       font: 4.6vw/2 me_quran, serif;
       text-align: justify;
+      direction: rtl;
     }
     #sure {
       text-align: right;
@@ -79,7 +80,8 @@
     #html { 
       font: 18px/2 me_quran, serif;
       text-align: justify;
-      width: 400px; 
+      direction: rtl;
+      width: 400px;
     }
     #sure {
       text-align: right;
@@ -91,6 +93,9 @@
 }
     #d1 { 
       margin-bottom: 8px;
+    }
+    #d4 { 
+      overflow-x: hidden;
     }
     #slider {
       position: relative;
@@ -118,55 +123,32 @@
 	}
 
 
-/* Menu Style */
-
-
-/*Ref: https://stackoverflow.com/questions/17005878/how-to-disable-text-selection-in-li 
+/* Menu Style
   Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
 */
 
-
 .menu {
-  width: 120px;
-  z-index: 1;
   box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
   position: fixed;
   display: none;
-  transition: 0.2s display ease-in;
   background: #cfc;
 }
 
-.menu .menu-options {
+.options {
   list-style: none;
-  padding: 10px 0;
-  z-index: 1;
-  /*  */
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-option {
+  padding: 10px 20px;
+  font: 13px sansserif, arial;
   user-select: none;
   cursor: default;
 }
 
-.menu .menu-options .menu-option {
-  font-weight: 500;
-  z-index: 1;
-  font-size: 14px;
-  padding: 10px 40px 10px 20px;
-  cursor: pointer;
-  /*  */
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: default;
-}
-
-.menu .menu-options .menu-option:hover {
+.menu-option:hover {
   background: rgba(0, 0, 0, 0.2);
 }
-
 
 /* End of menu style */

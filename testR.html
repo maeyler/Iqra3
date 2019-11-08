@@ -66,16 +66,20 @@ function doTrans() {
       text.style.display = 'inherit'
     }
 }
-function markSelection() {
-    let s = getSelection().toString()
-    if (!s) alert("Select some Arabic text")
-    else markPattern(s)
-}
 function numberToArabic(n) { //n is an integer
     let t = ''
     for (let c of String(n)) 
       t += String.fromCodePoint(Number(c)+1632)
     return t
+}
+function forceSelection() {
+    let s = getSelection().toString()
+    if (s) return s
+    else alert("Önce Arapça bir kelime seçin")
+}
+function markSelection() {
+    let s = forceSelection()
+    if (s) markPattern(s)
 }
 function markVerse(n) {
     markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?')

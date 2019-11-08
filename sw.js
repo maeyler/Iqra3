@@ -1,4 +1,4 @@
-const CACHE ='iqra1'
+const PREF ='iqra', CACHE = PREF+'2'
 const FILES = [
   '/Iqra3/',
   '/Iqra3/reader.html',
@@ -43,12 +43,18 @@ function cacheCB(e) { //cache first
 }
 addEventListener('fetch', cacheCB)
 
+function removeOld(L) {
+  return Promise.all(L.map(key => {
+    if (!key.startsWith(PREF) || key == CACHE)
+       return null;
+    console.log('deleted', key)
+    return caches.delete(key)
+  }))
+}
 function activateCB(e) {
   console.log(CACHE, e);
-  const OLD = 'rdr1'
   e.waitUntil(
-    caches.delete(OLD)
-    .then(r => { if (r) console.log('deleted', OLD) })
+    caches.keys().then(removeOld)
   )
 }
 addEventListener('activate', activateCB);
