@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<h3 id=title>Iqra V3.11</h3>
+<h3 id=title>Iqra V3.11T</h3>
 <div id=d3>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
@@ -29,11 +29,20 @@
   <div id=text>Türkçe</div>
   <div id=html readonly>Arabic</div>
 </div>
+
 <div id=d1>
   <button id=markW onClick=markSelection()>M</button>
   <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
   <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
   <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
+</div>
+
+<div class="menu">
+  <ul class="options">
+      <span class="menu-option">COPY</span>
+      <span class="menu-option">MARK</span>
+      <span class="menu-option">About</span>
+  </ul>
 </div>
 
 <script>
@@ -250,16 +259,81 @@ function initReader() {
         isim.innerText = ""+err;
     }
     window.addEventListener("hashchange", gotoHashPage);
+    //slider.focus(); 
+    menuFn();
     if (opener && opener.location.href.includes('Iqra3'))
         finder = opener
-    //slider.focus(); 
 }
+/********************
+ * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
+ * Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
+ */
+function menuFn() {
+  //let menuVisible = false;
+
+  const showMenu = () => { menu.style.display = "block" }
+  const hideMenu = () => { menu.style.display = "" }
+  
+  options.onclick = (e) => {
+      e.preventDefault()
+      let m = e.target.innerText.toLowerCase()  //.substring(0,4)
+      switch (m) {
+          case "copy": {
+              let s = forceSelection()
+              if (s) navigator.clipboard.writeText(s)
+              break
+          }
+          case "mark": {
+              let s = forceSelection()
+              if (s) markPattern(s)
+              break
+          }
+          case "about": {
+              alert(title.innerText+'\n'+document.title)
+              break
+          }
+      }
+      hideMenu()
+  }
+  document.onkeydown = (e) => {
+    if (e.key == 'Escape') hideMenu()
+  }
+  document.onclick = (e) => { hideMenu() }
+
+  const setPosition = (x, y) => {
+      let mw = menu.clientWidth || 240
+      x = x - mw/2  //center over menu
+      if (!title.clientWidth) { //narrow screen
+        let cw = html.clientWidth || 400
+        let cl = html.clientLeft  //might be 0
+        x = Math.max(x, cl)       // x ≥ cl
+        x = Math.min(x, cl+cw-mw-5) // x < cl+cw-mw
+      //} else { //large screen
+      }
+      menu.style.left = (x)+'px'
+      menu.style.top = (y-60)+'px'
+      //console.log(x, y)
+      showMenu()
+  }
+  html.oncontextmenu = (e) => {
+      options.style.margin='10px 0' //will move to CSS
+      e.preventDefault()
+      setPosition(e.clientX, e.clientY)
+      return false
+  }
+}
+/**
+* End of menu functions 
+***********************************************/
+
     /*if ('serviceWorker' in navigator) {
       if (location.protocol.startsWith('http')) 
         navigator.serviceWorker.register('sw.js')
         .then(reg => { console.log('SW Registered', reg.scope) })
         .catch(alert)
     }*/
+    const menu = document.querySelector(".menu");
+    const options = document.querySelector(".options");
     initReader()
 </script>
 
