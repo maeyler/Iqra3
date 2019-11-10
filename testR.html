@@ -10,11 +10,37 @@
     <!--link rel="manifest" href="manifest.json">
     <link rel="icon" href="image/icon.png">
     <script src="code/reader.js"></script-->
+    <script src="code/buckwalter.js"></script>
     <title>Iqra test</title>
+<style>
+.options {
+  margin: 10px 0;
+}
+.menu-option {
+  padding: 10px 15px;
+  font: bold 14px sansserif, arial;
+  color: blue;
+}
+    .menu-option:hover .tip {
+        visibility: visible;
+    }
+    .menu-option .tip {
+        visibility: hidden;
+        font-size: small;
+        font-weight: normal;
+        background: #cfc;
+        color: blue;
+        text-align: center;
+        padding: 5px 5px;
+        position: absolute;
+        left: 0px; 
+        top: 38px;
+    }
+</style>
 </head>
 
 <body>
-<h3 id=title>Iqra V3.11T</h3>
+<h3 id=title>Iqra V3.11y</h3>
 <div id=d3>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
@@ -38,11 +64,24 @@
 </div>
 
 <div class="menu">
-  <ul class="options">
-      <span class="menu-option">COPY</span>
-      <span class="menu-option">MARK</span>
-      <span class="menu-option">About</span>
-  </ul>
+  <div class="options">
+      <span class="menu-option">K
+        <span class=tip>Seçili metni kopyala</span>
+      </span>
+      <span class="menu-option">F
+        <span class=tip>Seçili metni Finder'da ara</span>
+      </span>
+      <span class="menu-option">M
+        <span class=tip>(Seçili metni Mucem'de ara)<br>
+        Şimdilik bu sayfada renkli işaretle</span>
+      </span>
+      <span class="menu-option">S
+        <span class=tip>Benzer sayfalar -- hazır değil</span>
+      </span>
+      <span class="menu-option">i
+        <!--span class=tip>Yazılım hakkında...</span-->
+      </span>
+  </div>
 </div>
 
 <script>
@@ -268,32 +307,47 @@ function initReader() {
  * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
  * Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
  */
+function toBuckwalter(s) {  // from Utilites.js -- will be removed
+    return BWC.convert(BWC.a2bMap, s).output
+}
 function menuFn() {
   //let menuVisible = false;
 
-  const showMenu = () => { menu.style.display = "block" }
-  const hideMenu = () => { menu.style.display = "" }
+  const showMenu = () => { menu.style.display = 'block' }
+  const hideMenu = () => { menu.style.display = '' }
+  const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
   
   options.onclick = (e) => {
       e.preventDefault()
-      let m = e.target.innerText.toLowerCase()  //.substring(0,4)
+      let m = e.target.innerText.charAt(0)
+      //.toLowerCase() //.substring(0,4)
+      if (m == 'i') {  //m.codePointAt(0) == 128712) '🛈'
+          let s = title.innerText+'\nQuran Reader'
+          alert(s+'\n(C) 2019 MAE')
+          return
+      } 
+      let s = forceSelection()
+      if (!s) return
       switch (m) {
-          case "copy": {
-              let s = forceSelection()
-              if (s) navigator.clipboard.writeText(s)
+          case 'K': {
+              navigator.clipboard.writeText(s)
+              alert('Seçili metin panoya kopyalandı')
               break
           }
-          case "mark": {
-              let s = forceSelection()
-              if (s) markPattern(s)
-              break
+          case 'F': {
+              let ref = LINKF + toBuckwalter(s);
+              window.open(ref, "Finder", "resizable,scrollbars", true)
+              hideMenu(); break
           }
-          case "about": {
-              alert(title.innerText+'\n'+document.title)
+          case 'M': {
+              markPattern(s)
+              hideMenu(); break
+          }
+          case 'S': {
+              alert('Similar pages -- not implemented yet')
               break
           }
       }
-      hideMenu()
   }
   document.onkeydown = (e) => {
     if (e.key == 'Escape') hideMenu()
@@ -301,11 +355,11 @@ function menuFn() {
   document.onclick = (e) => { hideMenu() }
 
   const setPosition = (x, y) => {
-      let mw = menu.clientWidth || 240
+      let mw = menu.clientWidth || 220
       x = x - mw/2  //center over menu
       if (!title.clientWidth) { //narrow screen
         let cw = html.clientWidth || 400
-        let cl = html.clientLeft  //might be 0
+        let cl = html.clientLeft  //must be 0
         x = Math.max(x, cl)       // x ≥ cl
         x = Math.min(x, cl+cw-mw-5) // x < cl+cw-mw
       //} else { //large screen
@@ -316,7 +370,6 @@ function menuFn() {
       showMenu()
   }
   html.oncontextmenu = (e) => {
-      options.style.margin='10px 0' //will move to CSS
       e.preventDefault()
       setPosition(e.clientX, e.clientY)
       return false
@@ -332,8 +385,8 @@ function menuFn() {
         .then(reg => { console.log('SW Registered', reg.scope) })
         .catch(alert)
     }*/
-    const menu = document.querySelector(".menu");
-    const options = document.querySelector(".options");
+    const menu = document.querySelector('.menu');
+    const options = document.querySelector('.options');
     initReader()
 </script>
 
