@@ -341,7 +341,7 @@ function doClick1(evt) {
     let p = 20*(r-1) + t.cellIndex;
     let h = "#p="+p;
     console.log(h);
-    //window.open(REF+p, "quran", "resizable,scrollbars", true);
+    //window.open(REF+p, "quran", "resizable,scrollbars");
     if (!iqra || iqra.closed) {
       iqra = open(REF+h); return  //, '_blank')
     }
@@ -360,7 +360,7 @@ function doClick2() {
     let v = menu2.value;
     if (v) p = "?q=" + toBuckwalter(v);
     console.log("corpus" + p);
-    window.open(REF + p, "corpus", "resizable,scrollbars", true);
+    window.open(REF + p, "corpus", "resizable,scrollbars");
 }
 /**
  * Use the hash part of URL in the address bar

@@ -24,7 +24,7 @@
     .menu-option:hover .tip {
         visibility: visible;
     }
-    .menu-option .tip {
+    .tip {
         visibility: hidden;
         font-size: small;
         font-weight: normal;
@@ -36,11 +36,15 @@
         left: 0px; 
         top: 38px;
     }
+button {
+  user-select: none;
+  cursor: pointer;
+}
 </style>
 </head>
 
 <body>
-<h3 id=title>Iqra V3.11y</h3>
+<h3 id=title>Iqra V3.11z</h3>
 <div id=d3>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
@@ -48,7 +52,8 @@
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
   <button id=trans onClick=doTrans()>T</button>
-  <button><a id=link target="NewTab">K</a></button>
+  <button onClick=link.click()><a id=link target="NewTab">K</a>
+  </button>
 </div>
 
 <div id=d4>
@@ -313,6 +318,11 @@ function toBuckwalter(s) {  // from Utilites.js -- will be removed
 function menuFn() {
   //let menuVisible = false;
 
+  const doCopy = (s) => {
+      navigator.clipboard.writeText(s)
+      .then()  //() => {alert('Seçili metin panoya kopyalandı')})
+      .catch(alert)
+  }
   const showMenu = () => { menu.style.display = 'block' }
   const hideMenu = () => { menu.style.display = '' }
   const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
@@ -330,14 +340,12 @@ function menuFn() {
       if (!s) return
       switch (m) {
           case 'K': {
-              navigator.clipboard.writeText(s)
-              alert('Seçili metin panoya kopyalandı')
-              break
+              doCopy(s); break
           }
           case 'F': {
               let ref = LINKF + toBuckwalter(s);
-              window.open(ref, "Finder", "resizable,scrollbars", true)
-              hideMenu(); break
+              window.open(ref, "finder", "resizable,scrollbars")
+              doCopy(s); hideMenu(); break
           }
           case 'M': {
               markPattern(s)
