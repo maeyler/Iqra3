@@ -14,7 +14,7 @@ const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
 const LS = location.protocol.startsWith('http') && localStorage;
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
-var finder
+var mujam
    
 function doTrans() {
     if (html.style.display) {
@@ -196,51 +196,71 @@ function initialPage() {
     }
 }
 function initReader() {
-    //title.innerText = document.title;
+    title.innerText = "Iqra "+VERSION;
     text.addEventListener("touchstart", dragSt);
     html.addEventListener("touchstart", dragSt);
     text.addEventListener("touchmove", drag);
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
-    //d4.style.overflowX = "hidden"; //for swipe right
-    //html.style.direction = "rtl";
+    d4.style.overflowX = "hidden"; //for swipe right
+    html.style.direction = "rtl";
     try {
         readNames(); readText(QUR, qur); readText(KUR, kur);
     } catch(err) { 
         isim.innerText = ""+err;
     }
     window.addEventListener("hashchange", gotoHashPage);
-    if (opener && opener.location.href.includes('Iqra3'))
-        finder = opener
     //slider.focus(); 
     menuFn();
+    if (opener && opener.location.href.includes('Iqra3'))
+        mujam = opener
 }
 /********************
  * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
  * Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
  */
 function menuFn() {
-  const menu = document.querySelector(".menu");
-  const options = document.querySelector(".options");
   //let menuVisible = false;
 
-  const showMenu = () => { menu.style.display = "block" }
-  const hideMenu = () => { menu.style.display = "" }
+  const doCopy = (s) => {
+      navigator.clipboard.writeText(s)
+      .then()  //() => {alert('Seçili metin panoya kopyalandı')})
+      .catch(alert)
+  }
+  const showMenu = () => { menu.style.display = 'block' }
+  const hideMenu = () => { menu.style.display = '' }
+  const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
   
   options.onclick = (e) => {
       e.preventDefault()
+      let m = e.target.innerText.charAt(0)
+      //.toLowerCase() //.substring(0,4)
+      if (m == 'i') {  //m.codePointAt(0) == 128712) '🛈'
+          let s = title.innerText+'\nQuran Reader'
+          alert(s+'\n(C) 2019 MAE')
+          return
+      } 
       let s = forceSelection()
-      let m = e.target.innerText.substring(0,4)
-      if (s) switch (m) {
-          case "Copy":
-              navigator.clipboard.writeText(s)
-              break
-          case "Mark":
+      if (!s) return
+      switch (m) {
+          case 'K': {
+              doCopy(s); break
+          }
+          case 'F': {
+              let ref = LINKF + toBuckwalter(s);
+              window.open(ref, "finder", "resizable,scrollbars")
+              doCopy(s); hideMenu(); break
+          }
+          case 'M': {
               markPattern(s)
+              hideMenu(); break
+          }
+          case 'S': {
+              alert('Similar pages -- not implemented yet')
               break
+          }
       }
-      hideMenu()
   }
   document.onkeydown = (e) => {
     if (e.key == 'Escape') hideMenu()
@@ -248,15 +268,20 @@ function menuFn() {
   document.onclick = (e) => { hideMenu() }
 
   const setPosition = (x, y) => {
-      //cannot use menu.clientWidth
-      let w = d4.clientWidth
-      x = Math.min(x, w - 130) 
-      menu.style.left = x+'px'
-      let h = d4.clientHeight
-      y = Math.min(y, h - 40) 
-      menu.style.top = y+'px'
+      let mw = menu.clientWidth || 220
+      x = x - mw/2  //center over menu
+      if (!title.clientWidth) { //narrow screen
+        let cw = html.clientWidth || 400
+        let cl = html.clientLeft  //must be 0
+        x = Math.max(x, cl)       // x ≥ cl
+        x = Math.min(x, cl+cw-mw-5) // x < cl+cw-mw
+      //} else { //large screen
+      }
+      menu.style.left = (x)+'px'
+      menu.style.top = (y-60)+'px'
+      //console.log(x, y)
       showMenu()
-  };
+  }
   html.oncontextmenu = (e) => {
       e.preventDefault()
       setPosition(e.clientX, e.clientY)

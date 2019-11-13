@@ -1,11 +1,5 @@
 "use strict";
 /**
- * 
- * The code version.
- * 
- */
-const VERSION = "V3.10";
-/**
  * Global array to hold the places of Sajda.
  * used in marking sajdah verses
  *
@@ -394,7 +388,7 @@ function gotoHashRoot() {
  * @param none
  * 
  */
-function initFinder() {
+function initMujam() {
     // destructure for sajda
     let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
     [sajda, ] = parseRefs(str);

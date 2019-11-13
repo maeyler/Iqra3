@@ -91,6 +91,7 @@
       width: 40px;
     }
 }
+/** common to all screens **/
     #d1 { 
       margin-bottom: 8px;
     }
@@ -121,34 +122,47 @@
 	  font-family: me_quran;
 	  src: url("../image/me_quran.ttf")
 	}
-
+    button {
+      user-select: none;
+      cursor: pointer;
+    }
 
 /* Menu Style
   Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
 */
 
-.menu {
-  box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
-  position: fixed;
-  display: none;
-  background: #cfc;
-}
-
-.options {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.menu-option {
-  padding: 10px 20px;
-  font: 13px sansserif, arial;
-  user-select: none;
-  cursor: default;
-}
-
-.menu-option:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
+    .menu {
+      box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      display: none;
+      background: #cfc;
+    }
+    .options {
+      margin: 10px 0;
+    }
+    .menu-option {
+      padding: 10px 15px;
+      font: bold 14px sansserif, arial;
+      color: blue;
+      user-select: none;
+    }
+    .menu-option:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .menu-option:hover .tip {
+      visibility: visible;
+    }
+    .tip {
+      visibility: hidden;
+      font-size: small;
+      font-weight: normal;
+      background: #cfc;
+      color: blue;
+      text-align: center;
+      padding: 5px 5px;
+      position: absolute;
+      left: 0px; 
+      top: 38px;
+    }
 
 /* End of menu style */

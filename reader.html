@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="code/reader.css" media="all">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="image/icon.png">
+    <script src="code/common.js"></script>
     <script src="code/reader.js"></script>
+    <script src="code/buckwalter.js"></script>
     <title>Iqra</title>
 </head>
 
 <body>
-<h3 id=title>Iqra V3.11</h3>
+<h3 id=title></h3>
 <div id=d3>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
@@ -22,7 +24,8 @@
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
   <button id=trans onClick=doTrans()>T</button>
-  <button><a id=link target="NewTab">K</a></button>
+  <button onClick=link.click()><a id=link target="NewTab">K</a>
+  </button>
 </div>
 
 <div id=d4>
@@ -38,20 +41,35 @@
 </div>
 
 <div class="menu">
-  <ul class="options">
-      <li class="menu-option">Copy Selection</li>
-      <li class="menu-option">Mark Selection</li>
-  </ul>
+  <div class="options">
+      <span class="menu-option">K
+        <span class=tip>Seçili metni kopyala</span>
+      </span>
+      <span class="menu-option">F
+        <span class=tip>Seçili metni Finder'da ara</span>
+      </span>
+      <span class="menu-option">M
+        <span class=tip>(Seçili metni Mucem'de ara)<br>
+        Şimdilik bu sayfada renkli işaretle</span>
+      </span>
+      <span class="menu-option">S
+        <span class=tip>Benzer sayfalar -- hazır değil</span>
+      </span>
+      <span class="menu-option">i
+        <!--span class=tip>Yazılım hakkında...</span-->
+      </span>
+  </div>
 </div>
 
 <script>
-"use strict";
     if ('serviceWorker' in navigator) {
       if (location.protocol.startsWith('http')) 
         navigator.serviceWorker.register('sw.js')
         .then(reg => { console.log('SW Registered', reg.scope) })
         .catch(alert)
     }
+    const menu = document.querySelector('.menu');
+    const options = document.querySelector('.options');
     initReader()
 </script>
 
