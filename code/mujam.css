@@ -31,17 +31,17 @@
         padding: 0px; 
     }
     td { 
-        width: 20px;
+        min-width: 20px;
         height: 20px;
         border: 1px solid blue; 
         padding: 0px; 
     }
     select:hover .t1, button:hover .t1, th:hover .t1, 
     td:hover .t1, td:hover .t2 { 
-        visibility: visible; 
+        display: flow-root; 
     }
     .t1, .t2 {
-        visibility: hidden;
+        display: none;
         font-size: 12px;
         font-weight: normal;
         text-align: center;

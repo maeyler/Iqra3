@@ -278,8 +278,8 @@ function displayRef(word, [page, refA]) {
     for (let i = 1; i <= m + 1; i++) {
         // pn == 20*(i-1);   //s2 is hidden
         let z = i > m ? m : i;
-        let s2 = "<span class='t1'>Juzz " + z + "</span>";
-        row = "<th>" + threeDigits(pn) + s2 + "</th>";
+        let s2 = "<span class=t1>Cüz " + z + "</span>";
+        row = "<th class=first>" +threeDigits(pn)+ s2 + "</th>";
         let U = i > m ? 4 : n;
         for (let j = 1; j <= U; j++) {
             pn++; //page number
@@ -290,11 +290,11 @@ function displayRef(word, [page, refA]) {
                 k = (k < 0 ? 0 : Number(refA[p].substring(0, k)));
                 let refs = sName[k] + " " + refA[p];
                 if (c > 1) refs += "&emsp;(" + c + ")";
-                s2 = "<span class='t2'>" + refs + "</span>";
+                s2 = "<span class=t2>" + refs + "</span>";
                 p++;
                 nc += c;
             } else {
-                s2 = "<span class='t1'>" + pLabel[pn] + "</span>";
+                s2 = "<span class=t1>" + pLabel[pn] + "</span>";
             }
             let ch = "&nbsp;"
             if (pn == sajda[q]) {

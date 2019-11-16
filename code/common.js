@@ -4,7 +4,7 @@
  * The code version.
  * 
  */
-const VERSION = "V3.12";
+const VERSION = "V3.12T";
 
 /**
  * Translating Arabic letters to Buckwalter.
