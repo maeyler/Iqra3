@@ -11,11 +11,14 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.io.IOException;
+import org.jqurantree.orthography.Document;
+import org.jqurantree.orthography.Token;
 import org.jqurantree.arabic.ArabicText;
 
 class Root {  //lemmas within each root
     String str;  int numRef = 0;
     Map<String,Lemma> data = new TreeMap<>();
+    Set<String> words = new TreeSet<>();
     public Root(String s) { str = s; }
     public String toString() {
         return str+" "+numRef;
@@ -32,22 +35,22 @@ class Root {  //lemmas within each root
 }
 
 class Lemma {  //reference list for each lemma
-    final static int M = 500;
+    //final static int M = 500;  NOT USED
     String str;  int count = 0;
-    boolean tooMany = false;
+    //boolean tooMany = false;
     List<Location> ref = new ArrayList<>();
     public Lemma(String s) { str = s; }
     public void addLoc(Location p) {
-        if (ref.size() < M) ref.add(p);
-        else tooMany = true;
+        /*if (ref.size() < M)*/ ref.add(p);
+        //else tooMany = true;
         count++;
     }
     public String toString() {
-        return str+" "+(tooMany? count : ref);
+        return str+" "+(/*tooMany? count :*/ ref);
     }
     public String toCode36() {
         String s = str+" "+count+"\t";
-        if (tooMany) return s;
+        //if (tooMany) return s;
         for (Location n : ref) s += n.toCode36();
         return s;
     }
@@ -61,7 +64,7 @@ class RootReader implements Runnable {
         PKG = "qwork",  //all files are in this folder
         IN = "quranic-corpus-morphology-0.4.txt", 
         IN0 = "bes-sure.txt", 
-        OUT = "Roots.txt", DAT = "data.txt"; 
+        OUT = "words.txt", DAT = "refs.txt"; 
         
     public static String toArabic(String s, boolean vowels) {
         ArabicText at = ArabicText.fromBuckwalter(s);
@@ -81,11 +84,12 @@ class RootReader implements Runnable {
             if (s.indexOf("POS:PN") < 0) return -1;
             root = lem;  //proper noun
         }
-        root = toArabic(root, false); 
-        lem = toArabic(lem, true);
+        //root = toArabic(root, false); 
+        //lem = toArabic(lem, true);
         int c = Integer.parseInt(a[1]);
         int v = Integer.parseInt(a[2]);
         int k = Integer.parseInt(a[3]);
+        Token tok = Document.getToken(c, v, k);
         Location p = new Location(c, v);
         //start with Sad
         //if (root.charAt(0) != 'S') return 0; 
@@ -95,6 +99,7 @@ class RootReader implements Runnable {
             x = new Root(root);
             map.put(root, x);
         }
+        x.words.add(tok.toBuckwalter());
         Lemma y = x.data.get(lem);
         if (y == null) {
             y = new Lemma(lem);
@@ -104,14 +109,18 @@ class RootReader implements Runnable {
         return 0;
     }
     public void writeOUT() throws IOException {
-        File f = new File(PKG, OUT);
-        PrintWriter out = new PrintWriter(f);
-        int single = 0, tooMany = 0, n = 0;
+        //File f = new File(PKG, OUT);
+        PrintWriter out = new PrintWriter(OUT);
+        int single = 0, n = 0; // tooMany = 0
         for (String k : map.keySet()) {
             Root x = map.get(k);
-            if (x.numRef == 1) {
-                single++; //continue;
-            }
+            if (x.numRef == 1) single++;
+            //new code -- prints words
+            out.print(x.str); n++;
+            for (String t : x.words) 
+                out.print(' '+t);
+            out.println();
+        /** original code -- prints refs
             out.println(x); n++;
             for (String t : x.data.keySet()) {
                 Lemma y = x.data.get(t);
@@ -120,12 +129,13 @@ class RootReader implements Runnable {
                 }
                 out.println(y); n++;
             }
+        ***************************************/
         }
         out.close();
         System.out.println(n+" lines in "+OUT);
         System.out.println(map.size()+" roots");
         System.out.println(single+" singletons");
-        System.out.println(tooMany+" large ref");
+        //System.out.println(tooMany+" large ref");
     }
     public void writeDAT() throws IOException {
         PrintWriter out = new PrintWriter(DAT);
