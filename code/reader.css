@@ -118,6 +118,9 @@
     .mavi { 
       color: blue;
     }
+    .gri { 
+      background : #cdf;
+    }
 	@font-face {
 	  font-family: me_quran;
 	  src: url("../image/me_quran.ttf")
@@ -163,6 +166,10 @@
       position: absolute;
       left: 0px; 
       top: 38px;
+    }
+    ::selection {
+      color: yellow; 
+      background: blue;
     }
 
 /* End of menu style */

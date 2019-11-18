@@ -1,8 +1,5 @@
 "use strict";
-const URL = "https://maeyler.github.io/Iqra3/data/";
-const QUR = "Quran.txt"; 
-const KUR = "Kuran.txt"; 
-const NAM = "iqra.names";
+//const DATA_URL = "https://maeyler.github.io/Iqra3/data/"; in common.js
 const LEFT = 0xFD3E, RIGHT = 0xFD3F;
 const M = 114; //suras
 const names = new Array(M+1);
@@ -12,6 +9,8 @@ const qur = new Array(P+1);
 const kur = new Array(P+1);
 const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
 const LS = location.protocol.startsWith('http') && localStorage;
+const rootToList = new Map()
+const wordToRoot = new Map()
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var mujam
@@ -43,10 +42,9 @@ function markSelection() {
     if (s) markPattern(s)
 }
 function markVerse(n) {
-    markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?')
+    markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?', 'gri')
 }
 function markPattern(e, cls='mavi') {
-  //if (e.constructor.name != "RegExp")
     if (typeof e == "string")
         e = new RegExp(e, 'g')
     let t = "<span class="+cls+">$&</span>"
@@ -80,9 +78,10 @@ function gotoPage(k) { // 1<=k<=P
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
     document.title = 'Iqra p'+k;
+    //if (!location.hash.startsWith('#v='))
     location.hash = 'p='+k  //# is added by browser
     if (LS) localStorage.iqraPage = k
-    //html.scrollTo(0);
+    hideMenu();  //html.scrollTo(0)
 }
 function setSura(k) { // 1<=k<=M
     k = Number(k);
@@ -141,9 +140,9 @@ function dragEnd(evt) {
     if (!tr1) tr1 = "translate(0,0)"
     let tr2 = "translate("+w2+",0)" //final position
     //console.log("animate", tr2)
-    trg.animate({transform:[tr1, tr2]}, 300)
+    d4.animate({transform:[tr1, tr2]}, 300)
 }
-function readNames() {
+function readNames(name) {
     function toNames(t) {
       let i = 0;
       for (let s of t.split('\n')) {
@@ -151,10 +150,9 @@ function readNames() {
         names[i] = s.substring(j+1);
         first[i] = Number(s.substring(0, j));
       }
-      console.log("readNames", names.length); 
-      //setTimeout(initialPage, 500)
+      console.log(name, names.length); 
     }
-    fetch(URL+NAM).then(x => x.text()).then(toNames)
+    fetch(DATA_URL+name).then(x => x.text()).then(toNames)
 }
 function readText(name, array) {
     function toLines(t) {
@@ -163,7 +161,19 @@ function readText(name, array) {
       console.log(name, a.length); 
       if (qur[0] && kur[0]) initialPage();
     }
-    fetch(URL+name).then(x => x.text()).then(toLines)
+    fetch(DATA_URL+name).then(x => x.text()).then(toLines)
+}
+function readWords(name) {
+    function toWords(t) {
+      for (let s of t.split('\n')) {
+        let [root, ...L] = s.split(' ');
+        L = L.map(w => toArabic(w))
+        rootToList.set(root, L);
+        for (let w of L) wordToRoot.set(w, root)
+      }
+      console.log(name, rootToList.size, wordToRoot.size); 
+    }
+    fetch(DATA_URL+name).then(x => x.text()).then(toWords)
 }
 function processStr(s) {
     const bismi = /^(بِسْمِ|بِّسْمِ)/
@@ -185,9 +195,16 @@ function processBR(page) {
 }
 function gotoHashPage() {
   let h = location.hash
-  if (!h.startsWith('#p=')) return false
-  gotoPage(h.substring(3))
-  return true
+  if (h.startsWith('#p=')) {
+    gotoPage(h.substring(3)); return true
+  }
+  if (h.startsWith('#v=')) {
+    let [c, v] = h.substring(3).split(':')
+    c = Number(c); v = Number(v)
+    gotoPage(pageOf(c, v)); 
+    markVerse(v); return true
+  }
+  return false
 }
 function initialPage() {
     if (!gotoHashPage()) {
@@ -203,12 +220,11 @@ function initReader() {
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
-    d4.style.overflowX = "hidden"; //for swipe right
-    html.style.direction = "rtl";
     try {
-        readNames(); readText(QUR, qur); readText(KUR, kur);
+        readNames("iqra.names"); readText("Quran.txt", qur); 
+        readText("Kuran.txt", kur); readWords("words.txt");
     } catch(err) { 
-        isim.innerText = ""+err;
+        isim.innerText = err;
     }
     window.addEventListener("hashchange", gotoHashPage);
     //slider.focus(); 
@@ -225,11 +241,11 @@ function menuFn() {
 
   const doCopy = (s) => {
       navigator.clipboard.writeText(s)
-      .then()  //() => {alert('Seçili metin panoya kopyalandı')})
+      .then(() => {console.log('panoya:', s)})
       .catch(alert)
   }
-  const showMenu = () => { menu.style.display = 'block' }
-  const hideMenu = () => { menu.style.display = '' }
+  window.showMenu = () => { menu.style.display = 'block' }
+  window.hideMenu = () => { menu.style.display = '' }
   const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
   
   options.onclick = (e) => {
@@ -253,8 +269,17 @@ function menuFn() {
               doCopy(s); hideMenu(); break
           }
           case 'M': {
-              markPattern(s)
-              hideMenu(); break
+              markPattern(s); let root = wordToRoot.get(s)
+              console.log(s+' => '+root); hideMenu(); 
+              if (!root) break
+    let h = "#r="+root;
+    const REF = "mujam.html";
+    //window.open(REF+h, "mujam", "resizable,scrollbars");
+    if (!mujam || mujam.closed) {
+      mujam = open(REF+h); return
+    }
+    mujam.location.hash = h; mujam.focus(); 
+              break
           }
           case 'S': {
               alert('Similar pages -- not implemented yet')

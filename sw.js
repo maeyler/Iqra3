@@ -1,5 +1,5 @@
 "use strict";
-const PREF ='iqra', CACHE = PREF+'12'
+const PREF ='iqra', CACHE = PREF+'13'
 const FILES = [
   '/Iqra3/',
   '/Iqra3/reader.html',
@@ -14,7 +14,8 @@ const FILES = [
   '/Iqra3/data/Quran.txt',
   '/Iqra3/data/Kuran.txt',
   '/Iqra3/data/iqra.names',
-  '/Visual-Mujam/data.txt',  //will be modified
+  '/Iqra3/data/words.txt',
+  '/Iqra3/data/refs.txt',
   '/Iqra3/image/sura.png',
   '/Iqra3/image/icon.png',
   '/Iqra3/image/iconF.png',

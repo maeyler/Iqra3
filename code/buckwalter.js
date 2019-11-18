@@ -68,7 +68,7 @@ BWC.chartable = [
     new BWChar("\u0624", "&"), // hamza on wa
     new BWChar("\u0626", "}"), // hamza on ya
 
-    new BWChar("\u0622", "|"), // madda on alif
+    new BWChar("\u0622", "^"), // madda on alif -- | original char
     new BWChar("\u0671", "{"), // alif al-wasla
     new BWChar("\u0670", "`"), // dagger alif
     new BWChar("\u0649", "Y"), // alif maqsura

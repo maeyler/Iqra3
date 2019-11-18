@@ -96,45 +96,45 @@ function parseRefs(str) {
 /**
  * Parsing and using remote data. 
  * @see makeMenu
- * @see selectRoot
- * @see selectLetter
  * 
  * @param {string} t text from remote data.
  */
 function report2(t) {
-    // convert the one space to em-space " "
     function convert(s) {
-        const EM_SPACE = String.fromCharCode(8195);
-        return s.replace(" ", EM_SPACE);
+        const EM_SPACE = String.fromCharCode(8195)
+        let [w, n] = s.split(' ')
+        let a = toArabic(w)
+        //convert space to em-space " "
+        return [a, a+EM_SPACE+n] 
     }
-    let line = t.split("\n"),
-        m = line.length - 1;
+    let line = t.split('\n')
+    let m = line.length - 1
     console.log(t.length + " chars " + m + " lines");
-    // number of lines.
     let i = 0;
-    while (i < m) {
-        let [root, num] = line[i].split(' ');
-        let j = i + 1,
-            list = [];
+    while (i < m) { //for each line
+        let [root] = convert(line[i]) //ignore number
+        let j = i + 1
+        let list = []
         while (j < m) {
-            let s = line[j],
-                k = s.indexOf("\t");
+            let [word, s] = convert(line[j])
+            let k = s.indexOf('\t')
             if (k <= 0) break;
-            let word = convert(s.substring(0, k));
-            wordToRefs.set(word, s.substring(k + 1));
-            list.push(word);
-            j++;
-        } //??
+            word = s.substring(0, k)
+            wordToRefs.set(word, s.substring(k + 1))
+            list.push(word); j++;
+        }
         i = j;
         list.sort();
-        let ch = root[0];
+        let ch = root[0]; //first char
         let x = letterToRoots.get(ch);
         if (x) x.push(root);
         else letterToRoots.set(ch, [root]);
         rootToWords.set(root, list);
     }
     let keys = [...letterToRoots.keys()];
-    // sort and set menu one (letters)
+    //sort the root list for each letter
+    for (let k of keys) letterToRoots.get(k).sort()
+    // sort and set menu1 (letters)
     makeMenu(menu1, keys.sort());
     if (!gotoHashRoot()) {
         selectLetter("س", true);
@@ -147,9 +147,10 @@ function report2(t) {
  */
 function readData() {
     out.innerText = "Reading data";
-    const site = "https://maeyler.github.io/Visual-Mujam/";
-    const url = site + "data.txt";
-    fetch(url)
+    //const site = "https://maeyler.github.io/Visual-Mujam/"
+    //const url = site + "data.txt"  old data -- not used any more
+    //const DATA_URL = "https://maeyler.github.io/Iqra3/data/" in common.js
+    fetch(DATA_URL+"refs.txt")
         .then(r => r.text()) //response
         .then(report2); //text
 }
@@ -169,7 +170,6 @@ function makeMenu(m, a) { //first item is selected
  * Select the letter from the menu, if no parameter entered the letter will be the menu1 value.
  * Then create menu2 based on the selected character.
  * @see makeMenu
- * @see selectRoot
  * 
  * @param {string} ch letter to be selected (Arabic)
  */
@@ -182,11 +182,11 @@ function selectLetter(ch, skip) {
     else selectRoot();  //never used
 }
 /**
- * select sepcified root, if undefined the menu2 value will be the selected.
+ * select specified root, if undefined the menu2 value will be the selected.
  * 
  * @param {String} root root to be seleceted, example: سجد 23
  */
-function selectRoot(root) {
+function selectRoot(root) { //root in Arabic 
     if (!root) root = menu2.value;
     else if (root == menu2.value) return;
     else {
@@ -207,10 +207,10 @@ function selectRoot(root) {
     for (let j = 0; j < nL; j++) {
         let str = wordToRefs.get(list[j]);
         let nR = str.length / 3;
-        if (nR == 0) //too many refs -- not indexed
-            menu3.children[j].disabled = true;
-        else if (nL < 3 * MAX_REF || nR < MAX_REF)
+        if (nL < 3 * MAX_REF || nR < MAX_REF)
             addIndexes(str, indA);
+        else  //too many refs -- not indexed
+            menu3.children[j].disabled = true;
     }
     indA.sort((a, b) => (a - b));
     //let [page, refs] = indexToArray(indA);
@@ -227,7 +227,7 @@ function selectRoot(root) {
  * 
  * get the references from wordsToRefs map.
  * 
- * @param {*} word word to be selected.
+ * @param {*} word to be selected.
  */
 function selectWord(word) {
     if (!word) word = menu3.value;
@@ -242,8 +242,8 @@ function selectWord(word) {
  * Create and build the HTML table to show the information on it.
  * 
  * @param {String} word: on single word
- * @param {Array} page: Array of pages numbers
- * @param {Array} refA Array of pages references (chapter:verse ..)
+ * @param {Array} page: Array of page numbers
+ * @param {Array} refA Array of page references (chapter:verse ..)
  */
 function displayRef(word, [page, refA]) {
     // put three zeros on the first of the number (K)
@@ -260,13 +260,13 @@ function displayRef(word, [page, refA]) {
         let g = 255 - 16 * n,
             b = 160 - 10 * n;
         let col = "rgb(" + g + ", " + g + ", " + b + ")";
-        return "background-color: " + col;
+        return "background: " + col;
     }
     // m number of juzz, 2 number of pages per juzz.
     // create the HTML the same way as how it looks now :3 
     const m = 30,
         n = 20;
-    let row = "<th>Page</th>";
+    let row = "<th>Sayfa</th>";
     for (let j = 1; j <= n; j++) {
         row += "<th>" + (j % 10) + "</th>"; //use last digit
     }
@@ -288,7 +288,7 @@ function displayRef(word, [page, refA]) {
                 c = refA[p].split(" ").length;
                 let k = refA[p].indexOf(":");
                 k = (k < 0 ? 0 : Number(refA[p].substring(0, k)));
-                let refs = sName[k] + " " + refA[p];
+                let refs = sName[k] + " -- " + refA[p];
                 if (c > 1) refs += "&emsp;(" + c + ")";
                 s2 = "<span class=t2>" + refs + "</span>";
                 p++;
@@ -329,17 +329,25 @@ function doClick1(evt) {
     if (t.tagName.toLowerCase() != "span") return;
     t = t.parentElement;
     if (t.tagName.toLowerCase() != "td") return;
+    //let r = t.parentElement.rowIndex;
+    //let p = 20*(r-1) + t.cellIndex;
+    let [sure, p] = t.innerText.split(', s.')
+    let h;
+    if (p) { //use page number
+        h = "#p="+p;
+    } else { //use first reference
+        let [s1, s2] = t.innerText.split(' -- ')
+        let [cv] = s2.split(' ')
+        h = "#v="+cv;
+    }
+    console.log(h);
     const REF = "reader.html";
     //"http://kuranmeali.com/Sayfalar.php?sayfa=";
-    let r = t.parentElement.rowIndex;
-    let p = 20*(r-1) + t.cellIndex;
-    let h = "#p="+p;
-    console.log(h);
-    //window.open(REF+p, "quran", "resizable,scrollbars");
+    //window.open(REF+h, "iqra", "resizable,scrollbars");
     if (!iqra || iqra.closed) {
       iqra = open(REF+h); return  //, '_blank')
     }
-    iqra.focus(); iqra.location.hash = h
+    iqra.location.hash = h; iqra.focus()
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
@@ -368,7 +376,7 @@ function gotoHashRoot() {
   let h = location.hash
   if (h.length <6) return false
   if (h.startsWith('#r=')) 
-    selectRoot(fromBuckwalter(h.substring(3)))
+    selectRoot(toArabic(h.substring(3)))
   else {
     let title = '', refs = h.substring(1)
     if (refs.includes('='))

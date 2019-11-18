@@ -295,8 +295,6 @@ function initReader() {
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
-    d4.style.overflowX = "hidden"; //for swipe right
-    html.style.direction = "rtl";
     try {
         readNames(); readText(QUR, qur); readText(KUR, kur);
     } catch(err) { 

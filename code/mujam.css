@@ -24,17 +24,19 @@
         cursor: default;
     }
     th { 
-        width: 20px;
-        height: 20px;
         color: #666666; 
         font-weight: normal;
         padding: 0px; 
     }
-    td { 
-        min-width: 20px;
-        height: 20px;
+    td {
+        box-sizing: border-box;
+        min-width: 21px;
+        height: 21px;
         border: 1px solid blue; 
         padding: 0px; 
+    }
+    td:hover { 
+        border-width: 3px;
     }
     select:hover .t1, button:hover .t1, th:hover .t1, 
     td:hover .t1, td:hover .t2 { 

@@ -1,40 +1,5 @@
 "use strict";
-/**
- * Arabic string to use at translation to buckWalter. NOT USED
- *
- * 
-const aaa = "ابتثجحخدذرزسشصضطظعغفقكلمنهويی";
-/**
- * Buckwalter translating letters.
- *
- *
-const bbb = "AbtvjHxd*rzs$SDTZEgfqklmnhwyY";
-/**
- * Map used to map two strings together.
- *
- *
-const toBuck = new Map();
-/**
- * Mapping two strings 
- * keys: arabic letters
- * Values: English buckwalter translation.
- *
-for (let i = 0; i < 29; i++) toBuck.set(aaa[i], bbb[i]);
 
-// legacy code. NOT USED
-const BASE = 80,
-    MIN = 7680,
-    MAX = MIN + BASE - 1;
-*/
-/**
- * Translating to Arabic letters back from Buckwalter.
- * 
- * @param {string} s  Buckwalter transliteration
- * @returns {string}  Arabic string
- */
-function fromBuckwalter(s) {
-    return BWC.convert(BWC.b2aMap, s).output
-}
 /**
  * Encode a number to base 36.
  * started from 100 for optimisation.
@@ -348,7 +313,7 @@ Nas`;
     for (let p = 0; p <= nPage; p++) {
         index[p + 1] = index[p] + count[p];
         let [c, v] = toCV(index[p] + 1);
-        pLabel.push(sName[c] + " " + c + ":" + v + ", p." + p)
+        pLabel.push(sName[c] + " " + c + ":" + v + ", s." + p)
     }
     console.log(nPage + " pages -> " + index[nPage]);
 }
