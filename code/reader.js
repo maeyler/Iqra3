@@ -46,6 +46,8 @@ function markVerse(n) {
     markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?')
 }
 function markPattern(e, cls='mavi') {
+//    let h = e;
+//    setHash(h.trim());
   //if (e.constructor.name != "RegExp")
     if (typeof e == "string")
         e = new RegExp(e, 'g')
@@ -80,7 +82,7 @@ function gotoPage(k) { // 1<=k<=P
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
     document.title = 'Iqra p'+k;
-    location.hash = 'p='+k  //# is added by browser
+    setHash();
     if (LS) localStorage.iqraPage = k
     //html.scrollTo(0);
 }
@@ -185,10 +187,32 @@ function processBR(page) {
 }
 function gotoHashPage() {
   let h = location.hash
+  console.log("hello");
   if (!h.startsWith('#p=')) return false
-  gotoPage(h.substring(3))
+  h= h.substring(1);
+  h = h.split("&&")
+  h.forEach(e => {
+      switch(e.charAt(0)){
+          case 'p':
+           gotoPage(e.substring(2))
+          break;
+          case 'w':
+            markPattern(toArabicLetters(e.substring(2)))
+          break;
+          default: 
+            console.log("something wrong.." + e );
+      }
+  });
   return true
 }
+
+function setHash(e){
+    if(e)
+      location.hash = 'p='+curPage+'&&w='+toBuckwalter(e); //# is added by browser
+    else
+       location.hash = 'p='+curPage
+}
+
 function initialPage() {
     if (!gotoHashPage()) {
       console.log("initialPage")
