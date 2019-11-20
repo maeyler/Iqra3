@@ -43,9 +43,12 @@ function markSelection() {
 }
 function markVerse(n) {
     markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?', 'gri')
+    let e = new RegExp(n+'[\.-](.)+\n', 'g')
+    let t = "<span class=gri>$&</span>"
+    let p = kur[curPage].replace(e, t)
+    text.innerHTML = p.replace(/\n/g, '<br>')
 }
 function markPattern(e, cls='mavi') {
-  //if (e.constructor.name != "RegExp")
     if (typeof e == "string")
         e = new RegExp(e, 'g')
     let t = "<span class="+cls+">$&</span>"
@@ -241,7 +244,7 @@ function initialPage() {
     }
 }
 function initReader() {
-    title.innerText = 'Iqra '+VERSION+'&emsp;';
+    title.innerHTML = 'Iqra '+VERSION+'&emsp;';
     text.addEventListener("touchstart", dragSt);
     html.addEventListener("touchstart", dragSt);
     text.addEventListener("touchmove", drag);
