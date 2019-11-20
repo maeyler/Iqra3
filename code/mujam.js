@@ -345,7 +345,7 @@ function doClick1(evt) {
     //"http://kuranmeali.com/Sayfalar.php?sayfa=";
     //window.open(REF + h, "iqra", "resizable,scrollbars");
     //if (!iqra || iqra.closed) 
-      iqra = open(REF + h, "iqra")
+      iqra = window.open(REF + h, "iqra")
     //else iqra.location.hash = h; iqra.focus()
 }
 /**
@@ -408,6 +408,7 @@ function initMujam() {
         out.innerText = ""+err;
     }
     window.addEventListener("hashchange", gotoHashRoot);
+    window.name ="mujam"
     //if (opener && opener.location.href.includes('reader'))
       //  iqra = opener
 }

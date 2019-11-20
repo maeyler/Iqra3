@@ -104,14 +104,14 @@ function gotoSura(k) {
     gotoPage(first[k]);
 }
 function dragSt(evt) {
-    //evt.preventDefault()
+    if (swipe.t>0  || menu.style.display) return
     swipe.t = Date.now()
     swipe.x = Math.round(evt.touches[0].clientX)
     swipe.y = Math.round(evt.touches[0].clientY)
     //console.log("dragSt", swipe)
 }
 function drag(evt) {
-    if (!swipe.t) return
+    if (swipe.t==0 || menu.style.display) return
     let trg = evt.target
     let dx = Math.round(evt.touches[0].clientX) - swipe.x
     let dy = Math.round(evt.touches[0].clientY) - swipe.y
@@ -125,7 +125,7 @@ function drag(evt) {
     trg.style.transform = tr;
 }
 function dragEnd(evt) {
-    if (!swipe.t) return
+    if (swipe.t==0 || menu.style.display) return
     let trg = evt.target
     evt.preventDefault()
     let dt = Date.now() - swipe.t
@@ -231,12 +231,6 @@ function gotoHashPage() {
   }
   hashInProgress = true; return true
 }
-function setHash(e){  //not used
-    if (e)
-      location.hash = 'p='+curPage+'&w='+toBuckwalter(e); 
-    else
-      location.hash = 'p='+curPage //# is added by browser
-}
 function initialPage() {
     if (!gotoHashPage()) {
       console.log("initialPage")
@@ -258,8 +252,7 @@ function initReader() {
         isim.innerText = err;
     }
     window.addEventListener("hashchange", gotoHashPage);
-    //slider.focus(); 
-    menuFn();
+    menuFn(); window.name ="iqra"
     //if (opener && opener.location.href.includes('Iqra3'))
       //  mujam = opener
 }
@@ -283,32 +276,26 @@ function menuFn() {
       e.preventDefault()
       let m = e.target.innerText.charAt(0)
       //.toLowerCase() //.substring(0,4)
-      if (m == 'i') {  //m.codePointAt(0) == 128712) '🛈'
+      if (m == 'i') {
           let s = title.innerText+'\nQuran Reader'
           alert(s+'\n(C) 2019 MAE')
           return
       } 
       let s = forceSelection() //s is not empty
-      //if (!s) return
       switch (m) {
           case 'K': {
               doCopy(s); break
           }
           case 'F': {
-              let ref = LINKF + s   //toBuckwalter(s);
-              window.open(ref, "finder") //, "resizable,scrollbars")
-              doCopy(s); hideMenu(); break
+              doCopy(s);
+              window.open(LINKF + s, "finder")
+              hideMenu(); break
           }
           case 'M': {
               markPattern(s); let root = wordToRoot.get(s)
               console.log(s+' => '+root); hideMenu(); 
-              if (!root) break
-    let h = "#r="+root;
-    const REF = "mujam.html";
-    //window.open(REF + h, "mujam", "resizable,scrollbars");
-    //if (!mujam || mujam.closed) {
-      mujam = open(REF + h, "mujam"); //return
-    //mujam.location.hash = h; mujam.focus(); 
+              if (root) 
+                  window.open("mujam#r="+root, "mujam")
               break
           }
           case 'S': {
