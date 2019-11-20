@@ -13,7 +13,7 @@ const rootToList = new Map()
 const wordToRoot = new Map()
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
-var mujam
+var mujam, hashInProgress;
    
 function doTrans() {
     if (html.style.display) {
@@ -33,8 +33,8 @@ function numberToArabic(n) { //n is an integer
     return t
 }
 function forceSelection() {
-    let s = getSelection().toString()
-    if (s) return s
+    let s = getSelection().toString().trim()
+    if (s) return s  //trim for Windows -- thank you Rajab
     else alert("Önce Arapça bir kelime seçin")
 }
 function markSelection() {
@@ -66,6 +66,7 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function gotoPage(k) { // 1<=k<=P
+//This is the only place where hash is set
     if (!k || k < 1) k = 1;
     if (k > P) k = P;
     k = Number(k);
@@ -79,7 +80,10 @@ function gotoPage(k) { // 1<=k<=P
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
     document.title = 'Iqra p'+k;
-    setHash();
+    if (!hashInProgress)
+        location.hash = '#p='+curPage 
+        //# is added by the browser
+    hashInProgress = false
     if (LS) localStorage.iqraPage = k
     hideMenu();  //html.scrollTo(0)
 }
@@ -140,7 +144,7 @@ function dragEnd(evt) {
     if (!tr1) tr1 = "translate(0,0)"
     let tr2 = "translate("+w2+",0)" //final position
     //console.log("animate", tr2)
-    d4.animate({transform:[tr1, tr2]}, 300)
+    trg.animate({transform:[tr1, tr2]}, 300)
 }
 function readNames(name) {
     function toNames(t) {
@@ -181,7 +185,7 @@ function processStr(s) {
     if (s[0] == '\n')  //first Page has a NL
       return processStr(s.substring(1))
     if (s.startsWith('سورة'))
-      return '<div class=ortala>'+s+'</div>'
+      return '<div class=divider>'+s+'</div>'
     if (s.length<50 && bismi.test(s))
       return '<div class=besmele>'+s+'</div>'
     //default: ignore the last char LEFT
@@ -194,33 +198,42 @@ function processBR(page) {
     return a.map(processStr).join('\n')
 }
 function gotoHashPage() {
-  let h = location.hash
-  console.log("hello");
-  if (!h.startsWith('#p=')) return false
-  h= h.substring(1);
-  h = h.split("&&")
-  h.forEach(e => {
-      switch(e.charAt(0)){
-          case 'p':
-           gotoPage(e.substring(2))
-          break;
-          case 'w':
-            markPattern(toArabicLetters(e.substring(2)))
-          break;
-          default: 
-            console.log("something wrong.." + e );
-      }
-  });
-  return true
+//re-designed by Abdurrahman Rajab
+  let h = location.hash.substring(1)
+  //console.log("gotoHashPage", h)
+  //omit first char '#', any text in Buckwalter
+  if (!h.startsWith('p=') && !h.startsWith('v=')) 
+    return false
+  for (let e of h.split("&")) {
+    let s = e.substring(2)
+    switch (e.charAt(0)) {
+      case 'p': // p=245
+        gotoPage(s); break
+      case 'r': // r=Sbr
+        let L = rootToList.get(s)
+        if (L) { //L is already in Arabic
+          markPattern(L.join('|')); break
+        } //else root not found -- down to 'w'
+      case 'w': // w=yuwsuf
+        markPattern(toArabic(s)); break
+      case 'v': // v=12:90
+        let [c, v] = s.split(':') 
+        c = Number(c); v = Number(v)
+        gotoPage(pageOf(c, v))
+        markVerse(v); break
+      default: 
+        console.log("wrong hash" + e)
+        return false
+    }
+  }
+  hashInProgress = true; return true
 }
-
-function setHash(e){
-    if(e)
-      location.hash = 'p='+curPage+'&&w='+toBuckwalter(e); //# is added by browser
+function setHash(e){  //not used
+    if (e)
+      location.hash = 'p='+curPage+'&w='+toBuckwalter(e); 
     else
-       location.hash = 'p='+curPage
+      location.hash = 'p='+curPage //# is added by browser
 }
-
 function initialPage() {
     if (!gotoHashPage()) {
       console.log("initialPage")
@@ -228,7 +241,7 @@ function initialPage() {
     }
 }
 function initReader() {
-    title.innerText = "Iqra "+VERSION;
+    title.innerText = 'Iqra '+VERSION+'&emsp;';
     text.addEventListener("touchstart", dragSt);
     html.addEventListener("touchstart", dragSt);
     text.addEventListener("touchmove", drag);
@@ -244,8 +257,8 @@ function initReader() {
     window.addEventListener("hashchange", gotoHashPage);
     //slider.focus(); 
     menuFn();
-    if (opener && opener.location.href.includes('Iqra3'))
-        mujam = opener
+    //if (opener && opener.location.href.includes('Iqra3'))
+      //  mujam = opener
 }
 /********************
  * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
@@ -272,15 +285,15 @@ function menuFn() {
           alert(s+'\n(C) 2019 MAE')
           return
       } 
-      let s = forceSelection()
-      if (!s) return
+      let s = forceSelection() //s is not empty
+      //if (!s) return
       switch (m) {
           case 'K': {
               doCopy(s); break
           }
           case 'F': {
-              let ref = LINKF + toBuckwalter(s);
-              window.open(ref, "finder", "resizable,scrollbars")
+              let ref = LINKF + s   //toBuckwalter(s);
+              window.open(ref, "finder") //, "resizable,scrollbars")
               doCopy(s); hideMenu(); break
           }
           case 'M': {
@@ -289,11 +302,10 @@ function menuFn() {
               if (!root) break
     let h = "#r="+root;
     const REF = "mujam.html";
-    //window.open(REF+h, "mujam", "resizable,scrollbars");
-    if (!mujam || mujam.closed) {
-      mujam = open(REF+h); return
-    }
-    mujam.location.hash = h; mujam.focus(); 
+    //window.open(REF + h, "mujam", "resizable,scrollbars");
+    //if (!mujam || mujam.closed) {
+      mujam = open(REF + h, "mujam"); //return
+    //mujam.location.hash = h; mujam.focus(); 
               break
           }
           case 'S': {
@@ -302,10 +314,13 @@ function menuFn() {
           }
       }
   }
-  document.onkeydown = (e) => {
-    if (e.key == 'Escape') hideMenu()
+  document.onkeydown = (evt) => {
+    if (evt.key == 'Escape') hideMenu()
   }
-  document.onclick = (e) => { hideMenu() }
+  document.onclick = (evt) => { 
+    if (menu.style.display == '') return
+    evt.preventDefault(); hideMenu() 
+  }
 
   const setPosition = (x, y) => {
       let mw = menu.clientWidth || 220

@@ -1,9 +1,11 @@
-@media screen and (max-width: 800px) {
+    body { 
+      margin: 0;
+      overflow-x: hidden;
+    }
+@media screen and (max-width: 820px) {
     body { 
       width: 100%;
-      margin: 0;
       background: cyan;
-      text-align: center;
     }
     button { 
       width: 25px;
@@ -12,7 +14,7 @@
     #title, #geri { 
       display: none;
     }
-    #d3 { 
+    #div3 { 
       font: 12px sansserif, arial;
       font-weight: normal;
       margin: 8px 0;
@@ -31,20 +33,11 @@
       text-align: justify;
       direction: rtl;
     }
-    #sure {
-      text-align: right;
-      width: 40px;
-    }
-    #sayfa { 
-      width: 40px;
-    }
 }
 
-@media screen and (min-width: 801px) {
+@media screen and (min-width: 821px) {
     body { 
-      margin: 0;
       background: #cfc;
-      text-align: center;
     }
     button { 
       width: 30px;
@@ -57,13 +50,13 @@
     #trans { 
       display: none;
     }
-    #d3 { 
-      display: inline-block;
+    #div3 { 
       font: 14px sansserif, arial;
       font-weight: normal;
       margin: 8px;
     }
     #text, #html {
+      width: 400px; 
       display: inline-block;
       vertical-align: middle;
       overflow-y: auto;
@@ -75,13 +68,23 @@
     #text { 
       font: 15px sansserif, arial;
       text-align: left;
-      width: 400px; 
     }
     #html { 
       font: 18px/2 me_quran, serif;
       text-align: justify;
       direction: rtl;
-      width: 400px;
+    }
+}
+/** common to all screens **/
+    button {
+      user-select: none;
+      cursor: pointer;
+    }
+    div { 
+      text-align: center;
+    }
+    #div1 { 
+      margin-bottom: 8px;
     }
     #sure {
       text-align: right;
@@ -90,14 +93,6 @@
     #sayfa { 
       width: 40px;
     }
-}
-/** common to all screens **/
-    #d1 { 
-      margin-bottom: 8px;
-    }
-    #d4 { 
-      overflow-x: hidden;
-    }
     #slider {
       position: relative;
       top: 6px;
@@ -105,13 +100,13 @@
       max-width: 604px;
       margin: 0;
     }
-    .ortala { 
+    .divider { 
       margin-top: 8px;
       background: url("../image/sura.png");
       background-repeat: no-repeat;
       background-size: contain;
     }
-    .besmele, .ortala { 
+    .besmele, .divider { 
       text-align: center;
       color: #070;
     }
@@ -119,16 +114,12 @@
       color: blue;
     }
     .gri { 
-      background : #cdf;
+      background : #ffa;
     }
 	@font-face {
 	  font-family: me_quran;
 	  src: url("../image/me_quran.ttf")
 	}
-    button {
-      user-select: none;
-      cursor: pointer;
-    }
 
 /* Menu Style
   Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p

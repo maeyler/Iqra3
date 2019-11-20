@@ -343,11 +343,10 @@ function doClick1(evt) {
     console.log(h);
     const REF = "reader.html";
     //"http://kuranmeali.com/Sayfalar.php?sayfa=";
-    //window.open(REF+h, "iqra", "resizable,scrollbars");
-    if (!iqra || iqra.closed) {
-      iqra = open(REF+h); return  //, '_blank')
-    }
-    iqra.location.hash = h; iqra.focus()
+    //window.open(REF + h, "iqra", "resizable,scrollbars");
+    //if (!iqra || iqra.closed) 
+      iqra = open(REF + h, "iqra")
+    //else iqra.location.hash = h; iqra.focus()
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
@@ -362,7 +361,7 @@ function doClick2() {
     let v = menu2.value;
     if (v) p = "?q=" + toBuckwalter(v);
     console.log("corpus" + p);
-    window.open(REF + p, "corpus", "resizable,scrollbars");
+    window.open(REF + p, "corpus")  //, "resizable,scrollbars");
 }
 /**
  * Use the hash part of URL in the address bar
@@ -409,7 +408,7 @@ function initMujam() {
         out.innerText = ""+err;
     }
     window.addEventListener("hashchange", gotoHashRoot);
-    if (opener && opener.location.href.includes('reader'))
-        iqra = opener
+    //if (opener && opener.location.href.includes('reader'))
+      //  iqra = opener
 }
 

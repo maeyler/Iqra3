@@ -17,24 +17,24 @@
 </head>
 
 <body>
-<h3 id=title></h3>
-<div id=d3>
+<div id=div3>
+  <b id=title></b>
   <button id=geri onClick=history.go(-1)>◀</button>
   Sure  
   <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
   <button id=trans onClick=doTrans()>T</button>
-  <button onClick=link.click()><a id=link target="NewTab">K</a>
+  <button onClick=link.click()><a id=link target="kuranmeali">K</a>
   </button>
 </div>
 
-<div id=d4>
+<div id=div2>
   <div id=text>Türkçe</div>
   <div id=html readonly>Arabic</div>
 </div>
 
-<div id=d1>
+<div id=div1>
   <button id=markW onClick=markSelection()>M</button>
   <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
   <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
@@ -56,7 +56,7 @@
       <span class="menu-option">S
         <span class=tip>Benzer sayfalar -- hazır değil</span>
       </span>
-      <span class="menu-option">i
+      <span class="menu-option">i&emsp;
         <span class=tip>Yazılım hakkında...</span>
       </span>
   </div>
