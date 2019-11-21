@@ -265,8 +265,8 @@ function menuFn() {
 
   const doCopy = (s) => {
       navigator.clipboard.writeText(s)
-      .then(() => {console.log('panoya:', s)})
-      .catch(alert)
+      .then(() => {console.log('Panoya:', s)})
+      .catch(e => {alert('Panoya yazamadım\n'+e)})
   }
   window.showMenu = () => { menu.style.display = 'block' }
   window.hideMenu = () => { menu.style.display = '' }
@@ -287,7 +287,7 @@ function menuFn() {
               doCopy(s); break
           }
           case 'F': {
-              doCopy(s);
+              //doCopy(s);
               window.open(LINKF + s, "finder")
               hideMenu(); break
           }
@@ -296,6 +296,7 @@ function menuFn() {
               console.log(s+' => '+root); hideMenu(); 
               if (root) 
                   window.open("mujam#r="+root, "mujam")
+              else alert('Mucemde bulunamadı')
               break
           }
           case 'S': {

@@ -163,8 +163,7 @@ function readData() {
  * @param {array} a array elements of the menu.
  */
 function makeMenu(m, a) { //first item is selected
-    let OPT = "<option selected>";
-    m.innerHTML = OPT + a.join("<option>");
+    if (a) m.innerHTML = "<option selected>" + a.join("<option>");
 }
 /**
  * Select the letter from the menu, if no parameter entered the letter will be the menu1 value.
@@ -195,8 +194,8 @@ function selectRoot(root) { //root in Arabic
       menu2.value = root;
     }
     let list = rootToWords.get(root);
-    let nL = list.length;
-    makeMenu(menu3, list);
+    let nL = list? list.length : 0;
+    if (list) makeMenu(menu3, list);
     if (nL > 1)
         menu3.selectedIndex = -1; //do not select Word
     menu3.disabled = (nL == 1);
