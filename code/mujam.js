@@ -136,10 +136,7 @@ function report2(t) {
     for (let k of keys) letterToRoots.get(k).sort()
     // sort and set menu1 (letters)
     makeMenu(menu1, keys.sort());
-    if (!gotoHashRoot()) {
-        selectLetter("س", true);
-        selectRoot("سجد");
-    }
+    if (!gotoHashRoot()) selectRoot("سجد");
 }
 /**
  * Read data file from link, then parse it.
@@ -172,13 +169,12 @@ function makeMenu(m, a) { //first item is selected
  * 
  * @param {string} ch letter to be selected (Arabic)
  */
-function selectLetter(ch, skip) {
+function selectLetter(ch) {
     if (!ch) ch = menu1.value;
     else if (ch == menu1.value) return;
     else menu1.value = ch;
     makeMenu(menu2, letterToRoots.get(ch));
-    if (skip) menu2.value='';
-    else selectRoot();  //never used
+    menu2.value = '';
 }
 /**
  * select specified root, if undefined the menu2 value will be the selected.
@@ -189,8 +185,7 @@ function selectRoot(root) { //root in Arabic
     if (!root) root = menu2.value;
     else if (root == menu2.value) return;
     else {
-      let c = root[0];
-      if (menu1.value != c) selectLetter(c, true)
+      selectLetter(root.charAt(0))
       menu2.value = root;
     }
     let list = rootToWords.get(root);
@@ -205,17 +200,19 @@ function selectRoot(root) { //root in Arabic
     let indA = [];
     for (let j = 0; j < nL; j++) {
         let str = wordToRefs.get(list[j]);
-        let nR = str.length / 3;
-        if (nL < 3 * MAX_REF || nR < MAX_REF)
+        //let nR = str.length / 3;
+        //if (nL < 3 * MAX_REF || nR < MAX_REF)
             addIndexes(str, indA);
-        else  //too many refs -- not indexed
-            menu3.children[j].disabled = true;
+        //else  //too many refs -- not indexed
+          //  menu3.children[j].disabled = true;
     }
     indA.sort((a, b) => (a - b));
     //let [page, refs] = indexToArray(indA);
     displayRef(root, indexToArray(indA));
     // set the windows hash location to the root
-    window.location.hash = "#r=" + toBuckwalter(root);
+    let b = toBuckwalter(root)
+    if (['>','<','{'].includes(b[0])) return
+    window.location.hash = "#r=" + b;
 }
 /**
  * Select word, if undefined menu3 values will be the selected one.
@@ -228,7 +225,7 @@ function selectRoot(root) { //root in Arabic
  * 
  * @param {*} word to be selected.
  */
-function selectWord(word) {
+function selectWord(word) { //called by menu3 only
     if (!word) word = menu3.value;
     else if (word == menu3.value) return;
     else menu3.value = word;
@@ -313,10 +310,12 @@ function displayRef(word, [page, refA]) {
     tablo.innerHTML = text;
     document.title = TITLE + " -- " + word;
     let t1 = refA.length + " sayfada";
+    /****
     if (nc == 0)
         out.innerText = "(too many verses)";
-    else out.innerText = t1; //nc+" instances "+t1;
-    console.log(word, t1);
+    else out.innerText = t1; //nc+" instances "+t1; 
+    *****/
+    out.innerText = t1; console.log(word, t1);
 }
 /**
  * Open the quran webPage after checking it's event.
@@ -389,7 +388,6 @@ function gotoHashRoot() {
  * Initialize the globals
  * 
  * @see makeMenu
- * @see selectWord
  * 
  * @param none
  * 

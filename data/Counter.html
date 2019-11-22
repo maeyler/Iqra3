@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"    content="width=device-width" />
+    <meta name="theme-color" content="cyan" />
+    <meta name="author"      content="M A Eyler, Istanbul, 2019" />
+    <meta name="description" content="Reader for the Quran" />
+    <link rel="icon" href="../image/icon.png">
+    <script src="../code/common.js"></script>
+    <script src="../code/buckwalter.js"></script>
+    <title>Counter</title>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+Count all chars in Quran.txt
+
+<pre id=out></pre>
+
+<hr />
+
+<script>
+"use strict";
+const map = new Map()
+function toMap(a) {
+    for (let k of a) {
+      let c = map.get(k)
+      if (!c) c = 0
+      map.set(k, c+1)
+    }
+    report()
+}
+function report() {
+    console.log(map)
+    let b = [], n = 0
+    for (let k of map.keys()) {
+        //if (k <= '¶') continue  //skip ASCII
+        let uni = k.charCodeAt(0).toString(16).padStart(4, '0')
+        let num = map.get(k).toString().padStart(7, ' ')
+        b.push('\\u'+uni+'  '+toBuckwalter(k)+num+'  '+k)
+        n += map.get(k)
+    }
+    let s = b.sort().join('\n')
+    out.innerText = s+"\n\nTotal =  "+n
+    console.log(n+" chars -- most are two bytes")
+}
+    title.innerText = document.title
+    fetch(DATA_URL+"Quran.txt").then(x => x.text()).then(toMap)
+</script>
+
+</body>
+</html>

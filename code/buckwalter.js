@@ -1,6 +1,7 @@
 "use strict";
 // https://github.com/stts-se/buckwalter-converter
 // buckwalter-converter/blob/master/arabic/js/buckwalter-converter.js
+// http://corpus.quran.com/java/buckwalter.jsp
 
 let BWC = {}
 
@@ -68,22 +69,39 @@ BWC.chartable = [
     new BWChar("\u0624", "&"), // hamza on wa
     new BWChar("\u0626", "}"), // hamza on ya
 
-    new BWChar("\u0622", "^"), // madda on alif -- | original char
+    new BWChar("\u0622", "|"), // madda on alif
     new BWChar("\u0671", "{"), // alif al-wasla
     new BWChar("\u0670", "`"), // dagger alif
     new BWChar("\u0649", "Y"), // alif maqsura
 
-    // punctuation
+    // http://corpus.quran.com/java/buckwalter.jsp
+    new BWChar("\u0653", '^'), // Maddah
+    new BWChar("\u0654", '#'), // HamzaAbove
+    new BWChar("\u06DC", ':'), // SmallHighSeen
+    new BWChar("\u06DF", '@'), // SmallHighRoundedZero
+    new BWChar("\u06E0", '"'), // SmallHighUprightRectangularZero
+    new BWChar("\u06E2", '['), // SmallHighMeemIsolatedForm
+    new BWChar("\u06E3", ';'), // SmallLowSeen
+    new BWChar("\u06E5", ','), // SmallWaw
+    new BWChar("\u06E6", '.'), // SmallYa
+    new BWChar("\u06E8", '!'), // SmallHighNoon
+    new BWChar("\u06EA", '-'), // EmptyCentreLowStop
+    new BWChar("\u06EB", '+'), // EmptyCentreHighStop
+    new BWChar("\u06EC", '%'), // RoundedHighStopWithFilledCentre
+    new BWChar("\u06ED", ']'), // SmallLowMeem
+
+    /* punctuation -- conflitcs with the above
     new BWChar("\u060C", ","),
     new BWChar("\u061B", ";"),
     new BWChar("\u061F", "?"),
+    ****************************/
 
     // http://www.qamus.org/transliteration.htm
     new BWChar("\u067e", "P"), // peh
     new BWChar("\u0686", "J"), // tcheh
     new BWChar("\u06a4", "V"), // veh
     new BWChar("\u06af", "G"), // gaf
-    //new BWChar("\u0640", "_"), // tatweel
+    new BWChar("\u0640", "_"), // tatweel
 ];
 
 BWC.post_normalise_bw = function(s) {

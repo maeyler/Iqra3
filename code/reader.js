@@ -174,7 +174,8 @@ function readWords(name) {
     function toWords(t) {
       for (let s of t.split('\n')) {
         let [root, ...L] = s.split(' ');
-        L = L.map(w => toArabic(w))
+        //keep L in Buckwalter form
+        //L = L.map(toArabic)
         rootToList.set(root, L);
         for (let w of L) wordToRoot.set(w, root)
       }
@@ -214,7 +215,8 @@ function gotoHashPage() {
         gotoPage(s); break
       case 'r': // r=Sbr
         let L = rootToList.get(s)
-        if (L) { //L is already in Arabic
+        if (L) { //L must in in Arabic
+          L = L.map(toArabic)
           markPattern(L.join('|')); break
         } //else root not found -- down to 'w'
       case 'w': // w=yuwsuf
@@ -292,10 +294,11 @@ function menuFn() {
               hideMenu(); break
           }
           case 'M': {
-              markPattern(s); let root = wordToRoot.get(s)
+              markPattern(s); 
+              let root = wordToRoot.get(toBuckwalter(s))
               console.log(s+' => '+root); hideMenu(); 
               if (root) 
-                  window.open("mujam#r="+root, "mujam")
+                  mujam = window.open("mujam.html#r="+root, "mujam")
               else alert('Mucemde bulunamadı')
               break
           }
