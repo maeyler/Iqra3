@@ -13,11 +13,6 @@ var sajda;
  */
 var iqra;
 /**
- * If a word has too many refs, it is not indexed
- * 
- */
-const MAX_REF = 100;
-/**
  * A map holds the letters and its roots.
  * set at report2 @see report2
  */
@@ -27,6 +22,11 @@ const letterToRoots = new Map();
  * set at report2 @see report2
  */
 const rootToWords = new Map();
+/**
+ * A map holds the roots and its counts.
+ * set at report2 @see report2
+ */
+const rootToCounts = new Map();
 /**
  * A map holds the words and its references.
  * set at report2 @see report2
@@ -94,6 +94,11 @@ function parseRefs(str) {
     return indexToArray(indA)
 }
 /**
+ * &emsp; is used in menu2 and menu3.
+ * used at report2 @see report2
+ */
+const EM_SPACE = String.fromCharCode(8195)
+/**
  * Parsing and using remote data. 
  * @see makeMenu
  * 
@@ -101,7 +106,6 @@ function parseRefs(str) {
  */
 function report2(t) {
     function convert(s) {
-        const EM_SPACE = String.fromCharCode(8195)
         let [w, n] = s.split(' ')
         let a = toArabic(w)
         //convert space to em-space " "
@@ -112,27 +116,29 @@ function report2(t) {
     console.log(t.length + " chars " + m + " lines");
     let i = 0;
     while (i < m) { //for each line
-        let [root] = convert(line[i]) //ignore number
+        let [root, number] = convert(line[i])
+        rootToCounts.set(root, number);
         let j = i + 1
         let list = []
         while (j < m) {
-            let [word, s] = convert(line[j])
+            let [xxx, s] = convert(line[j])
             let k = s.indexOf('\t')
             if (k <= 0) break;
-            word = s.substring(0, k)
-            wordToRefs.set(word, s.substring(k + 1))
+            let word = s.substring(0, k)
+            let refs = s.substring(k + 1)
+            wordToRefs.set(word, refs)
             list.push(word); j++;
         }
         i = j;
         list.sort();
         let ch = root[0]; //first char
         let x = letterToRoots.get(ch);
-        if (x) x.push(root);
-        else letterToRoots.set(ch, [root]);
-        rootToWords.set(root, list);
+        if (x) x.push(number);
+        else letterToRoots.set(ch, [number]);
+        rootToWords.set(number, list);
     }
     let keys = [...letterToRoots.keys()];
-    //sort the root list for each letter
+    // sort the root list for each letter
     for (let k of keys) letterToRoots.get(k).sort()
     // sort and set menu1 (letters)
     makeMenu(menu1, keys.sort());
@@ -144,8 +150,6 @@ function report2(t) {
  */
 function readData() {
     out.innerText = "Reading data";
-    //const site = "https://maeyler.github.io/Visual-Mujam/"
-    //const url = site + "data.txt"  old data -- not used any more
     //const DATA_URL = "https://maeyler.github.io/Iqra3/data/" in common.js
     fetch(DATA_URL+"refs.txt")
         .then(r => r.text()) //response
@@ -182,13 +186,14 @@ function selectLetter(ch) {
  * @param {String} root root to be seleceted, example: سجد 23
  */
 function selectRoot(root) { //root in Arabic 
-    if (!root) root = menu2.value;
-    else if (root == menu2.value) return;
+    if (!root) [root] = menu2.value.split(EM_SPACE);
+    else if (menu2.value.startsWith(root)) return;
     else {
       selectLetter(root.charAt(0))
-      menu2.value = root;
+      menu2.value = rootToCounts.get(root);
     }
-    let list = rootToWords.get(root);
+    let cnt = rootToCounts.get(root);
+    let list = rootToWords.get(cnt);
     let nL = list? list.length : 0;
     if (list) makeMenu(menu3, list);
     if (nL > 1)
@@ -200,18 +205,16 @@ function selectRoot(root) { //root in Arabic
     let indA = [];
     for (let j = 0; j < nL; j++) {
         let str = wordToRefs.get(list[j]);
-        //let nR = str.length / 3;
-        //if (nL < 3 * MAX_REF || nR < MAX_REF)
-            addIndexes(str, indA);
-        //else  //too many refs -- not indexed
-          //  menu3.children[j].disabled = true;
+        addIndexes(str, indA);
     }
     indA.sort((a, b) => (a - b));
     //let [page, refs] = indexToArray(indA);
     displayRef(root, indexToArray(indA));
     // set the windows hash location to the root
-    let b = toBuckwalter(root)
-    if (['>','<','{'].includes(b[0])) return
+    //replace special chars
+    let b = encodeURI(toBuckwalter(root))
+//      .replace('>','%3e').replace('<','%3c')
+//      .replace('{','%7b').replace('`','%60')
     window.location.hash = "#r=" + b;
 }
 /**
@@ -299,10 +302,9 @@ function displayRef(word, [page, refA]) {
             }
             row += "<td style='" + toColor(c) + "'>" + ch + s2 + "</td>";
         }
-        if (i > m) {
-          row += "<td colspan=15>"
-           +"Iqra "+VERSION+" (C) 2019 MAE </td>"
-           +"<td id=corpus onClick=doClick2()>K</td>"
+        if (i > m) { //use th for the last row
+          row += "<th colspan=13>Iqra "+VERSION+" (C) 2019 MAE</th>"
+           +"<th id=corpus colspan=3 onClick=doClick2()>Corpus</th>"
         }
         text += "<tr>" + row + "</tr>";
     }
@@ -356,8 +358,10 @@ function doClick1(evt) {
 function doClick2() {
     const REF = "http://corpus.quran.com/qurandictionary.jsp";
     let p = "";
-    let v = menu2.value;
-    if (v) p = "?q=" + toBuckwalter(v);
+    if (menu2.value) {
+        let [v] = menu2.value.split(EM_SPACE);
+        p = "?q=" + toBuckwalter(v);
+    }
     console.log("corpus" + p);
     window.open(REF + p, "corpus")  //, "resizable,scrollbars");
 }
@@ -371,11 +375,14 @@ function doClick2() {
  */
 function gotoHashRoot() {
   let h = location.hash
-  
-  if (h.length <6) return false
-  if (h.startsWith('#r=')) 
-    selectRoot(toArabic(decodeURI(h.substring(3))))
-  else {
+  if (h.length < 6) return false
+  if (h.startsWith('#r=')) {
+    //replace special chars: call decodeURI() by A Rajab
+    h = decodeURI(h.substring(3))
+//      .replace('%3e','>').replace('%3c','<')
+//      .replace('%7b','{').replace('%60','`')
+    selectRoot(toArabic(h))
+  } else {
     let title = '', refs = h.substring(1)
     if (refs.includes('='))
         [title, refs] = refs.split('=')
