@@ -33,22 +33,32 @@ function numberToArabic(n) { //n is an integer
     return t
 }
 function forceSelection() {
+    //trim for Windows -- thank you Rajab
     let s = getSelection().toString().trim()
-    if (s) return s  //trim for Windows -- thank you Rajab
+    if (s) return s
     else alert("Önce Arapça bir kelime seçin")
 }
 function markSelection() {
     let s = forceSelection()
     if (s) markPattern(s)
 }
-function markVerse(n) {
-    markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?', 'gri')
+function markRoot(root, cls='mavi') {
+    let n=0
+    for (let x of html.children) {
+      let b = toBuckwalter(x.innerText.trim())
+      if (wordToRoot.get(b) != root) continue
+      x.classList.add(cls); n++
+    }
+    console.log('markRoot '+root, n)
+}
+function markVerse(n, cls='gri') {
+    //markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?', 'cls)
     let e = new RegExp(n+'[\.-](.)+\n', 'g')
-    let t = "<span class=gri>$&</span>"
+    let t = '<span class='+cls+'>$&</span>'
     let p = kur[curPage].replace(e, t)
     text.innerHTML = p.replace(/\n/g, '<br>')
 }
-function markPattern(e, cls='mavi') {
+function markPattern(e, cls='mavi') { //used in markSelection()
     if (typeof e == "string")
         e = new RegExp(e, 'g')
     let t = "<span class="+cls+">$&</span>"
@@ -68,13 +78,24 @@ function suraContainsPage(k) {
     if (i == j) return (k == i);
     return (i<=k && k<j);
 }
+function displayWord(e) {
+    e.target.style.background = '#ddd'
+    let w = e.target.innerText.trim()
+    let r = wordToRoot.get(toBuckwalter(w))
+    if (!r) return
+    let n = rootToList.get(r).length
+    out.innerText = r+' => '+n+' words'
+}
+function unmarkWord(e) {
+    e.target.style.background = ''
+    out.innerText = ''
+}
 function gotoPage(k) { // 1<=k<=P
 //This is the only place where hash is set
     if (!k || k < 1) k = 1;
     if (k > P) k = P;
     k = Number(k);
     if (curPage == k) return;
-    console.log('Page', k);
     setSura(suraFromPage(k));
     link.href = LINK+k;
     curPage = k;
@@ -82,10 +103,15 @@ function gotoPage(k) { // 1<=k<=P
     slider.value = k;
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
-    document.title = 'Iqra p'+k;
+    let wc = html.childElementCount
+    console.log('Page '+k, wc+' words');
+    for (let x of html.children) {
+      x.onmouseenter = displayWord
+      x.onmouseleave = unmarkWord
+    }
+    document.title = 'Iqra s'+k;
     if (!hashInProgress)
         location.hash = '#p='+curPage 
-        //# is added by the browser
     hashInProgress = false
     if (LS) localStorage.iqraPage = k
     hideMenu();  //html.scrollTo(0)
@@ -103,12 +129,12 @@ function gotoSura(k) {
     setSura(k);
     gotoPage(first[k]);
 }
-function dragSt(evt) {
+function dragStart(evt) {
     if (swipe.t>0  || menu.style.display) return
     swipe.t = Date.now()
     swipe.x = Math.round(evt.touches[0].clientX)
     swipe.y = Math.round(evt.touches[0].clientY)
-    //console.log("dragSt", swipe)
+    //console.log("dragStart", swipe)
 }
 function drag(evt) {
     if (swipe.t==0 || menu.style.display) return
@@ -164,7 +190,9 @@ function readNames(name) {
 function readText(name, array) {
     function toLines(t) {
       let a = t.split('¶');
-      for (let i=0; i<a.length; i++) array[i] = a[i]    
+      for (let i=0; i<a.length; i++) {
+        array[i] = a[i]
+      }
       console.log(name, a.length); 
       if (qur[0] && kur[0]) initialPage();
     }
@@ -192,9 +220,9 @@ function processStr(s) {
       return '<div class=divider>'+s+'</div>'
     if (s.length<50 && bismi.test(s))
       return '<div class=besmele>'+s+'</div>'
-    //default: ignore the last char LEFT
-    return s  //.substring(0, s.length-2)
-    //s+' &nbsp;' -- doesn't work
+    let a = s.split(' ') //divide into words
+    a.length-- //skip last char '\n'
+    return '<span>'+a.join(' </span><span>')+' </span>'
 }
 function processBR(page) {
     if (!page) return ''
@@ -214,10 +242,12 @@ function gotoHashPage() {
       case 'p': // p=245
         gotoPage(s); break
       case 'r': // r=Sbr
+        console.log(e, s)
         let L = rootToList.get(s)
         if (L) { //L must in in Arabic
-          L = L.map(toArabic)
-          markPattern(L.join('|')); break
+          //L = L.map(toArabic)
+          //markPattern(L.join('|')); 
+          markRoot(s); break
         } //else root not found -- down to 'w'
       case 'w': // w=yuwsuf
         markPattern(toArabic(s)); break
@@ -241,22 +271,29 @@ function initialPage() {
 }
 function initReader() {
     title.innerHTML = 'Iqra '+VERSION+'&emsp;';
-    text.addEventListener("touchstart", dragSt);
-    html.addEventListener("touchstart", dragSt);
+    text.addEventListener("touchstart", dragStart);
+    html.addEventListener("touchstart", dragStart);
     text.addEventListener("touchmove", drag);
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
+    geri.onclick   = () => {history.go(-1)}
+    sure.onchange  = () => {gotoSura(sure.value)}
+    sayfa.onchange = () => {gotoPage(sayfa.value)}
+    trans.onclick  = doTrans
+    markW.onclick  = markSelection
+    solBut.onclick = () => {gotoPage(curPage-1)}
+    slider.onchange= () => {gotoPage(slider.value)}
+    sagBut.onclick = () => {gotoPage(curPage+1)}
     try {
         readNames("iqra.names"); readText("Quran.txt", qur); 
         readText("Kuran.txt", kur); readWords("words.txt");
     } catch(err) { 
         isim.innerText = err;
     }
-    window.addEventListener("hashchange", gotoHashPage);
-    menuFn(); window.name ="iqra"
-    //if (opener && opener.location.href.includes('Iqra3'))
-      //  mujam = opener
+    window.onhashchange = gotoHashPage
+    window.name ="iqra" //by A Rajab
+    menuFn(); 
 }
 /********************
  * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU

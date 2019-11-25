@@ -32,6 +32,20 @@ const rootToCounts = new Map();
  * set at report2 @see report2
  */
 const wordToRefs = new Map();
+/**
+ * &emsp; is used in menu2 and menu3.
+ * used at report2 @see report2
+ */
+const EM_SPACE = String.fromCharCode(8195)
+
+/**
+ * returns Buckwalter code of the current item in menu2
+ */
+function currentRoot() {
+    if (!menu2.value) return null
+    let [v] = menu2.value.split(EM_SPACE)
+    return toBuckwalter(v)
+}
 
 /**
  * 
@@ -93,11 +107,6 @@ function parseRefs(str) {
     addIndexes(str, indA);
     return indexToArray(indA)
 }
-/**
- * &emsp; is used in menu2 and menu3.
- * used at report2 @see report2
- */
-const EM_SPACE = String.fromCharCode(8195)
 /**
  * Parsing and using remote data. 
  * @see makeMenu
@@ -335,18 +344,15 @@ function doClick1(evt) {
     let h;
     if (p) { //use page number
         h = "#p="+p;
-    } else { //use first reference
+    } else { //use first reference & root
         let [s1, s2] = t.innerText.split(' -- ')
         let [cv] = s2.split(' ')
-        h = "#v="+cv;
+        h = "#v="+cv+"&r="+currentRoot()
     }
     console.log(h);
     const REF = "reader.html";
     //"http://kuranmeali.com/Sayfalar.php?sayfa=";
-    //window.open(REF + h, "iqra", "resizable,scrollbars");
-    //if (!iqra || iqra.closed) 
-      iqra = window.open(REF + h, "iqra")
-    //else iqra.location.hash = h; iqra.focus()
+    iqra = window.open(REF + h, "iqra")
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
@@ -358,10 +364,7 @@ function doClick1(evt) {
 function doClick2() {
     const REF = "http://corpus.quran.com/qurandictionary.jsp";
     let p = "";
-    if (menu2.value) {
-        let [v] = menu2.value.split(EM_SPACE);
-        p = "?q=" + toBuckwalter(v);
-    }
+    if (menu2.value) p = "?q=" + currentRoot()
     console.log("corpus" + p);
     window.open(REF + p, "corpus")  //, "resizable,scrollbars");
 }

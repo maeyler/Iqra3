@@ -19,13 +19,13 @@
 <body>
 <div id=div3>
   <b id=title></b>
-  <button id=geri onClick=history.go(-1)>◀</button>
+  <button id=geri>◀</button>
   Sure  
-  <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
+  <input id=sure  type=number min=1 max=114 value=1>
   <span id=isim></span>&emsp; Sayfa
-  <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
-  <button id=trans onClick=doTrans()>T</button>
-  <button onClick=link.click()><a id=link target="kuranmeali">K</a>
+  <input id=sayfa type=number min=1 max=604 value=1>
+  <button id=trans>T</button>
+  <button onClick=link.click()><a id=link target="kuranmeali">⋮</a>
   </button>
 </div>
 
@@ -35,10 +35,11 @@
 </div>
 
 <div id=div1>
-  <button id=markW onClick=markSelection()>M</button>
-  <button id=solB onClick=gotoPage(curPage-1)>⇐</button>
-  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
-  <button id=sagB onClick=gotoPage(curPage+1)>⇒</button>
+  <button id=markW>M</button>
+  <button id=solBut>⇐</button>
+  <input id=slider type=range min=1 max=604 value=1>
+  <button id=sagBut>⇒</button>
+  <p>Test root: <span id=out></span></p>
 </div>
 
 <div class="menu">
