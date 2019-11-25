@@ -238,7 +238,7 @@ BWC.convert = function(maptable, input, doReverseTest) {
 
     let ok = (errs.length > 0); 
     let mapped = res.join("");
-    mapped = BWC.post_normalise(maptable.to, mapped)
+    //mapped = BWC.post_normalise(maptable.to, mapped)
     
     if (errs.length == 0 && doReverseTest) {
 	let err = BWC.reverseTest(maptable.from, input, mapped)

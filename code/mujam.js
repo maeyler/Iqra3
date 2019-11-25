@@ -371,9 +371,10 @@ function doClick2() {
  */
 function gotoHashRoot() {
   let h = location.hash
+  
   if (h.length <6) return false
   if (h.startsWith('#r=')) 
-    selectRoot(toArabic(h.substring(3)))
+    selectRoot(toArabic(decodeURI(h.substring(3))))
   else {
     let title = '', refs = h.substring(1)
     if (refs.includes('='))
