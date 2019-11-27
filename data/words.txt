@@ -137,8 +137,7 @@ Anf 'aAnifFA bi{lo>anfi wa{lo>anfa
 Anm lilo>anaAmi
 Ans 'aAnasa 'aAnasotu 'aAnasotum <insN <insa`nK <insiy~FA >unaAsK >unaAsK] >unaAsN lilo<insa`ni musota_#onisiyna tasota>onisuwA@ wa>anaAsiY~a wa{lo<insa wa{lo<insi {lo<insa`na {lo<insa`ni {lo<insa`nu {lo<insi {lo<insu
 Anv <ina`vFA >unvaY` bi{lo>unvaY` ka{lo>unvaY` wa<ina`vFA wa>unvaY` wa{lo>unvaY` wa{lo>unvaY`^ {lo>unvaY` {lo>unvayayoni
-Any 'aAnK 'aAnaA^'a 'aAnaA^}i 'aAniyapK <inaY`hu >an~aY` bi_#aAniyapK ya>oni
-Any >an~aY` fa>an~aY` wa>an~aY`
+Any 'aAnK 'aAnaA^'a 'aAnaA^}i 'aAniyapK <inaY`hu >an~aY` bi_#aAniyapK ya>onifa>an~aY` wa>an~aY`
 ArD >aroDFA >aroDK >aroDahumo >aroDi >aroDiY >aroDikum >aroDikumo >aroDinaA >aroDinaA^ >aroDu wa>aroDFA wa>aroDu walilo>aroDi wa{lo>aroDa wa{lo>aroDi wa{lo>aroDu ya`^>aroDu {lo>aroDa {lo>aroDi {lo>aroDu
 Arb ma_#aAribu {lo<irobapi
 Ark {lo>araA^}iki
@@ -246,8 +245,7 @@ Emq EamiyqK
 Emr EamaruwhaA EumurFA Eumurihi.^ Eumurika bi{loEumorapi laEamoruka m~uEam~arK nuEam~irokum n~uEam~irohu waEamaruwhaA^ waEimaArapa wa{loEumorapa wa{sotaEomarakumo yaEomuru yaEomuruwA@ yuEam~ara yuEam~aru {Eotamara {loEumuri {loEumuru {lomaEomuwri
 Emy >aEomaY` >aEomaY`^ EamFY EamiYa Eamiyna EamuwA@ Eamuwna EumoYN EumoyFA faEamiyato faEamuwA@ faEum~iyato ka{lo>aEomaY` taEomaY wa>aEomaY`^ waEumoyaAnFA {lo>aEomaY` {loEamaY` {loEumoYa {loEumoYi
 Enb >aEonaAbK >aEona`bK wa>aEonaAbK wa>aEona`bFA wa>aEona`bK waEinabFA waEinabK wa{lo>aEona`ba wa{lo>aEona`bi
-End >aEindahu, EaniydFA EaniydK Einda EindahaA Eindahu, Eindahu,^ Eindahum Eindahumo Eindahumu Eindaka Eindakum Eindakumo EindanaA Eindi Eindihi. Eindihi.^ Eindika EindinaA EindinaA^ faEinda waEinda waEindahu, waEindahu,^ waEindahumo waEindahumu waEindanaA
-End EindiY EindiY^
+End >aEindahu, EaniydFA EaniydK Einda EindahaA Eindahu, Eindahu,^ Eindahum Eindahumo Eindahumu Eindaka Eindakum Eindakumo EindanaA Eindi Eindihi. Eindihi.^ Eindika EindinaA EindinaA^ faEinda waEinda waEindahu, waEindahu,^ waEindahumo waEindahumu waEindanaA EindiY EindiY^
 Enkb {loEankabuwti
 Enq >aEonaAqi >aEonaAqihimo >aEona`qihimo >aEona`quhumo Eunuqihi. Eunuqika wa{lo>aEonaAqi {lo>aEonaAqi
 Ent Eanit~umo la>aEonatakumo laEanit~umo {loEanata
@@ -391,12 +389,10 @@ HyD yaHiDona {lomaHiyDi
 HyS maHiySFA m~aHiySK
 Hyd taHiydu
 Hyf yaHiyfa
-Hyn HiynK HiynK] HiynN Hiyna Hiyni waHiyna
-Hyn Hiyna}i*K
+Hyn HiynK HiynK] HiynN Hiyna Hiyni waHiyna Hiyna}i*K
 Hyq faHaAqa waHaAqa yaHiyqu
 Hyr HayoraAna
-Hyv Hayovu
-Hyv Hayovu waHayovu
+Hyv Hayovu waHayovu
 Hyy >aHoyaA >aHoyaA^'F >aHoyaA^'K >aHoyaA^'N >aHoyaAhaA >aHoyaAkumo >aHoya`humo >aHoyayona`haA >uHoYi. HaY~K HaY~a HayaAtikumu HayaAtunaA Hayaw`pF Hayaw`pK Hayaw`pN Hay~FA Hay~apN Hay~awoka Huy~iytum bitaHiy~apK bi{loHayaw`pi fa>aHoyaA fa>aHoya`kumo fa>aHoyayonaA fa>aHoyayona`hu faHay~uwA@ falanuHoyiyan~ahu, fayasotaHoYi. fayuHoYi. lamuHoYi liHayaAtiY liloHaY~i l~inuHo.iYa m~aHoyaAhumo nuHoYi nuHoYi. taHiy~apF taHiy~atuhumo taHoyawona tuHoYi wa>aHoyaA wa>aHoyayonaA wa>aHoyayotanaA wa>uHoYi wamaHoyaAYa wanaHoyaA wanasotaHoYi. wataHiy~atuhumo wayaHoyaY` wayasotaHoYi. wayasotaHoyuwna wayuHoYi wa{loHayaw`pa wa{sotaHoyuwA@ yaHoyaY` yasotaHoYi. yasotaHoYi.^ yuHay~ika yuHo.iYa yuHoYi yuHoYi. yuHoyiyhaA yuHoyiykumo yuHoyiyni {lo>aHoyaA^'u {loHaY~a {loHaY~i {loHaY~u {loHayaw`pa {loHayaw`pi {loHayaw`pu {loHayawaAnu {sotiHoyaA^'K
 Hzb HizobK] Hizoba Hizobahu, Hizobu wa{lo>aHozaAbu {lo>aHozaAba {lo>aHozaAbi {lo>aHozaAbu {loHizobayoni
 Hzn HazanFA layaHozunuka layaHozununiY^ liyaHozuna taHozana taHozaniY taHozaniY^ taHozano taHozanuwA@ taHozanuwna waHazanFA waHuzoniY^ yaHozanuwna yaHozan~a yaHozunka yaHozunuhumu {loHazana {loHuzoni
@@ -514,8 +510,7 @@ bAr wabi}orK
 bAs ba>osFA ba>osK ba>osN ba>osa ba>osakumo ba>osanaA ba>osanaA^ ba>osi ba>osikumo ba>osuhu, ba>osuhum ba>osunaA ba>osunaA^ ba_#iysK] bi{loba>osaA^'i bi}osa bi}osamaA fabi}osa falabi}osa labi}osa tabota}iso wabi}osa walabi}osa {loba>osa {loba>osaA^'i {loba>osaA^'u {loba>osi {lobaA^}isa
 bDE biDa`EapF biDa`Eatahumo biDa`EatunaA biDoEa biDoEi bibiDa`EapK
 bED baEoDFA baEoDF[A baEoDK baEoDa baEoDahaA baEoDahu, baEoDahum baEoDahumo baEoDakum baEoDakumo baEoDi baEoDikum baEoDikumo baEoDu baEoDuhaA baEoDuhum baEoDuhumo baEoDukum baEoDukumo baEoDunaA baEuwDapF bibaEoDK bibaEoDi bibaEoDihaA b~aEoDukum libaEoDK libaEoDi
-bEd baEidato baEiydFA baEiydK baEiydN baEoda baEodahaA baEodahu, baEodahun~a baEodi baEodiY baEodiY^ baEodihaA baEodihi. baEodihi.^ baEodihim baEodihimo baEodika baEodikum baEodu baEudato ba`Eido bibaEiydK buEodFA buEoda fabuEodFA muboEaduwna {lobaEiydi {lobaEiydu
-bEd baEodamaA baEodu
+bEd baEidato baEiydFA baEiydK baEiydN baEoda baEodahaA baEodahu, baEodahun~a baEodi baEodiY baEodiY^ baEodihaA baEodihi. baEodihi.^ baEodihim baEodihimo baEodika baEodikum baEodu baEudato ba`Eido bibaEiydK buEodFA buEoda fabuEodFA muboEaduwna {lobaEiydi {lobaEiydu baEodamaA
 bEl baEolFA baEoliY baEolihaA buEuwlatihin~a libuEuwlatihin~a wabuEuwlatuhun~a
 bEr baEiyrK
 bEv >abaEava >uboEavu baEava baEavahu, baEavanaA baEavonaA baEavona`humo baEavona`kum baEovukumo bimaboEuwviyna fabaEava fa{boEavuwA@ fa{boEavuw^A@ labaEavonaA lamaboEuwvuwna latuboEavun~a layaboEavan~a m~aboEuwvuwna naboEava naboEavu tuboEavuwna wabaEavonaA wa{boEavo yaboEava yaboEavaka yaboEavu yaboEavuhumu yaboEavukumo yuboEavu yuboEavuwA@ yuboEavuwna {boEavo {lobaEovi {n[baEava {n[biEaAvahumo
@@ -593,7 +588,6 @@ byD bayoDN bayoDaA^'a bayoDaA^'u biyDN taboyaD~u wa{boyaD~ato {boyaD~ato {lo>abo
 byE baAyaEotum bayoEN bibayoEikumu fabaAyiEohun~a tabaAyaEotumo wabiyaEN yubaAyiEonaka yubaAyiEuwna yubaAyiEuwnaka {lobayoEa {lobayoEu
 byd tabiyda
 byn bayaAnN bayaAnahu, bayona bayonahaA bayonahu, bayonahum bayonahumaA bayonahumaA^ bayonahumo bayonahumu bayonahun~a bayonaka bayonakum bayonakumo bayonakumu bayonanaA bayoni bayoniY bayonihimaA bayonihimo bayonikumo bayoninaA bayoninaA^ bay~an~aA bay~an~a`hu bay~inK bay~ina`tK bay~ina`tN bay~inapF bay~inapK bay~inapN bay~inapu bay~inatK bibay~inapK bi{lobay~ina`ti b~ayonakumo fatabay~anuwA@ fatabay~anuw^A@ latubay~inun~ahu, litubay~ina liyubay~ina l~inubay~ina mubay~ina`tK mubiynK mubiynN m~ubay~ina`tK m~ubay~inapK m~ubiynFA m~ubiynK m~ubiynN nubay~inu tabay~ana tabay~anati tiboya`nFA t~abay~ana wabayona wabayonahu, wabayonahu,^ wabayonahum wabayonahumaA wabayonahumo wabayonaka wabayonakumo wabayonakumu wabayonika wabay~anuwA@ wabay~ina`tK walayubay~inan~a wali>ubay~ina walinubay~inahu, walitasotabiyna watabay~ana wayubay~inu yatabay~ana yubay~in yubay~ina yubay~inu yubay~inuhaA yubiynu {lobayaAna {lobay~ina`ti {lobay~ina`tu {lobay~inapu {lomubiyni {lomubiynu {lomusotabiyna
-byn bayoniY
 byt baya`tFA bayotFA bayotK bayotN bayotiYa bayotihaA bayotihi. bayotika bay~ata bi{lobayoti buyuwtFA buyuwtK buyuwta buyuwtahum buyuwtakumo buyuwtanaA buyuwti buyuwtihin~a buyuwtikumo buyuwtikun~a buyuwtuhumo labayotu lanubay~itan~ahu, libuyuwtihimo walibuyuwtihimo wa{lobayoti yabiytuwna yubay~ituwna {lobayota {lobayoti {lobuyuwta {lobuyuwti
 bzg baAzigFA baAzigapF
 dAb da>abFA da>obi daA^}ibayoni kada>obi
@@ -909,8 +903,7 @@ klA yakola&ukum
 klH ka`liHuwna
 klb kalobuhumo mukal~ibiyna wakalobuhum {lokalobi
 klf nukal~ifu tukal~afu yukal~ifu {lomutakal~ifiyna
-kll bikul~K bikul~i fakul~FA falikul~i kala`lapF kal~N kul~FA kul~F[A kul~K kul~N kul~a kul~ahaA kul~ahu, kul~amaA kul~i kul~ihaA kul~ihi. kul~u kul~uhu, kul~uhumo kul~uhun~a likul~K likul~i l~ikul~i wakul~FA wakul~N wakul~a wakul~u wakul~uhumo walikul~K walikul~i {lokala`lapi
-kll >afakul~amaA >awakul~amaA kul~amaA kul~amaA^ wakul~amaA
+kll bikul~K bikul~i fakul~FA falikul~i kala`lapF kal~N kul~FA kul~F[A kul~K kul~N kul~a kul~ahaA kul~ahu, kul~amaA kul~i kul~ihaA kul~ihi. kul~u kul~uhu, kul~uhumo kul~uhun~a likul~K likul~i l~ikul~i wakul~FA wakul~N wakul~a wakul~u wakul~uhumo walikul~K walikul~i {lokala`lapi >afakul~amaA >awakul~amaA kul~amaA kul~amaA^ wakul~amaA
 klm >ukal~ima bikalima`tK bikalima`ti bikalima`tihi. bikalima`tihi.^ bikalimapK kala`ma kalima`tK kalima`tu kalimapF kalimapF[ kalimapK kalimapN kalimapa kalimapu kalimatu kalimatunaA kal~ama kal~amahu, kul~ima likalima`ti likalima`tihi. l~ikalima`ti nukal~imu n~atakal~ama takal~amu takoliymFA tukal~ima tukal~imu tukal~imuhumo tukal~imuwni wabikala`miY wakalima`tihi. wakalimapu wakalimatuhu,^ wakal~ama wakal~amahu, wakal~amahumu watukal~imunaA^ wayukal~imu yatakal~amu yatakal~amuwna yukal~imahu yukal~imuhumo yukal~imuhumu yukal~imunaA {lokalima {lokalimu
 klw kilaAhumaA kilotaA
 kmh {lo>akomaha
@@ -941,8 +934,7 @@ kwn >akaAna >aku >akun >akun[ >akuwna fa>akuwna fakaAna fakaAnato fakaAnuwA@ fak
 kwr kuw~irato wayukaw~iru yukaw~iru
 kwy fatukowaY`
 kyd bikayodihin~a fakiyduwni fakiyduwniY fayakiyduwA@ kayodFA kayodN kayoda kayodahu, kayodahumo kayodahun~a kayodakumo kayodakun~a kayodi kayodiY kayodikun~a kayodu kayoduhu, kayoduhumo kidonaA kiyduwni la>akiydan~a wa>akiydu yakiyduwna {lomakiyduwna
-kyf kayofa
-kyf fakayofa kayofa wakayofa
+kyf fakayofa kayofa wakayofa
 kyl kaAluwhumo kayolN kayola kilotumo nakotalo {kotaAluwA@ {lokayola {lokayolu {lomikoyaAla
 kyn {sotakaAnuwA@
 l** la*~apK l~a*~apK watala*~u
@@ -1059,8 +1051,7 @@ mry >afatuma`ruwnahu, fatamaArawoA@ miraA^'F miroyapK tamotarun~a tamotaruwna ta
 msH fa{mosaHuwA@ masoHF[A wa{mosaHuwA@
 msd m~asadK]
 msk >amosaka >amosakahumaA >amosakona >amosiko >ayumosikuhu, fa<imosaAkN[ fa>amosikuwhun~a fayumosiku fa{sotamosiko l~a>amosakotumo misokN mumosika mumosika`tu musotamosikuwna tumosikuwA@ tumosikuwhun~a wayumosiku yumas~ikuwna yumosiko yumosiku yumosikuhun~a {sotamosaka
-mss fatamas~akumu lamas~akumo layamas~an~a mas~a mas~ahu mas~ahumo mas~akumu mas~anaA mas~aniYa mas~atohu mas~atohumo m~as~ahu m~as~ahu, m~as~aniYa m~as~atohumo m~as~atohumu tamas~anaA tamas~uwhaA tamas~uwhun~a tamosasohu tamosasokumo walayamas~an~akum yamas~aka yamas~uhu,^ yamas~uhum yamas~uhumo yamas~uhumu yamas~unaA yamosasohumo yamosasoka yamosasokumo yamosasoniY yatamaA^s~aA {lomas~i
-mss misaAsa
+mss fatamas~akumu lamas~akumo layamas~an~a mas~a mas~ahu mas~ahumo mas~akumu mas~anaA mas~aniYa mas~atohu mas~atohumo m~as~ahu m~as~ahu, m~as~aniYa m~as~atohumo m~as~atohumu tamas~anaA tamas~uwhaA tamas~uwhun~a tamosasohu tamosasokumo walayamas~an~akum yamas~aka yamas~uhu,^ yamas~uhum yamas~uhumo yamas~uhumu yamas~unaA yamosasohumo yamosasoka yamosasokumo yamosasoniY yatamaA^s~aA {lomas~i misaAsa
 msw tumosuwna
 msx lamasaxona`humo
 mtE >umat~iEokun~a fa>umat~iEuhu, famata`Eu famat~aEona`humo famat~iEuwhun~a fatamat~aEuwA@ fa{sotamotaEotum fa{sotamotaEuwA@ mata`EFA mata`EF[A mata`EK mata`EN mata`EN[ mata`Ea mata`Eahumo mata`EanaA mata`EinaA mata`Eu mat~aEonaA mat~aEotu m~ata`EFA m~ata`Ea m~at~aEona`hu m~at~aEona`humo m~at~aEotahumo numat~iEuhumo sanumat~iEuhumo tamat~aEa tamat~aEo tamat~aEuwA@ tumat~aEuwna wa>amotiEatikumo waliyatamat~aEuwA@ wamata`EFA wamata`EN wamat~aEona`humo wamat~iEuwhun~a watamat~aEuwA@ wayatamat~aEuwA@ wa{sotamotaEotum yatamat~aEuwna yumat~aEuwna yumat~iEokum {sotamotaEa {sotamotaEotum
@@ -1211,7 +1202,6 @@ qa`ruwn qa`ruwna qa`ruwnu waqa`ruwna
 qbD faqabaDotu m~aqobuwDapN qabaDona`hu qaboDFA qaboDapF qaboDatuhu, wayaqobiDona wayaqobiDuwna yaqobiDu
 qbH {lomaqobuwHiyna
 qbl >aqobalonaA >aqobilo biqabuwlK fa>aqobala fa>aqobalati fa>aqobaluw^A@ fataqab~alahaA fataqab~alo fatuqub~ila mutaqa`biliyna m~usotaqobila m~utaqa`biliyna nataqab~alu qabiylFA qabola qabolahu, qabolahum qabolahumo qabolaka qaboli qaboliY qabolihaA qabolihaA^ qabolihi qabolihi. qabolihi.^ qabolihim qabolihimo qabolihimu qabolika qabolikum qabolikumo qabolinaA qabolu qibala qibalaka qibalihi qibolapF qibolapa qibolatahumo qibolataka qibolatihimu qubulFA qubulK taqab~alo taqobaluwA@ tuqobala tuqub~ila wa>aqobala wa>aqobaluwA@ waqaAbili waqabaA^}ila waqabiyluhu, waqabola wataqab~alo yaqobalu yataqab~alu yuqobala yuqobalu yutaqab~ala yutaqab~alo {loqibolapa
-qbl qaboliY
 qbr fa>aqobarahu, qaborihi.^ {lomaqaAbira {loqubuwri {loqubuwru
 qbs biqabasK naqotabiso qabasK
 qdH qadoHFA
