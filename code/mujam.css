@@ -22,9 +22,10 @@
         border-collapse: collapse; 
         text-align: center;
         cursor: default;
+        margin-top: 8px;
     }
     th { 
-        color: #666666; 
+        color: #666; 
         font-weight: normal;
         padding: 0px; 
     }
@@ -33,22 +34,25 @@
         min-width: 21px;
         height: 21px;
         border: 1px solid blue; 
-        padding: 0px; 
+        padding: 0px;
+        cursor: pointer;
     }
     td:hover { 
         border-width: 3px;
     }
-    select:hover .t1, button:hover .t1, th:hover .t1, 
+    /*select:hover .t1, button:hover .t1, th:hover .t1, 
     td:hover .t1, td:hover .t2 { 
         display: flow-root; 
+    }*/
+    #bilgi {
+        display: none;
+        position: fixed;
+        max-width: 300px;
+        text-align: center;
     }
     .t1, .t2 {
-        display: none;
-        font-size: 12px;
-        font-weight: normal;
-        text-align: center;
+        font: 12px/1.6 sansserif, arial;
         padding: 5px;
-        position: absolute;
         cursor: pointer;
     }
     .t1 {
@@ -68,4 +72,40 @@
 	  font-family: me_quran;
 	  src: url("../image/me_quran.ttf")
 	}
+	
+	/* Menu Style */
+    .menu {
+      width: 225px;
+      background: #cfc;
+      box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      display: none;
+    }
+    .options {
+      margin: 10px 0;
+    }
+    .menu-option {
+      padding: 10px 15px;
+      font: bold 14px sansserif, arial;
+      color: blue;
+      user-select: none;
+    }
+    .menu-option:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .menu-option:hover .tip {
+      visibility: visible;
+    }
+    .tip {
+      visibility: hidden;
+      font-size: small;
+      font-weight: normal;
+      background: #cfc;
+      color: blue;
+      text-align: center;
+      padding: 5px 5px;
+      position: absolute;
+      left: 0px; 
+      top: 38px;
+    }
 

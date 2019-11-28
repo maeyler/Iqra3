@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<p><select id=menu1 onChange="selectLetter()">
+<div><select id=menu1 onChange="selectLetter()">
    <span class='t1'>Aranan kökün ilk harfi</span>
    </select>
    Kök: <select id=menu2 onChange="selectRoot()">
@@ -30,9 +30,32 @@
    <button id=combine onClick="selectRoot()">C
    <span class='t1'>Kelimeleri birleştir</span>
    </button>
-</p>
+</div>
 
-<table id="tablo" onClick="doClick1(event)"></table>
+<table id=tablo></table>
+
+<div id=bilgi></div>
+
+<div id=menuK class=menu>
+  <div class=options>
+      <span class="menu-option">Q
+        <span class=tip>quran.com sitesinde oku</span>
+      </span>
+      <span class="menu-option">C
+        <span class=tip>corpus.quran.com sitesinde oku</span>
+      </span>
+      <span class="menu-option">K
+        <span class=tip>Kuran Meali sitesinde oku</span>
+      </span>
+      <span class="menu-option">A
+        <span class=tip>Açık Kuran sitesinde oku</span>
+      </span>
+      <span class="menu-option">R&emsp;
+        <span class=tip>Reader sitesi hazır değil</span>
+      </span>
+      <span class=tip>Iqra sayfasında oku</span>
+  </div>
+</div>
 
 <script>
 "use strict";

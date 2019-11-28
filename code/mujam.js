@@ -33,12 +33,6 @@ const rootToCounts = new Map();
  */
 const wordToRefs = new Map();
 /**
- * &emsp; is used in menu2 and menu3.
- * used at report2 @see report2
- */
-const EM_SPACE = String.fromCharCode(8195)
-
-/**
  * returns Buckwalter code of the current item in menu2
  */
 function currentRoot() {
@@ -270,10 +264,9 @@ function displayRef(word, [page, refA]) {
         let col = "rgb(" + g + ", " + g + ", " + b + ")";
         return "background: " + col;
     }
-    // m number of juzz, 2 number of pages per juzz.
-    // create the HTML the same way as how it looks now :3 
-    const m = 30,
-        n = 20;
+    // m number of juzz, 20 pages per juzz.
+    // make the table
+    const m = 30, n = 20;
     let row = "<th>Sayfa</th>";
     for (let j = 1; j <= n; j++) {
         row += "<th>" + (j % 10) + "</th>"; //use last digit
@@ -283,10 +276,11 @@ function displayRef(word, [page, refA]) {
         p = 0,
         q = 0,
         nc = 0;
+    pRefs.length = 1; //start with empty array
     for (let i = 1; i <= m + 1; i++) {
         // pn == 20*(i-1);   //s2 is hidden
         let z = i > m ? m : i;
-        let s2 = "<span class=t1>Cüz " + z + "</span>";
+        let s2 = ''  //"<span class=t1>Cüz " + z + "</span>";
         row = "<th class=first>" +threeDigits(pn)+ s2 + "</th>";
         let U = i > m ? 4 : n;
         for (let j = 1; j <= U; j++) {
@@ -296,20 +290,20 @@ function displayRef(word, [page, refA]) {
                 c = refA[p].split(" ").length;
                 let k = refA[p].indexOf(":");
                 k = (k < 0 ? 0 : Number(refA[p].substring(0, k)));
-                let refs = sName[k] + " -- " + refA[p];
-                if (c > 1) refs += "&emsp;(" + c + ")";
-                s2 = "<span class=t2>" + refs + "</span>";
-                p++;
+                let refs = "S."+pn+' '+sName[k] +EM_SPACE+ refA[p];
+                if (c > 1) refs += EM_SPACE+"("+ c +")";
+                //s2 = "<span class=t2>" + refs + "</span>";
+                pRefs.push(refs); p++;
                 nc += c;
             } else {
-                s2 = "<span class=t1>" + pLabel[pn] + "</span>";
+                pRefs.push('') //no refs on this page
+                //s2 = "<span class=t1>" + pLabel[pn] + "</span>";
             }
             let ch = "&nbsp;"
             if (pn == sajda[q]) {
-                ch = "۩";
-                q++;
+                ch = "۩"; q++;
             }
-            row += "<td style='" + toColor(c) + "'>" + ch + s2 + "</td>";
+            row += "<td style='" + toColor(c) +"'"+ ch + "</td>";
         }
         if (i > m) { //use th for the last row
           row += "<th colspan=13>Iqra "+VERSION+" (C) 2019 MAE</th>"
@@ -317,47 +311,42 @@ function displayRef(word, [page, refA]) {
         }
         text += "<tr>" + row + "</tr>";
     }
-    // end of creation.
+    // end of table
     tablo.innerHTML = text;
     document.title = TITLE + " -- " + word;
     let t1 = refA.length + " sayfada";
-    /****
-    if (nc == 0)
-        out.innerText = "(too many verses)";
-    else out.innerText = t1; //nc+" instances "+t1; 
-    *****/
     out.innerText = t1; console.log(word, t1);
+    for (let x of tablo.querySelectorAll('td')) {
+      x.onmouseenter = doHover
+      //x.onmouseleave = hideMenus
+      x.onmouseup = doClick //mouse only -- no touch
+    }
+}
+function doEnter(evt) {
 }
 /**
  * Open the quran webPage after checking it's event.
  * ??
  * @param {*} evt get the event trigger. 
  */
-function doClick1(evt) {
-    let t = evt.target;
-    if (t.tagName.toLowerCase() != "span") return;
-    t = t.parentElement;
-    if (t.tagName.toLowerCase() != "td") return;
-    //let r = t.parentElement.rowIndex;
-    //let p = 20*(r-1) + t.cellIndex;
-    let [sure, p] = t.innerText.split(', s.')
+function doClick(evt) {
+    if (menuK.style.display) return //do not handle click if context-menu
+    if (!bilgi.style.display) return  //or no page is selected
+    let [nam, ref] = bilgi.innerText.split(EM_SPACE)
+    let [xx, p] = nam.split(/\.| /)  //dot or space
     let h;
-    if (p) { //use page number
-        h = "#p="+p;
-    } else { //use first reference & root
-        let [s1, s2] = t.innerText.split(' -- ')
-        let [cv] = s2.split(' ')
+    if (pRefs[p]) { //use first reference & root
+        let [cv] = ref.split(' ')
         h = "#v="+cv+"&r="+currentRoot()
+    } else { //use page number
+        h = "#p="+p;
     }
-    console.log(h);
-    const REF = "reader.html";
-    //"http://kuranmeali.com/Sayfalar.php?sayfa=";
-    iqra = window.open(REF + h, "iqra")
+    console.log(h); hideMenus()
+    iqra = window.open("reader.html" + h, "iqra")
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
  *  
- * 
  * @see toBuckwalter
  * 
  */
@@ -365,8 +354,8 @@ function doClick2() {
     const REF = "http://corpus.quran.com/qurandictionary.jsp";
     let p = "";
     if (menu2.value) p = "?q=" + currentRoot()
-    console.log("corpus" + p);
-    window.open(REF + p, "corpus")  //, "resizable,scrollbars");
+    console.log("Corpus" + p);
+    window.open(REF + p, "Corpus")  //, "resizable,scrollbars");
 }
 /**
  * Use the hash part of URL in the address bar
@@ -404,7 +393,7 @@ function gotoHashRoot() {
  * 
  */
 function initMujam() {
-    // destructure for sajda
+    // mark places for sajda
     let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
     [sajda, ] = parseRefs(str);
     let letters = [];
@@ -415,9 +404,55 @@ function initMujam() {
     } catch(err) { 
         out.innerText = ""+err;
     }
-    window.addEventListener("hashchange", gotoHashRoot);
+    bilgi.onclick = doClick
+    window.onhashchange = gotoHashRoot
     window.name ="mujam"
-    //if (opener && opener.location.href.includes('reader'))
-      //  iqra = opener
+
+  /**
+  * Menu functions
+  */
+  menuK.onclick = (evt) => {
+      evt.preventDefault()
+      let s = evt.target.innerText
+      evt.key = s[0] //as if first letter is pressed
+      document.onkeydown(evt)
+      /*let p = getPageOf(evt.target)
+      console.log('Page '+p, s)
+      openSitePage(s[0], p)
+      hideMenus()*/
+  }
+  document.onkeydown = (evt) => {
+    if (evt.key == 'Escape') hideMenus()
+    else {
+      let s = evt.key.toUpperCase()
+      let [nam, ref] = bilgi.innerText.split(EM_SPACE)
+      let [cv] = ref.split(' ')
+      let [c, v] = cv.split(':')
+      openSiteVerse(s, c, v)
+      hideMenus()
+    }
+  }
+  window.hideMenus = () => { 
+      hideElement(menuK); hideElement(bilgi)
+  }
+  tablo.oncontextmenu = (evt) => {
+      evt.preventDefault(); //hideElement(bilgi)
+      setPosition(menuK, evt.clientX, evt.clientY)
+  }
+}
+
+function getPageOf(td) {
+    let r = td.parentElement.rowIndex;
+    let p = 20*(r-1) + td.cellIndex;
+    //console.log('getPageOf', p)
+    return p
+}
+function doHover(evt) {  //listener for each td element
+    if (menuK.style.display) return
+    let p = getPageOf(evt.target)
+    bilgi.innerHTML = pRefs[p]?
+         "<span class=t2>" + pRefs[p]  + "</span>"
+       : "<span class=t1>" + pLabel[p] + "</span>"
+    setPosition(bilgi, evt.clientX, evt.clientY)
 }
 

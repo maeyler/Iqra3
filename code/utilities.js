@@ -154,7 +154,8 @@ const nChap = last.length - 1,
  * sName: Sura names
  * pLabel: show the sura name, Chapter, Last vers of this page from the sura and page number.
  */
-var index, nPage, sName, pLabel = []; //global
+var index, nPage, sName; //global
+const pLabel = [''], pRefs = ['']  //pages count from 1
 /**
  * initialize the utilities and set the attributes.
  *  
@@ -306,14 +307,13 @@ Felak
 Nas`;
     // number of pages.
     nPage = count.length;
-    index = new Array(nPage + 1);
-    index[0] = 0;
+    index = [0, 0]  //new Array(nPage + 1);
+    index.length = nPage + 1;
     sName = suraNames.split("\n");
-    //what did it used for?
-    for (let p = 0; p <= nPage; p++) {
+    for (let p = 1; p <= nPage; p++) {
         index[p + 1] = index[p] + count[p];
         let [c, v] = toCV(index[p] + 1);
-        pLabel.push(sName[c] + " " + c + ":" + v + ", s." + p)
+        pLabel.push("S."+p +" "+ sName[c] +EM_SPACE+c+":"+v)
     }
     console.log(nPage + " pages -> " + index[nPage]);
 }

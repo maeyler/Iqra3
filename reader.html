@@ -19,14 +19,12 @@
 <body>
 <div id=div3>
   <b id=title></b>
-  <button id=geri>◀</button>
-  Sure  
+  <button id=geri>◀</button> Sure  
   <input id=sure  type=number min=1 max=114 value=1>
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1>
-  <button id=trans>T</button>
-  <button onClick=link.click()><a id=link target="kuranmeali">⋮</a>
-  </button>
+  &emsp;<button id=trans>T</button>&emsp;
+  <button id=link><b>⋮</b></button>
 </div>
 
 <div id=div2>
@@ -35,30 +33,56 @@
 </div>
 
 <div id=div1>
-  <button id=markW>M</button>
+  <button id=test>W</button>
   <button id=solBut>⇐</button>
   <input id=slider type=range min=1 max=604 value=1>
   <button id=sagBut>⇒</button>
-  <p>Test root: <span id=out></span></p>
 </div>
 
-<div class="menu">
-  <div class="options">
+<div id=div0></div>
+
+<!--div id=test> replaced by the W button above
+  <input type=checkbox id=showWords><small>Show words</small>
+  &emsp;<span id=out></span>
+</div-->
+<span id=out></span>
+
+<div id=menuC class=menu>
+  <div class=options>
       <span class="menu-option">K
-        <span class=tip>Seçili metni kopyala</span>
-      </span>
-      <span class="menu-option">F
-        <span class=tip>Seçili metni Finder'da ara</span>
+        <span class=tip>Kopyala</span>
       </span>
       <span class="menu-option">M
-        <span class=tip>Seçili metni Mucem'de ara<br>
-        Bu sayfada renkli işaretle</span>
+        <span class=tip>Mucem sayfasında ara</span>
       </span>
-      <span class="menu-option">S
+      <span class="menu-option">F
+        <span class=tip>Finder sitesinde ara</span>
+      </span>
+      <span class="menu-option">B
         <span class=tip>Benzer sayfalar -- hazır değil</span>
       </span>
-      <span class="menu-option">i&emsp;
+      <span class="menu-option">I&emsp;
         <span class=tip>Yazılım hakkında...</span>
+      </span>
+  </div>
+</div>
+
+<div id=menuK class=menu>
+  <div class=options>
+      <span class="menu-option">Q
+        <span class=tip>quran.com sitesinde oku</span>
+      </span>
+      <span class="menu-option">C
+        <span class=tip>corpus.quran.com sitesinde oku</span>
+      </span>
+      <span class="menu-option">K
+        <span class=tip>Kuran Meali sitesinde oku</span>
+      </span>
+      <span class="menu-option">A
+        <span class=tip>Açık Kuran sitesinde oku</span>
+      </span>
+      <span class="menu-option">R&emsp;
+        <span class=tip>Reader sitesi hazır değil</span>
       </span>
   </div>
 </div>
@@ -70,10 +94,7 @@
         .then(reg => { console.log('SW Registered', reg.scope) })
         .catch(alert)
     }
-    const menu = document.querySelector('.menu');
-    const options = document.querySelector('.options');
     initReader()
 </script>
-
 </body>
 </html>

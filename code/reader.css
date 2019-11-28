@@ -14,7 +14,7 @@
     #title, #geri { 
       display: none;
     }
-    #div3 { 
+    #div3, #out { 
       font: 12px sansserif, arial;
       font-weight: normal;
       margin: 8px 0;
@@ -83,8 +83,25 @@
     div { 
       text-align: center;
     }
+    #div0 { 
+      height: 36px;
+    }
+    #out { 
+      display: none;
+      position: fixed;
+      min-width: 110px;
+      text-align: center;
+      margin: 15px;
+      color: blue;
+      background: #cfc;
+      font: 18px me_quran, serif;
+      border: blue 1px solid;
+    }
     #div1 { 
-      margin-bottom: 8px;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      margin-bottom: 4px;
     }
     #sure {
       text-align: right;

@@ -12,17 +12,17 @@ const LS = location.protocol.startsWith('http') && localStorage;
 const rootToList = new Map()
 const wordToRoot = new Map()
 const swipe = { t:0, x:0, y:0 }
-var curSura, curPage;
+var curSura, curPage, showWords;
 var mujam, hashInProgress;
    
 function doTrans() {
     if (html.style.display) {
       html.style.display = ''
-      markW.style.display = ''
+      //markW.style.display = ''
       text.style.display = ''
     } else { //hide html
       html.style.display = 'none'
-      markW.style.display = 'none'
+      //markW.style.display = 'none'
       text.style.display = 'inherit'
     }
 }
@@ -58,7 +58,7 @@ function markVerse(n, cls='gri') {
     let p = kur[curPage].replace(e, t)
     text.innerHTML = p.replace(/\n/g, '<br>')
 }
-function markPattern(e, cls='mavi') { //used in markSelection()
+function markPattern(e, cls='mavi') {
     if (typeof e == "string")
         e = new RegExp(e, 'g')
     let t = "<span class="+cls+">$&</span>"
@@ -78,17 +78,27 @@ function suraContainsPage(k) {
     if (i == j) return (k == i);
     return (i<=k && k<j);
 }
-function displayWord(e) {
-    e.target.style.background = '#ddd'
-    let w = e.target.innerText.trim()
+function displayWord(evt) {
+    if (!showWords) return
+    let w = evt.target.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
-    if (!r) return
+    if (!r) { hideElement(out); return }
+    evt.target.style.background = '#ddd'
     let n = rootToList.get(r).length
-    out.innerText = r+' => '+n+' words'
+    out.innerText = toArabic(r)+' => '+n
+    setPosition(out, evt.clientX, evt.clientY)
 }
-function unmarkWord(e) {
-    e.target.style.background = ''
-    out.innerText = ''
+function selectWord(evt) {
+    let s = window.getSelection()
+    if (!s.toString()) { //select word
+        let range = document.createRange();
+        range.selectNodeContents(evt.target);
+        s.removeAllRanges(); s.addRange(range);
+    }
+}
+function unmarkWord(evt) {
+    evt.target.style.background = ''
+    hideElement(out)  //; out.innerText = ''
 }
 function gotoPage(k) { // 1<=k<=P
 //This is the only place where hash is set
@@ -108,13 +118,14 @@ function gotoPage(k) { // 1<=k<=P
     for (let x of html.children) {
       x.onmouseenter = displayWord
       x.onmouseleave = unmarkWord
+      x.oncontextmenu = selectWord
     }
     document.title = 'Iqra s'+k;
     if (!hashInProgress)
         location.hash = '#p='+curPage 
     hashInProgress = false
     if (LS) localStorage.iqraPage = k
-    hideMenu();  //html.scrollTo(0)
+    hideMenus();  //html.scrollTo(0)
 }
 function setSura(k) { // 1<=k<=M
     k = Number(k);
@@ -130,14 +141,14 @@ function gotoSura(k) {
     gotoPage(first[k]);
 }
 function dragStart(evt) {
-    if (swipe.t>0  || menu.style.display) return
+    if (swipe.t>0  || menuC.style.display) return
     swipe.t = Date.now()
     swipe.x = Math.round(evt.touches[0].clientX)
     swipe.y = Math.round(evt.touches[0].clientY)
     //console.log("dragStart", swipe)
 }
 function drag(evt) {
-    if (swipe.t==0 || menu.style.display) return
+    if (swipe.t==0 || menuC.style.display) return
     let trg = evt.target
     let dx = Math.round(evt.touches[0].clientX) - swipe.x
     let dy = Math.round(evt.touches[0].clientY) - swipe.y
@@ -151,7 +162,7 @@ function drag(evt) {
     trg.style.transform = tr;
 }
 function dragEnd(evt) {
-    if (swipe.t==0 || menu.style.display) return
+    if (swipe.t==0 || menuC.style.display) return
     let trg = evt.target
     evt.preventDefault()
     let dt = Date.now() - swipe.t
@@ -161,12 +172,13 @@ function dragEnd(evt) {
     trg.style.transform = ""; swipe.t = 0
     let w2 = 0  //animation width
     let W = trg.clientWidth
+    console.log(dt, dx, W)
     if (dt>300 && 3*Math.abs(dx)<W) return
     //max 300 msec delay or min W/3 drag
-    if (dx>=0 && curPage<P) { //swipe right
+    if (dx>=5 && curPage<P) { //swipe right
         gotoPage(curPage+1); w2 = W+"px"
     } 
-    if (dx<0  && curPage>1) { //swipe left
+    if (dx<-5 && curPage>1) { //swipe left
         gotoPage(curPage-1); w2 = -W+"px"
     }
     if (!w2) return //page not modified
@@ -245,8 +257,6 @@ function gotoHashPage() {
         console.log(e, s)
         let L = rootToList.get(s)
         if (L) { //L must in in Arabic
-          //L = L.map(toArabic)
-          //markPattern(L.join('|')); 
           markRoot(s); break
         } //else root not found -- down to 'w'
       case 'w': // w=yuwsuf
@@ -281,10 +291,12 @@ function initReader() {
     sure.onchange  = () => {gotoSura(sure.value)}
     sayfa.onchange = () => {gotoPage(sayfa.value)}
     trans.onclick  = doTrans
-    markW.onclick  = markSelection
+    //markW.onclick  = markSelection
+    //markW.style.display = 'none'
     solBut.onclick = () => {gotoPage(curPage-1)}
     slider.onchange= () => {gotoPage(slider.value)}
     sagBut.onclick = () => {gotoPage(curPage+1)}
+    test.onclick   = () => {showWords = !showWords}
     try {
         readNames("iqra.names"); readText("Quran.txt", qur); 
         readText("Kuran.txt", kur); readWords("words.txt");
@@ -298,80 +310,71 @@ function initReader() {
 /********************
  * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
  * Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
+ *
+ * We have two Menu elements: menuC (context)  menuK (open source)
+ *
  */
 function menuFn() {
-  //let menuVisible = false;
-
-  const doCopy = (s) => {
-      navigator.clipboard.writeText(s)
-      .then(() => {console.log('Panoya:', s)})
-      .catch(e => {alert('Panoya yazamadım\n'+e)})
-  }
-  window.showMenu = () => { menu.style.display = 'block' }
-  window.hideMenu = () => { menu.style.display = '' }
   const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
-  
-  options.onclick = (e) => {
-      e.preventDefault()
-      let m = e.target.innerText.charAt(0)
-      //.toLowerCase() //.substring(0,4)
-      if (m == 'i') {
+  const LINKM = 'mujam.html#r='
+  function menuItem(m) {
+      if (m == 'I') {
           let s = title.innerText+'\nQuran Reader'
-          alert(s+'\n(C) 2019 MAE')
-          return
+          alert(s+'\n(C) 2019 MAE'); return
       } 
       let s = forceSelection() //s is not empty
       switch (m) {
-          case 'K': {
-              doCopy(s); break
-          }
-          case 'F': {
-              //doCopy(s);
+          case 'K':
+              navigator.clipboard.writeText(s)
+              .then(() => { console.log('Panoya:', s) })
+              .catch(e => { alert('Panoya yazamadım\n'+e) })
+              break
+          case 'F':
               window.open(LINKF + s, "finder")
-              hideMenu(); break
-          }
-          case 'M': {
-              markPattern(s); 
+              break
+          case 'M':
               let root = wordToRoot.get(toBuckwalter(s))
-              console.log(s+' => '+root); hideMenu(); 
-              if (root) 
-                  mujam = window.open("mujam.html#r="+root, "mujam")
+              if (root) {
+                  mujam = window.open(LINKM + root, "mujam")
+                  markRoot(root); //console.log(s+' => '+root)
+              }
               else alert('Mucemde bulunamadı')
               break
-          }
-          case 'S': {
+          case 'B':
               alert('Similar pages -- not implemented yet')
               break
-          }
       }
+      hideElement(menuC)
+  }
+  menuC.onclick = (evt) => {
+      evt.preventDefault()
+      menuItem(evt.target.innerText.charAt(0))
+  }
+  menuK.onclick = (evt) => {
+      evt.preventDefault()
+      let s= evt.target.innerText
+      console.log(s)
+      openSitePage(s[0], curPage)
   }
   document.onkeydown = (evt) => {
-    if (evt.key == 'Escape') hideMenu()
+    if (evt.key == 'Escape') hideMenus()
+    else menuItem(evt.key.toUpperCase())
   }
   document.onclick = (evt) => { 
-    if (menu.style.display == '') return
-    evt.preventDefault(); hideMenu() 
+      if (!menuC.style.display) return
+      evt.preventDefault(); hideMenus() 
+  }
+  window.hideMenus = () => { 
+      hideElement(menuC); hideElement(menuK); hideElement(out)
   }
 
-  const setPosition = (x, y) => {
-      let mw = menu.clientWidth || 220
-      x = x - mw/2  //center over menu
-      if (!title.clientWidth) { //narrow screen
-        let cw = html.clientWidth || 400
-        let cl = html.clientLeft  //must be 0
-        x = Math.max(x, cl)       // x ≥ cl
-        x = Math.min(x, cl+cw-mw-5) // x < cl+cw-mw
-      //} else { //large screen
-      }
-      menu.style.left = (x)+'px'
-      menu.style.top = (y-60)+'px'
-      //console.log(x, y)
-      showMenu()
+  html.oncontextmenu = (evt) => {
+      evt.preventDefault(); hideElement(menuK)
+      setPosition(menuC, evt.clientX, evt.clientY)
   }
-  html.oncontextmenu = (e) => {
-      e.preventDefault()
-      setPosition(e.clientX, e.clientY)
-      return false
+  link.onmouseenter = (evt) => {
+      hideElement(menuC)
+      setPosition(menuK, evt.clientX, evt.clientY)
   }
 }
 /**
