@@ -303,7 +303,7 @@ function displayRef(word, [page, refA]) {
             if (pn == sajda[q]) {
                 ch = "۩"; q++;
             }
-            row += "<td style='" + toColor(c) +"'"+ ch + "</td>";
+            row += "<td style='" +toColor(c)+"'>"+ ch + "</td>";
         }
         if (i > m) { //use th for the last row
           row += "<th colspan=13>Iqra "+VERSION+" (C) 2019 MAE</th>"
@@ -314,7 +314,7 @@ function displayRef(word, [page, refA]) {
     // end of table
     tablo.innerHTML = text;
     document.title = TITLE + " -- " + word;
-    let t1 = refA.length + " sayfada";
+    let t1 = refA.length + " sayfa";
     out.innerText = t1; console.log(word, t1);
     for (let x of tablo.querySelectorAll('td')) {
       x.onmouseenter = doHover
@@ -416,10 +416,6 @@ function initMujam() {
       let s = evt.target.innerText
       evt.key = s[0] //as if first letter is pressed
       document.onkeydown(evt)
-      /*let p = getPageOf(evt.target)
-      console.log('Page '+p, s)
-      openSitePage(s[0], p)
-      hideMenus()*/
   }
   document.onkeydown = (evt) => {
     if (evt.key == 'Escape') hideMenus()

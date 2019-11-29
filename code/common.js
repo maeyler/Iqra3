@@ -68,7 +68,7 @@ function openSitePage(s, p) {
         url = "http://kuranmeali.com/Sayfalar.php?sayfa="+p
         name = "Kuran"; break
     default:
-        let [c, v] = toCV(index[p])
+        let [c, v] = toCV(index[p]+1)
         openSiteVerse(s, c, v); return
   }
   window.open(url, name)
@@ -82,7 +82,7 @@ function openSiteVerse(s, c, v) {
         name = "Kuran"; break
     case 'C':
         url = "http://corpus.quran.com/wordbyword.jsp?chapter="+c+"&verse="+v
-        name = "corpus"; break
+        name = "Corpus"; break
     case 'Q':
         url = "https://quran.com/"+c+"/"+v
         name = "Quran"; break

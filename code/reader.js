@@ -356,7 +356,7 @@ function menuFn() {
       console.log(s)
       openSitePage(s[0], curPage)
   }
-  document.onkeydown = (evt) => {
+  menuK.onkeydown = (evt) => {
     if (evt.key == 'Escape') hideMenus()
     else menuItem(evt.key.toUpperCase())
   }
