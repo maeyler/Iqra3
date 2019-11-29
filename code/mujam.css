@@ -40,10 +40,14 @@
     td:hover { 
         border-width: 3px;
     }
-    /*select:hover .t1, button:hover .t1, th:hover .t1, 
-    td:hover .t1, td:hover .t2 { 
-        display: flow-root; 
-    }*/
+    /* select:hover .t1, td:hover .t1, td:hover .t2, th:hover .t1, */
+    button:hover .t1 { 
+        display: block; 
+    }
+    span .t1 {
+        display: none;
+        cursor: pointer;
+    }
     #bilgi {
         display: none;
         position: fixed;

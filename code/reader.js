@@ -11,19 +11,34 @@ const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
 const LS = location.protocol.startsWith('http') && localStorage;
 const rootToList = new Map()
 const wordToRoot = new Map()
+const CHECKED = 'yellow' // when the Button is down
 const swipe = { t:0, x:0, y:0 }
-var curSura, curPage, showWords;
+var curSura, curPage;
 var mujam, hashInProgress;
    
-function doTrans() {
-    if (html.style.display) {
+function toggleTrans() {
+    if (trans.style.background) {
       html.style.display = ''
-      //markW.style.display = ''
       text.style.display = ''
+      trans.style.background = ''
     } else { //hide html
       html.style.display = 'none'
-      //markW.style.display = 'none'
-      text.style.display = 'inherit'
+      text.style.display = 'block'
+      trans.style.background = CHECKED
+    }
+}
+function toggleWords() {
+    if  (showWords.style.background)
+         showWords.style.background = ''
+    else showWords.style.background = CHECKED
+}
+function toggleZoom() {
+    if (zoomB.style.background) {
+      div2.style.transform = ''
+      zoomB.style.background = ''
+    } else {
+      div2.style.transform ='scale(1.1) translate(5%, 5%)'
+      zoomB.style.background = CHECKED
     }
 }
 function numberToArabic(n) { //n is an integer
@@ -79,7 +94,7 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function displayWord(evt) {
-    if (!showWords) return
+    if (!showWords.style.background) return
     let w = evt.target.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
     if (!r) { hideElement(out); return }
@@ -107,7 +122,7 @@ function gotoPage(k) { // 1<=k<=P
     k = Number(k);
     if (curPage == k) return;
     setSura(suraFromPage(k));
-    link.href = LINK+k;
+    //linkB.href = LINK+k;
     curPage = k;
     sayfa.value = k;
     slider.value = k;
@@ -290,13 +305,13 @@ function initReader() {
     geri.onclick   = () => {history.go(-1)}
     sure.onchange  = () => {gotoSura(sure.value)}
     sayfa.onchange = () => {gotoPage(sayfa.value)}
-    trans.onclick  = doTrans
-    //markW.onclick  = markSelection
-    //markW.style.display = 'none'
+    trans.onclick  = toggleTrans
+    zoomB.onclick  = toggleZoom
+    //markW.onclick   = markSelection
+    showWords.onclick = toggleWords
     solBut.onclick = () => {gotoPage(curPage-1)}
     slider.onchange= () => {gotoPage(slider.value)}
     sagBut.onclick = () => {gotoPage(curPage+1)}
-    test.onclick   = () => {showWords = !showWords}
     try {
         readNames("iqra.names"); readText("Quran.txt", qur); 
         readText("Kuran.txt", kur); readWords("words.txt");
@@ -342,28 +357,31 @@ function menuFn() {
               break
           case 'B':
               alert('Similar pages -- not implemented yet')
-              break
+          default:  return
       }
-      hideElement(menuC)
+      hideMenus()
   }
   menuC.onclick = (evt) => {
       evt.preventDefault()
       menuItem(evt.target.innerText.charAt(0))
   }
+  menuC.onkeydown = (evt) => {
+      if (evt.key == 'Escape') hideMenus()
+      else menuItem(evt.key.toUpperCase())
+  }
   menuK.onclick = (evt) => {
       evt.preventDefault()
-      let s= evt.target.innerText
-      console.log(s)
+      let s = evt.target.innerText
       openSitePage(s[0], curPage)
   }
   menuK.onkeydown = (evt) => {
-    if (evt.key == 'Escape') hideMenus()
-    else menuItem(evt.key.toUpperCase())
+      if (evt.key == 'Escape') hideMenus()
+      else openSitePage(evt.key.toUpperCase(), curPage)
   }
-  document.onclick = (evt) => { 
-      if (!menuC.style.display) return
+  /*document.onclick = (evt) => { 
+      if (menuC.style.display == '') return
       evt.preventDefault(); hideMenus() 
-  }
+  }*/
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); hideElement(out)
   }
@@ -372,9 +390,15 @@ function menuFn() {
       evt.preventDefault(); hideElement(menuK)
       setPosition(menuC, evt.clientX, evt.clientY)
   }
-  link.onmouseenter = (evt) => {
-      hideElement(menuC)
-      setPosition(menuK, evt.clientX, evt.clientY)
+  linkB.onclick = (evt) => { //toggle linkB
+      if (linkB.style.background) {
+        linkB.style.background = ''
+        hideElement(menuK)
+      } else {
+        linkB.style.background = CHECKED
+        hideElement(menuC)
+        setPosition(menuK, evt.clientX, evt.clientY)
+      }
   }
 }
 /**

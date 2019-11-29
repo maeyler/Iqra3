@@ -2,7 +2,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.15b";
+const VERSION = "V3.15c";
 
 /**
  * Location for data files
@@ -91,8 +91,9 @@ function openSiteVerse(s, c, v) {
         name = "AcikK"; break
     case 'R':
         alert('Reader -- not implemented yet')
-        return
+    default:  return
   }
+  console.log(s, url)
   window.open(url, name)
 }
 
