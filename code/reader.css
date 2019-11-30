@@ -101,8 +101,11 @@
       width: 100%;
       position: fixed;
       bottom: 0;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
+@media screen and (max-height: 450px) {
+    #div1 { display: none; }
+}
     #sure {
       text-align: right;
       width: 40px;

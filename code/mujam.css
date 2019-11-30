@@ -22,7 +22,7 @@
         border-collapse: collapse; 
         text-align: center;
         cursor: default;
-        margin-top: 8px;
+        margin: 8px  8px 20px 0;
     }
     th { 
         color: #666; 
@@ -35,7 +35,8 @@
         height: 21px;
         border: 1px solid blue; 
         padding: 0px;
-        cursor: pointer;
+        /*cursor: pointer;*/
+        position: relative;
     }
     td:hover { 
         border-width: 3px;
@@ -50,8 +51,10 @@
     }
     #bilgi {
         display: none;
-        position: fixed;
-        max-width: 300px;
+        position: absolute;
+        width: 180px;
+        z-index: 1; /* on top of other cells */
+        top: 20px;
         text-align: center;
     }
     .t1, .t2 {

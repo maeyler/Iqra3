@@ -16,31 +16,6 @@ const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var mujam, hashInProgress;
    
-function toggleTrans() {
-    if (trans.style.background) {
-      html.style.display = ''
-      text.style.display = ''
-      trans.style.background = ''
-    } else { //hide html
-      html.style.display = 'none'
-      text.style.display = 'block'
-      trans.style.background = CHECKED
-    }
-}
-function toggleWords() {
-    if  (showWords.style.background)
-         showWords.style.background = ''
-    else showWords.style.background = CHECKED
-}
-function toggleZoom() {
-    if (zoomB.style.background) {
-      div2.style.transform = ''
-      zoomB.style.background = ''
-    } else {
-      div2.style.transform ='scale(1.1) translate(5%, 5%)'
-      zoomB.style.background = CHECKED
-    }
-}
 function numberToArabic(n) { //n is an integer
     let t = ''
     for (let c of String(n)) 
@@ -137,7 +112,8 @@ function gotoPage(k) { // 1<=k<=P
     }
     document.title = 'Iqra s'+k;
     if (!hashInProgress)
-        location.hash = '#p='+curPage 
+        location.hash = '#p='+curPage
+        //history.pushState('', '', '#p='+curPage)
     hashInProgress = false
     if (LS) localStorage.iqraPage = k
     hideMenus();  //html.scrollTo(0)
@@ -179,27 +155,29 @@ function drag(evt) {
 function dragEnd(evt) {
     if (swipe.t==0 || menuC.style.display) return
     let trg = evt.target
-    evt.preventDefault()
     let dt = Date.now() - swipe.t
     let xx = evt.changedTouches[0].clientX
     let dx = Math.round(xx) - swipe.x
     let tr1 = trg.style.transform //initial
     trg.style.transform = ""; swipe.t = 0
     let w2 = 0  //animation width
-    let W = trg.clientWidth
-    console.log(dt, dx, W)
-    if (dt>300 && 3*Math.abs(dx)<W) return
+    let W = evt.target.clientWidth
+    //console.log(dt, dx, W)
+    //too little movement
+    if (Math.abs(dx) < 5) return
+    evt.preventDefault()
     //max 300 msec delay or min W/3 drag
-    if (dx>=5 && curPage<P) { //swipe right
+    if (dt>300 && 3*Math.abs(dx)<W) return
+    if (curPage<P) { //swipe right
         gotoPage(curPage+1); w2 = W+"px"
     } 
-    if (dx<-5 && curPage>1) { //swipe left
+    if (curPage>1) { //swipe left
         gotoPage(curPage-1); w2 = -W+"px"
     }
     if (!w2) return //page not modified
     if (!tr1) tr1 = "translate(0,0)"
     let tr2 = "translate("+w2+",0)" //final position
-    //console.log("animate", tr2)
+    console.log("animate", tr2)
     trg.animate({transform:[tr1, tr2]}, 300)
 }
 function readNames(name) {
@@ -269,7 +247,6 @@ function gotoHashPage() {
       case 'p': // p=245
         gotoPage(s); break
       case 'r': // r=Sbr
-        console.log(e, s)
         let L = rootToList.get(s)
         if (L) { //L must in in Arabic
           markRoot(s); break
@@ -306,6 +283,7 @@ function initReader() {
     sure.onchange  = () => {gotoSura(sure.value)}
     sayfa.onchange = () => {gotoPage(sayfa.value)}
     trans.onclick  = toggleTrans
+    linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     //markW.onclick   = markSelection
     showWords.onclick = toggleWords
@@ -363,45 +341,79 @@ function menuFn() {
   }
   menuC.onclick = (evt) => {
       evt.preventDefault()
-      menuItem(evt.target.innerText.charAt(0))
-  }
-  menuC.onkeydown = (evt) => {
-      if (evt.key == 'Escape') hideMenus()
-      else menuItem(evt.key.toUpperCase())
+      menuItem(evt.target.innerText[0])
   }
   menuK.onclick = (evt) => {
       evt.preventDefault()
-      let s = evt.target.innerText
-      openSitePage(s[0], curPage)
+      openSitePage(evt.target.innerText[0], curPage)
   }
-  menuK.onkeydown = (evt) => {
-      if (evt.key == 'Escape') hideMenus()
-      else openSitePage(evt.key.toUpperCase(), curPage)
-  }
-  /*document.onclick = (evt) => { 
-      if (menuC.style.display == '') return
-      evt.preventDefault(); hideMenus() 
-  }*/
+  document.onkeydown = (evt) => {
+      let k = evt.key.toUpperCase()
+      if (evt.key == 'Escape') 
+          hideMenus()
+      else if (menuC.style.display)
+          menuItem(k)
+      else if (menuK.style.display)
+          openSitePage(k, curPage)
+      else switch (k) {
+          case 'T':
+            toggleTrans(); break
+          case 'M':
+            evt.clientX = linkB.offsetLeft
+            evt.clientY = linkB.offsetTop +10
+            toggleMenuK(evt); break
+          case 'Z':
+            toggleZoom();  break
+          case 'W':
+            toggleWords(); break
+      }
+}
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); hideElement(out)
+      linkB.style.background = ''
   }
 
   html.oncontextmenu = (evt) => {
       evt.preventDefault(); hideElement(menuK)
       setPosition(menuC, evt.clientX, evt.clientY)
   }
-  linkB.onclick = (evt) => { //toggle linkB
-      if (linkB.style.background) {
-        linkB.style.background = ''
-        hideElement(menuK)
-      } else {
-        linkB.style.background = CHECKED
-        hideElement(menuC)
-        setPosition(menuK, evt.clientX, evt.clientY)
-      }
-  }
 }
 /**
 * End of menu functions 
 ***********************************************/
+function toggleTrans() {
+    if (trans.style.background) {
+      html.style.display = ''
+      text.style.display = ''
+      trans.style.background = ''
+    } else { //hide html
+      html.style.display = 'none'
+      text.style.display = 'block'
+      trans.style.background = CHECKED
+    }
+}
+function toggleMenuK(evt) {
+    if (linkB.style.background) {
+      linkB.style.background = ''
+      hideElement(menuK)
+    } else {
+      linkB.style.background = CHECKED
+      hideElement(menuC)
+      setPosition(menuK, evt.clientX, evt.clientY)
+    }
+}
+function toggleZoom() {
+    if (zoomB.style.background) {
+      div2.style.transform = ''
+      zoomB.style.background = ''
+    } else {
+      div2.style.transform ='scale(1.12) translate(0, 6%)'
+      zoomB.style.background = CHECKED
+    }
+}
+function toggleWords() {
+    if  (showWords.style.background)
+         showWords.style.background = ''
+    else showWords.style.background = CHECKED
+}
 

@@ -2,7 +2,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.15c";
+const VERSION = "V3.15P";
 
 /**
  * Location for data files
@@ -71,7 +71,7 @@ function openSitePage(s, p) {
         let [c, v] = toCV(index[p]+1)
         openSiteVerse(s, c, v); return
   }
-  window.open(url, name)
+  window.open(url, name); hideMenus()
 }
 
 function openSiteVerse(s, c, v) {
@@ -94,6 +94,6 @@ function openSiteVerse(s, c, v) {
     default:  return
   }
   console.log(s, url)
-  window.open(url, name)
+  window.open(url, name); hideMenus()
 }
 

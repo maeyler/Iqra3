@@ -1,5 +1,9 @@
 "use strict";
 /**
+ * div element that shows page info
+ */
+var bilgi;
+/**
  * Global array to hold the places of Sajda.
  * used in marking sajdah verses
  *
@@ -216,9 +220,8 @@ function selectRoot(root) { //root in Arabic
     // set the windows hash location to the root
     //replace special chars
     let b = encodeURI(toBuckwalter(root))
-//      .replace('>','%3e').replace('<','%3c')
-//      .replace('{','%7b').replace('`','%60')
-    window.location.hash = "#r=" + b;
+    location.hash = "#r=" + b;
+    //history.pushState('', '', "#r=" + b)
 }
 /**
  * Select word, if undefined menu3 values will be the selected one.
@@ -313,25 +316,30 @@ function displayRef(word, [page, refA]) {
     }
     // end of table
     tablo.innerHTML = text;
+    tablo.oncontextmenu = showMenu;
     document.title = TITLE + " -- " + word;
     let t1 = refA.length + " sayfa";
     out.innerText = t1; console.log(word, t1);
     for (let x of tablo.querySelectorAll('td')) {
       x.onmouseenter = doHover
-      //x.onmouseleave = hideMenus
-      x.onmouseup = doClick //mouse only -- no touch
+      x.onmouseleave = () => {
+        if (!menuK.style.display) hideElement(bilgi)
+      }
+      //x.onmouseup = doClick -- implement later
     }
+    bilgi = document.createElement('div') //lost within table
+    bilgi.id = 'bilgi'; document.body.append(bilgi)
+    bilgi.onclick = doClick
 }
-function doEnter(evt) {
-}
+
 /**
  * Open the quran webPage after checking it's event.
- * ??
+ * 
  * @param {*} evt get the event trigger. 
  */
 function doClick(evt) {
-    if (menuK.style.display) return //do not handle click if context-menu
-    if (!bilgi.style.display) return  //or no page is selected
+    //do not handle if menuK is on or bilgi is off
+    if (menuK.style.display || !bilgi.style.display) return
     let [nam, ref] = bilgi.innerText.split(EM_SPACE)
     let [xx, p] = nam.split(/\.| /)  //dot or space
     let h;
@@ -387,8 +395,6 @@ function gotoHashRoot() {
 /**
  * Initialize the globals
  * 
- * @see makeMenu
- * 
  * @param none
  * 
  */
@@ -404,38 +410,49 @@ function initMujam() {
     } catch(err) { 
         out.innerText = ""+err;
     }
-    bilgi.onclick = doClick
     window.onhashchange = gotoHashRoot
     window.name ="mujam"
+    menuFn(); 
+}
 
   /**
   * Menu functions
   */
+function menuFn() {
+  function menuItem(m) {
+      let s = bilgi.innerText
+      if (!s) return
+      let [nam, ref] = s.split(EM_SPACE)
+      if (!ref) return
+      let [cv] = ref.split(' ')
+      let [c, v] = cv.split(':')
+      openSiteVerse(m, c, v)
+      hideMenus()
+  }
   menuK.onclick = (evt) => {
       evt.preventDefault()
       let s = evt.target.innerText
       evt.key = s[0] //as if first letter is pressed
       document.onkeydown(evt)
   }
+  menuK.onclick = (evt) => {
+      evt.preventDefault()
+      menuItem(evt.target.innerText[0])
+  }
   document.onkeydown = (evt) => {
     if (evt.key == 'Escape') hideMenus()
-    else {
-      let s = evt.key.toUpperCase()
-      let [nam, ref] = bilgi.innerText.split(EM_SPACE)
-      let [cv] = ref.split(' ')
-      let [c, v] = cv.split(':')
-      openSiteVerse(s, c, v)
-      hideMenus()
-    }
+    else if (menuK.style.display) 
+      menuItem(evt.key.toUpperCase())
   }
   window.hideMenus = () => { 
       hideElement(menuK); hideElement(bilgi)
   }
-  tablo.oncontextmenu = (evt) => {
-      evt.preventDefault(); //hideElement(bilgi)
-      setPosition(menuK, evt.clientX, evt.clientY)
-  }
 }
+
+  function showMenu(evt) {
+      evt.preventDefault(); //hideElement(bilgi)
+      setPosition(menuK, evt.clientX, evt.clientY-58)
+  }   //show the menu above this cell, not below
 
 function getPageOf(td) {
     let r = td.parentElement.rowIndex;
@@ -447,8 +464,18 @@ function doHover(evt) {  //listener for each td element
     if (menuK.style.display) return
     let p = getPageOf(evt.target)
     bilgi.innerHTML = pRefs[p]?
-         "<span class=t2>" + pRefs[p]  + "</span>"
-       : "<span class=t1>" + pLabel[p] + "</span>"
-    setPosition(bilgi, evt.clientX, evt.clientY)
+         "<div class=t2>" + pRefs[p]  + "</div>"
+       : "<div class=t1>" + pLabel[p] + "</div>"
+    evt.target.append(bilgi); 
+    //center over evt.target
+    let mw = bilgi.clientWidth || 200
+    let x0 = evt.target.offsetLeft + 10
+    let dx = Math.max(-mw/2, -x0)  
+    //if (x0-mw/2 < 0) dx = -x0
+    let cw = tablo.clientWidth || 440
+    //dx = Math.min(dx, cw-mw/2-x0)
+    if (x0+mw/2 > cw) dx = cw-mw/2-x0
+    bilgi.style.left = (dx)+'px'
+    bilgi.style.display = "inherit"
 }
 
