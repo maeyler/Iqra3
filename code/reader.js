@@ -76,7 +76,7 @@ function displayWord(evt) {
     evt.target.style.background = '#ddd'
     let n = rootToList.get(r).length
     out.innerText = toArabic(r)+' => '+n
-    setPosition(out, evt.clientX, evt.clientY)
+    setPosition(out, evt.clientX, evt.clientY+10, 130)
 }
 function selectWord(evt) {
     let s = window.getSelection()
@@ -164,14 +164,14 @@ function dragEnd(evt) {
     let W = evt.target.clientWidth
     //console.log(dt, dx, W)
     //too little movement
-    if (Math.abs(dx) < 5) return
+    if (-5<=dx && dx<=5) return
     evt.preventDefault()
     //max 300 msec delay or min W/3 drag
     if (dt>300 && 3*Math.abs(dx)<W) return
-    if (curPage<P) { //swipe right
+    if (dx>5  && curPage<P) { //swipe right
         gotoPage(curPage+1); w2 = W+"px"
     } 
-    if (curPage>1) { //swipe left
+    if (dx<-5 && curPage>1) { //swipe left
         gotoPage(curPage-1); w2 = -W+"px"
     }
     if (!w2) return //page not modified
@@ -312,8 +312,9 @@ function menuFn() {
   const LINKM = 'mujam.html#r='
   function menuItem(m) {
       if (m == 'I') {
-          let s = title.innerText+'\nQuran Reader'
-          alert(s+'\n(C) 2019 MAE'); return
+          //let s = title.innerText+'\nQuran Reader'
+          //alert(s+'\n(C) 2019 MAE'); 
+          open('/Iqra3/','iqra'); return
       } 
       let s = forceSelection() //s is not empty
       switch (m) {
@@ -375,7 +376,7 @@ function menuFn() {
 
   html.oncontextmenu = (evt) => {
       evt.preventDefault(); hideElement(menuK)
-      setPosition(menuC, evt.clientX, evt.clientY)
+      setPosition(menuC, evt.clientX, evt.clientY-60, 220)
   }
 }
 /**
@@ -399,7 +400,7 @@ function toggleMenuK(evt) {
     } else {
       linkB.style.background = CHECKED
       hideElement(menuC)
-      setPosition(menuK, evt.clientX, evt.clientY)
+      setPosition(menuK, linkB.offsetLeft, linkB.offsetTop+24, 220)
     }
 }
 function toggleZoom() {

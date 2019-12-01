@@ -2,7 +2,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.15P";
+const VERSION = "V3.15q";
 
 /**
  * Location for data files
@@ -43,17 +43,14 @@ function toArabic(s) {
  * Menu functions
  *
  */
-function setPosition(elt, x, y) {
-    let mw = elt.clientWidth || 220
-    x = x - mw/2  //center over menu
-    let cw = elt.parentElement.clientWidth || 400
-    if (cw < 850) { //narrow screen
-      let cl = 0 //elt.parentElement.clientLeft
-      x = Math.max(x, cl)       // x ≥ cl
-      x = Math.min(x, cl+cw-mw-5) // x < cl+cw-mw
-    }
+function setPosition(elt, x, y, mw=200) {
+    mw = elt.clientWidth || mw
+    x = x - mw/2  //center over parent
+    let cw = document.body.clientWidth
+    x = Math.max(x, 0)     // x ≥ 0
+    x = Math.min(x, cw-mw) // x < cw-mw
     elt.style.left = (x)+'px'
-    elt.style.top = (y+10)+'px'
+    elt.style.top  = (y)+'px'
     elt.style.display = 'block'
 }
 

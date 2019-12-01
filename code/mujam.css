@@ -1,11 +1,10 @@
     body {
-        max-width: 520px;
-        width: 100%;
+        max-width: 460px;
         font-size: 12px;
         font-family: arial, sans-serif;
     }
     p { 
-        width: 490px;
+        width: 100%;
         margin: 8px 0px;
     }
     select {
@@ -41,7 +40,6 @@
     td:hover { 
         border-width: 3px;
     }
-    /* select:hover .t1, td:hover .t1, td:hover .t2, th:hover .t1, */
     button:hover .t1 { 
         display: block; 
     }
@@ -54,7 +52,7 @@
         position: absolute;
         width: 180px;
         z-index: 1; /* on top of other cells */
-        top: 20px;
+        top: 18px;
         text-align: center;
     }
     .t1, .t2 {
@@ -82,11 +80,10 @@
 	
 	/* Menu Style */
     .menu {
-      width: 225px;
-      background: #cfc;
       box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
       position: fixed;
       display: none;
+      background: #cfc;
     }
     .options {
       margin: 10px 0;

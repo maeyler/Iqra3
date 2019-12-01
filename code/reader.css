@@ -88,7 +88,7 @@
     }
     #out { 
       display: none;
-      position: fixed;
+      position: absolute;
       min-width: 110px;
       text-align: center;
       margin: 15px;

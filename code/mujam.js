@@ -316,7 +316,7 @@ function displayRef(word, [page, refA]) {
     }
     // end of table
     tablo.innerHTML = text;
-    tablo.oncontextmenu = showMenu;
+    tablo.oncontextmenu = showMenuK;
     document.title = TITLE + " -- " + word;
     let t1 = refA.length + " sayfa";
     out.innerText = t1; console.log(word, t1);
@@ -431,12 +431,6 @@ function menuFn() {
   }
   menuK.onclick = (evt) => {
       evt.preventDefault()
-      let s = evt.target.innerText
-      evt.key = s[0] //as if first letter is pressed
-      document.onkeydown(evt)
-  }
-  menuK.onclick = (evt) => {
-      evt.preventDefault()
       menuItem(evt.target.innerText[0])
   }
   document.onkeydown = (evt) => {
@@ -447,12 +441,11 @@ function menuFn() {
   window.hideMenus = () => { 
       hideElement(menuK); hideElement(bilgi)
   }
-}
-
-  function showMenu(evt) {
+  window.showMenuK = (evt) => { 
       evt.preventDefault(); //hideElement(bilgi)
-      setPosition(menuK, evt.clientX, evt.clientY-58)
-  }   //show the menu above this cell, not below
+      setPosition(menuK, evt.clientX, evt.clientY-50, 220)
+  }
+}
 
 function getPageOf(td) {
     let r = td.parentElement.rowIndex;
@@ -468,14 +461,15 @@ function doHover(evt) {  //listener for each td element
        : "<div class=t1>" + pLabel[p] + "</div>"
     evt.target.append(bilgi); 
     //center over evt.target
-    let mw = bilgi.clientWidth || 200
+    //setPosition(bilgi, evt.clientX, 20, 180)
+    let mw = bilgi.clientWidth || 180
     let x0 = evt.target.offsetLeft + 10
     let dx = Math.max(-mw/2, -x0)  
     //if (x0-mw/2 < 0) dx = -x0
-    let cw = tablo.clientWidth || 440
-    //dx = Math.min(dx, cw-mw/2-x0)
-    if (x0+mw/2 > cw) dx = cw-mw/2-x0
+    let cw = (tablo.clientWidth || 460) + 20
+    dx = Math.min(dx, cw-mw-x0)
+    //if (x0+mw/2 > cw) dx = cw-mw-x0
     bilgi.style.left = (dx)+'px'
-    bilgi.style.display = "inherit"
+    bilgi.style.display = "block"
 }
 
