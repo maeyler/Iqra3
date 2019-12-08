@@ -76,7 +76,7 @@ function displayWord(evt) {
     evt.target.style.background = '#ddd'
     let n = rootToList.get(r).length
     out.innerText = toArabic(r)+' => '+n
-    setPosition(out, evt.clientX, evt.clientY+10, 130)
+    setPosition(out, evt.clientX, evt.pageY+10, 130)
 }
 function selectWord(evt) {
     let s = window.getSelection()
@@ -132,14 +132,17 @@ function gotoSura(k) {
     gotoPage(first[k]);
 }
 function dragStart(evt) {
-    if (swipe.t>0  || menuC.style.display) return
+    if (menuK.style.display || menuC.style.display) {
+        hideMenus(); evt.preventDefault(); return
+    }
+    if (swipe.t>0) return
     swipe.t = Date.now()
     swipe.x = Math.round(evt.touches[0].clientX)
     swipe.y = Math.round(evt.touches[0].clientY)
     //console.log("dragStart", swipe)
 }
 function drag(evt) {
-    if (swipe.t==0 || menuC.style.display) return
+    if (swipe.t==0) return
     let trg = evt.target
     let dx = Math.round(evt.touches[0].clientX) - swipe.x
     let dy = Math.round(evt.touches[0].clientY) - swipe.y
@@ -153,7 +156,7 @@ function drag(evt) {
     trg.style.transform = tr;
 }
 function dragEnd(evt) {
-    if (swipe.t==0 || menuC.style.display) return
+    if (swipe.t==0) return
     let trg = evt.target
     let dt = Date.now() - swipe.t
     let xx = evt.changedTouches[0].clientX
@@ -163,15 +166,15 @@ function dragEnd(evt) {
     let w2 = 0  //animation width
     let W = evt.target.clientWidth
     //console.log(dt, dx, W)
-    //too little movement
-    if (-5<=dx && dx<=5) return
+    const K = 9  //too little movement
+    if (-K<=dx && dx<=K) return
     evt.preventDefault()
     //max 300 msec delay or min W/3 drag
     if (dt>300 && 3*Math.abs(dx)<W) return
-    if (dx>5  && curPage<P) { //swipe right
+    if (dx>K  && curPage<P) { //swipe right
         gotoPage(curPage+1); w2 = W+"px"
     } 
-    if (dx<-5 && curPage>1) { //swipe left
+    if (dx<-K && curPage>1) { //swipe left
         gotoPage(curPage-1); w2 = -W+"px"
     }
     if (!w2) return //page not modified
@@ -314,7 +317,8 @@ function menuFn() {
       if (m == 'I') {
           //let s = title.innerText+'\nQuran Reader'
           //alert(s+'\n(C) 2019 MAE'); 
-          open('/Iqra3/','iqra'); return
+          window.open('/Iqra3/','NewTab'); 
+          hideMenus(); return
       } 
       let s = forceSelection() //s is not empty
       switch (m) {
@@ -375,7 +379,8 @@ function menuFn() {
   }
 
   html.oncontextmenu = (evt) => {
-      evt.preventDefault(); hideElement(menuK)
+      evt.preventDefault(); 
+      hideElement(menuK); linkB.style.background = ''
       setPosition(menuC, evt.clientX, evt.clientY-60, 220)
   }
 }

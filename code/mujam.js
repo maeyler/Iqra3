@@ -340,6 +340,7 @@ function displayRef(word, [page, refA]) {
 function doClick(evt) {
     //do not handle if menuK is on or bilgi is off
     if (menuK.style.display || !bilgi.style.display) return
+    evt.preventDefault()
     let [nam, ref] = bilgi.innerText.split(EM_SPACE)
     let [xx, p] = nam.split(/\.| /)  //dot or space
     let h;
@@ -432,6 +433,9 @@ function menuFn() {
   menuK.onclick = (evt) => {
       evt.preventDefault()
       menuItem(evt.target.innerText[0])
+  }
+  document.onclick = (evt) => {
+      hideMenus(); evt.preventDefault()
   }
   document.onkeydown = (evt) => {
     if (evt.key == 'Escape') hideMenus()
