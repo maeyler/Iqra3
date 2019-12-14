@@ -69,13 +69,13 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function displayWord(evt) {
-    if (!showWords.style.background) return
+    //if (!showWords.style.background) return
     let w = evt.target.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
     if (!r) { hideElement(out); return }
     evt.target.style.background = '#ddd'
     let n = rootToList.get(r).length
-    out.innerText = toArabic(r)+' => '+n
+    out.innerText = toArabic(r)  //+' => '+n
     setPosition(out, evt.clientX, evt.pageY+10, 130)
 }
 function selectWord(evt) {
@@ -275,7 +275,8 @@ function initialPage() {
     }
 }
 function initReader() {
-    title.innerHTML = 'Iqra '+VERSION+'&emsp;';
+    title.innerHTML = 'Iqra -- Oku'+'&emsp;';
+    version.innerText = VERSION;
     text.addEventListener("touchstart", dragStart);
     html.addEventListener("touchstart", dragStart);
     text.addEventListener("touchmove", drag);
@@ -289,7 +290,7 @@ function initReader() {
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     //markW.onclick   = markSelection
-    showWords.onclick = toggleWords
+    //showWords.onclick = toggleWords
     solBut.onclick = () => {gotoPage(curPage-1)}
     slider.onchange= () => {gotoPage(slider.value)}
     sagBut.onclick = () => {gotoPage(curPage+1)}
@@ -367,10 +368,10 @@ function menuFn() {
             evt.clientX = linkB.offsetLeft
             evt.clientY = linkB.offsetTop +10
             toggleMenuK(evt); break
-          case 'Z':
+          case '+':
             toggleZoom();  break
-          case 'W':
-            toggleWords(); break
+          //case 'W':
+            //toggleWords(); break
       }
 }
   window.hideMenus = () => { 
@@ -413,11 +414,11 @@ function toggleZoom() {
       div2.style.transform = ''
       zoomB.style.background = ''
     } else {
-      div2.style.transform ='scale(1.12) translate(0, 6%)'
+      div2.style.transform ='scale(1.16) translate(0, 8%)'
       zoomB.style.background = CHECKED
     }
 }
-function toggleWords() {
+function toggleWords() { //not used
     if  (showWords.style.background)
          showWords.style.background = ''
     else showWords.style.background = CHECKED

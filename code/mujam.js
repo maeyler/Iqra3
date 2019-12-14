@@ -435,6 +435,8 @@ function menuFn() {
       menuItem(evt.target.innerText[0])
   }
   document.onclick = (evt) => {
+      if (evt.target.tagName == "TD"
+        && !menuK.style.display) return
       hideMenus(); evt.preventDefault()
   }
   document.onkeydown = (evt) => {
