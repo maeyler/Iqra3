@@ -69,7 +69,7 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function displayWord(evt) {
-    //if (!showWords.style.background) return
+    if (!showWords.style.background) return
     let w = evt.target.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
     if (!r) { hideElement(out); return }
@@ -166,7 +166,7 @@ function dragEnd(evt) {
     let w2 = 0  //animation width
     let W = evt.target.clientWidth
     //console.log(dt, dx, W)
-    const K = 9  //too little movement
+    const K = 50  //too little movement
     if (-K<=dx && dx<=K) return
     evt.preventDefault()
     //max 300 msec delay or min W/3 drag
@@ -290,7 +290,7 @@ function initReader() {
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     //markW.onclick   = markSelection
-    //showWords.onclick = toggleWords
+    showWords.onclick = toggleWords
     solBut.onclick = () => {gotoPage(curPage-1)}
     slider.onchange= () => {gotoPage(slider.value)}
     sagBut.onclick = () => {gotoPage(curPage+1)}
@@ -311,9 +311,9 @@ function initReader() {
  * We have two Menu elements: menuC (context)  menuK (open source)
  *
  */
+const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
+const LINKM = isRemote()? 'mujam#r=' : 'mujam.html#r='
 function menuFn() {
-  const LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder#w='
-  const LINKM = 'mujam.html#r='
   function menuItem(m) {
       if (m == 'I') {
           //let s = title.innerText+'\nQuran Reader'
@@ -370,8 +370,8 @@ function menuFn() {
             toggleMenuK(evt); break
           case '+':
             toggleZoom();  break
-          //case 'W':
-            //toggleWords(); break
+          case 'W':
+            toggleWords(); break
       }
 }
   window.hideMenus = () => { 
@@ -418,7 +418,7 @@ function toggleZoom() {
       zoomB.style.background = CHECKED
     }
 }
-function toggleWords() { //not used
+function toggleWords() {
     if  (showWords.style.background)
          showWords.style.background = ''
     else showWords.style.background = CHECKED

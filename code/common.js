@@ -2,7 +2,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.16";
+const VERSION = "V3.17";
 
 /**
  * Location for data files
@@ -39,9 +39,7 @@ function toArabic(s) {
 }
 
 /**
- *
  * Menu functions
- *
  */
 function setPosition(elt, x, y, mw=200) {
     mw = elt.clientWidth || mw
@@ -92,5 +90,9 @@ function openSiteVerse(s, c, v) {
   }
   console.log(s, url)
   window.open(url, name); hideMenus()
+}
+
+function isRemote() {
+    return location.protocol.startsWith('http')
 }
 

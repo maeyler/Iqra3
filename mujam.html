@@ -17,7 +17,8 @@
 </head>
 
 <body>
-<div><select id=menu1 onChange="selectLetter()">
+<div id=div1>
+   <select id=menu1 onChange="selectLetter()">
    <span class='t1'>Aranan kökün ilk harfi</span>
    </select>
    Kök: <select id=menu2 onChange="selectRoot()">
@@ -59,8 +60,7 @@
 
 <script>
 "use strict";
-    if ('serviceWorker' in navigator) {
-      if (location.protocol.startsWith('http')) 
+    if (navigator.serviceWorker && isRemote()) {
         navigator.serviceWorker.register('sw.js')
         .then(reg => { console.log('Service Worker', reg.scope) })
         .catch(alert)
@@ -68,6 +68,5 @@
     const TITLE = document.title; 
     initMujam();
 </script>
-
 </body>
 </html>

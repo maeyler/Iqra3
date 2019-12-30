@@ -9,31 +9,21 @@
     }
     button { 
       width: 25px;
-      margin: 0;
     }
     #title, #geri { 
       display: none;
     }
-    #div3, #out { 
-      font: 12px sansserif, arial;
-      font-weight: normal;
-      margin: 8px 0;
+    #div3, #version { 
+      font-size: 3.1vw;
     }
-    #text, #html {
-      background: white;
-      padding: 4px 8px;
-    }
-    #text, #version { 
-      font: 3.4vw/1.2 sansserif, arial;
+    #text { 
+      font-size: 3.3vw;
     }
     #text { 
       display: none;
-      text-align: left;
     }
-    #html { 
-      font: 4.6vw/2 me_quran, serif;
-      text-align: justify;
-      direction: rtl;
+    #html, #out { 
+      font-size: 4.6vw;
     }
 }
 
@@ -43,67 +33,82 @@
     }
     button { 
       width: 30px;
-      margin: 0;
     }
     #title {
+      font-size: 15px;
       margin: 0;
       display: inline-block;
     }
     #trans { 
       display: none;
     }
-    #div3 { 
-      font: 14px sansserif, arial;
-      font-weight: normal;
-      margin: 8px;
-    }
     #text, #html {
       width: 400px; 
       display: inline-block;
       vertical-align: middle;
       overflow-y: auto;
-      height: 84vh;
+      height: 88vh;
       border: black 1px solid;
-      background: white;
-      padding: 4px 8px;
+    }
+    #div3, #version { 
+      font-size: 13px;
     }
     #text { 
-      font: 15px sansserif, arial;
-      text-align: left;
+      font-size: 15px;
     }
-    #html { 
-      font: 18px/2 me_quran, serif;
-      text-align: justify;
-      direction: rtl;
+    #html, #out { 
+      font-size: 19px;
     }
 }
 /** common to all screens **/
     button {
       user-select: none;
       cursor: pointer;
+      padding: 5px 18px 5px 8px;
     }
     div { 
       text-align: center;
     }
     #div0 { 
-      height: 36px;
+      height: 30px;
     }
     #out { 
       display: none;
       position: absolute;
-      min-width: 110px;
+      min-width: 90px;
       text-align: center;
       margin: 15px;
       color: blue;
       background: #cfc;
-      font: 18px me_quran, serif;
       border: blue 1px solid;
+    }
+    #div1, #div3 { 
+      white-space: nowrap;
+      margin: 0;
     }
     #div1 { 
       width: 100%;
       position: fixed;
       bottom: 0;
-      margin-bottom: 8px;
+    }
+    #text, #html {
+      background: white;
+      padding: 4px 8px;
+    }
+    #text { 
+      text-align: left;
+      line-height: 1.3;
+    }
+    #html { 
+      text-align: justify;
+    }
+    #text, #div3, #version { 
+      font-family: sansserif, arial;
+    }
+    #html, #out { 
+      font-family: me_quran, serif;
+      line-height: 2;
+      direction: rtl;
     }
 @media screen and (max-height: 420px) {
     #div1 { display: none; }

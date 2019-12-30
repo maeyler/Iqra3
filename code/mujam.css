@@ -7,9 +7,12 @@
         width: 100%;
         margin: 8px 0px;
     }
+    #div1 { 
+      white-space: nowrap;
+    }
     select {
         font: 17px me_quran, serif;
-        margin-right: 8px;
+        margin-right: 4px;
         padding-right: 4px;
         direction: rtl;
         color: blue;

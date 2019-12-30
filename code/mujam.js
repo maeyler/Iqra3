@@ -351,7 +351,8 @@ function doClick(evt) {
         h = "#p="+p;
     }
     console.log(h); hideMenus()
-    iqra = window.open("reader.html" + h, "iqra")
+    let url = isRemote()? "reader" : "reader.html"
+    iqra = window.open(url + h, "iqra")
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 

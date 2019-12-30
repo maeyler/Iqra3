@@ -23,9 +23,11 @@
   <input id=sure  type=number min=1 max=114 value=1>
   <span id=isim></span>&emsp; Sayfa
   <input id=sayfa type=number min=1 max=604 value=1>
-  &emsp;<button id=trans>T</button>&emsp;
-  <button id=linkB><b>⋮</b></button>&emsp;
-  <button id=zoomB>+</button>  
+  &emsp;
+  <button id=trans>T</button>
+  <button id=linkB><b>⋮</b></button>
+  <button id=zoomB>+</button>
+  <button id=showWords>W</button>  
 </div>
 
 <div id=div2>
@@ -86,8 +88,7 @@
 </div>
 
 <script>
-    if ('serviceWorker' in navigator) {
-      if (location.protocol.startsWith('http')) 
+    if (navigator.serviceWorker && isRemote()) {
         navigator.serviceWorker.register('sw.js')
         .then(reg => { console.log('SW Registered', reg.scope) })
         .catch(alert)
