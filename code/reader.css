@@ -1,6 +1,5 @@
     body { 
       margin: 0;
-      overflow-x: hidden;
     }
 @media screen and (max-width: 820px) {
     body { 
@@ -68,6 +67,9 @@
     }
     div { 
       text-align: center;
+    }
+    #div2 { 
+      overflow-x: hidden;
     }
     #div0 { 
       height: 30px;

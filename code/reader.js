@@ -144,6 +144,8 @@ function dragStart(evt) {
 function drag(evt) {
     if (swipe.t==0) return
     let trg = evt.target
+    while (trg && trg.tagName != 'DIV')
+        trg = trg.parentElement
     let dx = Math.round(evt.touches[0].clientX) - swipe.x
     let dy = Math.round(evt.touches[0].clientY) - swipe.y
     if (Math.abs(dx) < 3*Math.abs(dy)) { //not horizontal
@@ -158,14 +160,17 @@ function drag(evt) {
 function dragEnd(evt) {
     if (swipe.t==0) return
     let trg = evt.target
+    while (trg && trg.tagName != 'DIV')
+        trg = trg.parentElement
     let dt = Date.now() - swipe.t
     let xx = evt.changedTouches[0].clientX
     let dx = Math.round(xx) - swipe.x
     let tr1 = trg.style.transform //initial
+    console.log("dragEnd", tr1, trg.tagName)
     trg.style.transform = ""; swipe.t = 0
     let w2 = 0  //animation width
-    let W = evt.target.clientWidth
-    //console.log(dt, dx, W)
+    let W = trg.clientWidth
+    console.log(dt, dx, W)
     const K = 50  //too little movement
     if (-K<=dx && dx<=K) return
     evt.preventDefault()
