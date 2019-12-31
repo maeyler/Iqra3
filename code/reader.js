@@ -337,10 +337,16 @@ function menuFn() {
               window.open(LINKF + s, "finder")
               break
           case 'M':
-              let root = wordToRoot.get(toBuckwalter(s))
-              if (root) {
-                  mujam = window.open(LINKM + root, "mujam")
-                  markRoot(root); //console.log(s+' => '+root)
+              let a = []
+              for (let w of s.split(' ')) {
+                let r = wordToRoot.get(toBuckwalter(w))
+                if (r) a.push(r)
+              }
+              if (a.length > 0) {
+                let p = a.join('&r=')
+                mujam = window.open(LINKM + p, "mujam")
+                for (let r of a) markRoot(r); 
+                console.log(s+' => r='+p)
               }
               else alert('Mucemde bulunamadı')
               break

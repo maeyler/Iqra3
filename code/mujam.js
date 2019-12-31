@@ -190,9 +190,10 @@ function selectLetter(ch) {
 /**
  * select specified root, if undefined the menu2 value will be the selected.
  * 
- * @param {String} root root to be seleceted, example: سجد 23
+ * @param {string} root to be seleceted, example: سجد 23
  */
 function selectRoot(root) { //root in Arabic 
+    div1.style.display = ''
     if (!root) [root] = menu2.value.split(EM_SPACE);
     else if (menu2.value.startsWith(root)) return;
     else {
@@ -242,6 +243,42 @@ function selectWord(word) { //called by menu3 only
     let str = wordToRefs.get(word);
     //let [page, refA] = parseRefs(str);
     displayRef(word, parseRefs(str));
+}
+/**
+ * display specified roots, hide the menus.
+ * 
+ * @param {Array} roots to be displayed
+ */
+function getIndicesOf(root) {
+    let cnt = rootToCounts.get(root);
+    let list = rootToWords.get(cnt);
+    let indA = [];
+    for (let w of list) {
+        addIndexes(wordToRefs.get(w), indA);
+    }
+    indA.sort((a, b) => (a - b));
+    return indA
+}
+  function intersection(a, b) { //not used
+    let i = 0, j = 0, c = []
+    while (i<a.length && j<b.length) {
+      if (a[i] == b[j]) {
+        c.push(a[i]); i++; j++
+      } 
+      else if (a[i] < a[j]) i++; else j++
+    }
+    return c
+  }
+function displayRoots(ra) { //root array in Arabic
+    console.log(ra)
+    if (!ra.length) throw "displayRoots: "+ra.length
+    div1.style.display = 'none'
+    let i1 = getIndicesOf(ra[0]);
+    for (let k=1; k<ra.length; k++) {
+       let i2 = getIndicesOf(ra[k])
+       i1 = i1.filter(x=> i2.includes(x)) //intersection
+    }
+    displayRef(ra.join('+'), indexToArray(i1));
 }
 /**
  * Create and build the HTML table to show the information on it.
@@ -346,7 +383,9 @@ function doClick(evt) {
     let h;
     if (pRefs[p]) { //use first reference & root
         let [cv] = ref.split(' ')
-        h = "#v="+cv+"&r="+currentRoot()
+        h = "#v="+cv
+        let d = decodedHash()
+        if (d) h += "&r="+d
     } else { //use page number
         h = "#p="+p;
     }
@@ -370,20 +409,32 @@ function doClick2() {
 /**
  * Use the hash part of URL in the address bar
  *
- * @see displayRef
+ * @returns null (no hash), '' (named), or decoded hash ('r=')
  * 
+ */
+function decodedHash() {
+  let h = location.hash
+  if (h.length < 4) return null
+  if (h.startsWith('#r='))
+    //replace special chars: call decodeURI() by A Rajab
+    return decodeURI(h.substring(3))
+  else return ''
+}
+/**
+ * Use the hash part of URL in the address bar
+ *
  * @returns true if hash part of URL is not empty
  * 
  */
 function gotoHashRoot() {
-  let h = location.hash
-  if (h.length < 6) return false
-  if (h.startsWith('#r=')) {
-    //replace special chars: call decodeURI() by A Rajab
-    h = decodeURI(h.substring(3))
-//      .replace('%3e','>').replace('%3c','<')
-//      .replace('%7b','{').replace('%60','`')
-    selectRoot(toArabic(h))
+  let h = decodedHash()
+  if (h == null) return false
+  if (h) {
+    let ra = h.split('&r=').map(toArabic)
+    /*if (ra.length == 1)
+         selectRoot(ra[0])
+    else*/
+    displayRoots(ra)
   } else {
     let title = '', refs = h.substring(1)
     if (refs.includes('='))
