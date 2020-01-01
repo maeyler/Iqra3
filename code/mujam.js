@@ -156,7 +156,7 @@ function report2(t) {
  * @see report2
  */
 function readData() {
-    out.innerText = "Reading data";
+    out2.innerText = "Reading data";
     //const DATA_URL = "https://maeyler.github.io/Iqra3/data/" in common.js
     fetch(DATA_URL+"refs.txt")
         .then(r => r.text()) //response
@@ -193,7 +193,6 @@ function selectLetter(ch) {
  * @param {string} root to be seleceted, example: سجد 23
  */
 function selectRoot(root) { //root in Arabic 
-    div1.style.display = ''
     if (!root) [root] = menu2.value.split(EM_SPACE);
     else if (menu2.value.startsWith(root)) return;
     else {
@@ -210,15 +209,13 @@ function selectRoot(root) { //root in Arabic
     menu3.style.color = (nL == 1 ? "gray" : "");
     //combine refs in list
     combine.hidden = true;
-    let indA = [];
+    /*let indA = []; handled by gotoHashRoot()
     for (let j = 0; j < nL; j++) {
         let str = wordToRefs.get(list[j]);
         addIndexes(str, indA);
     }
     indA.sort((a, b) => (a - b));
-    //let [page, refs] = indexToArray(indA);
-    displayRef(root, indexToArray(indA));
-    // set the windows hash location to the root
+    displayRef(root, indexToArray(indA));*/
     //replace special chars
     let b = encodeURI(toBuckwalter(root))
     location.hash = "#r=" + b;
@@ -259,20 +256,9 @@ function getIndicesOf(root) {
     indA.sort((a, b) => (a - b));
     return indA
 }
-  function intersection(a, b) { //not used
-    let i = 0, j = 0, c = []
-    while (i<a.length && j<b.length) {
-      if (a[i] == b[j]) {
-        c.push(a[i]); i++; j++
-      } 
-      else if (a[i] < a[j]) i++; else j++
-    }
-    return c
-  }
 function displayRoots(ra) { //root array in Arabic
-    console.log(ra)
+    //console.log(ra)
     if (!ra.length) throw "displayRoots: "+ra.length
-    div1.style.display = 'none'
     let i1 = getIndicesOf(ra[0]);
     for (let k=1; k<ra.length; k++) {
        let i2 = getIndicesOf(ra[k])
@@ -355,8 +341,10 @@ function displayRef(word, [page, refA]) {
     tablo.innerHTML = text;
     tablo.oncontextmenu = showMenuK;
     document.title = TITLE + " -- " + word;
-    let t1 = refA.length + " sayfa";
-    out.innerText = t1; console.log(word, t1);
+    let nn = refA.length
+    out1.innerText = nn + " sayfa"
+    out2.innerText = nn +EM_SPACE+ word
+    console.log(word, nn)
     for (let x of tablo.querySelectorAll('td')) {
       x.onmouseenter = doHover
       x.onmouseleave = () => {
@@ -409,7 +397,7 @@ function doClick2() {
 /**
  * Use the hash part of URL in the address bar
  *
- * @returns null (no hash), '' (named), or decoded hash ('r=')
+ * @returns null (no hash), decoded hash ('r='), or as-is (named) 
  * 
  */
 function decodedHash() {
@@ -417,8 +405,8 @@ function decodedHash() {
   if (h.length < 4) return null
   if (h.startsWith('#r='))
     //replace special chars: call decodeURI() by A Rajab
-    return decodeURI(h.substring(3))
-  else return ''
+    return decodeURI(h.substring(3))  //strip '#r='
+  else return h
 }
 /**
  * Use the hash part of URL in the address bar
@@ -428,12 +416,10 @@ function decodedHash() {
  */
 function gotoHashRoot() {
   let h = decodedHash()
-  if (h == null) return false
-  if (h) {
+  if (!h) return false
+  showSelections(false)
+  if (!h.startsWith('#')) {
     let ra = h.split('&r=').map(toArabic)
-    /*if (ra.length == 1)
-         selectRoot(ra[0])
-    else*/
     displayRoots(ra)
   } else {
     let title = '', refs = h.substring(1)
@@ -452,6 +438,7 @@ function gotoHashRoot() {
  * 
  */
 function initMujam() {
+    showSelections(false);
     // mark places for sajda
     let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
     [sajda, ] = parseRefs(str);
@@ -461,11 +448,11 @@ function initMujam() {
     try {
         readData();
     } catch(err) { 
-        out.innerText = ""+err;
+        out2.innerText = ""+err;
     }
-    window.onhashchange = gotoHashRoot
     window.name ="mujam"
-    menuFn(); 
+    window.onhashchange = gotoHashRoot
+    menuFn()
 }
 
   /**
@@ -505,10 +492,18 @@ function menuFn() {
   }
 }
 
+function showSelections(show) {
+    if (show) {
+      div1.style.display = ''
+      div2.style.display = 'none'
+    } else {
+      div1.style.display = 'none'
+      div2.style.display = ''
+    }
+}
 function getPageOf(td) {
     let r = td.parentElement.rowIndex;
     let p = 20*(r-1) + td.cellIndex;
-    //console.log('getPageOf', p)
     return p
 }
 function doHover(evt) {  //listener for each td element

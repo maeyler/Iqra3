@@ -28,10 +28,6 @@ function forceSelection() {
     if (s) return s
     else alert("Önce Arapça bir kelime seçin")
 }
-function markSelection() {
-    let s = forceSelection()
-    if (s) markPattern(s)
-}
 function markRoot(root, cls='mavi') {
     let n=0
     for (let x of html.children) {
@@ -39,7 +35,7 @@ function markRoot(root, cls='mavi') {
       if (wordToRoot.get(b) != root) continue
       x.classList.add(cls); n++
     }
-    console.log('markRoot '+root, n)
+    //console.log('markRoot '+root, n)
 }
 function markVerse(n, cls='gri') {
     //markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?', 'cls)
@@ -171,7 +167,7 @@ function dragEnd(evt) {
     let w2 = 0  //animation width
     let W = trg.clientWidth
     console.log(dt, dx, W)
-    const K = 50  //too little movement
+    const K = 60  //too little movement
     if (-K<=dx && dx<=K) return
     evt.preventDefault()
     //max 300 msec delay or min W/3 drag
@@ -294,7 +290,6 @@ function initReader() {
     trans.onclick  = toggleTrans
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
-    //markW.onclick   = markSelection
     showWords.onclick = toggleWords
     solBut.onclick = () => {gotoPage(curPage-1)}
     slider.onchange= () => {gotoPage(slider.value)}
@@ -346,7 +341,7 @@ function menuFn() {
                 let p = a.join('&r=')
                 mujam = window.open(LINKM + p, "mujam")
                 for (let r of a) markRoot(r); 
-                console.log(s+' => r='+p)
+                console.log('mucem: r='+p)
               }
               else alert('Mucemde bulunamadı')
               break
