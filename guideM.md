@@ -24,7 +24,7 @@ Resimde gösterilen **ktb** (kef-tâ-bâ) kökünün muhtelif türevleri 319 ker
 
 ![Mucemde ktb](image/Mucem_ktb.png)
 
-604 kutulu tablo, dar ekrana okunaklı olarak sığmıyor, telefonu yan tutmak daha iyi görüntü verir. Aşağıdaki resimde **ktb** türevleri 47. sayfada 9 kere bulunduğu için bu kutunun rengi oldukça koyu. Arama sonucu ayetleri dış kaynaklarda okumak için menüdeki karflere tıklamak gerekir. (Bağlam menüsü için: mouse varsa sağ-tıklayın, yoksa kelimeye uzunca basın)
+604 kutulu tablo, dar ekrana okunaklı olarak sığmıyor, telefonu yan tutmak daha iyi görüntü verir. Aşağıdaki resimde **ktb** türevleri 47. sayfada 9 kere bulunduğu için bu kutunun rengi oldukça koyu. Arama sonucu ayetleri dış kaynaklarda okumak için menüdeki harflere tıklamak gerekir. (Bağlam menüsü için: mouse varsa sağ-tıklayın, yoksa kelimeye uzunca basın)
 
 ![menu aktif](image/Mucem_menu.png)
 

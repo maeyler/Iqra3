@@ -373,7 +373,7 @@ function doClick(evt) {
         let [cv] = ref.split(' ')
         h = "#v="+cv
         let d = decodedHash()
-        if (d) h += "&r="+d
+        if (!d.startsWith('#')) h += "&r="+d
     } else { //use page number
         h = "#p="+p;
     }

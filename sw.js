@@ -1,12 +1,13 @@
 "use strict";
-const PREF ='iqra', CACHE = PREF+'17a'
+const PREF ='iqra', CACHE = PREF+'17b'
 const FILES = [
   '/Iqra3/',
   '/Iqra3/reader',
   '/Iqra3/mujam',
-  '/Iqra3/index.html',
   '/Iqra3/reader.html',
   '/Iqra3/mujam.html',
+  '/Iqra3/guideQ',
+  '/Iqra3/guideM',
   '/Iqra3/code/common.js',
   '/Iqra3/code/reader.js',
   '/Iqra3/code/reader.css',

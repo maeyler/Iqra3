@@ -240,9 +240,9 @@ function processBR(page) {
 }
 function gotoHashPage() {
 //re-designed by Abdurrahman Rajab
+//all text is in Buckwalter
+//omit first char '#'
   let h = location.hash.substring(1)
-  //console.log("gotoHashPage", h)
-  //omit first char '#', any text in Buckwalter
   if (!h.startsWith('p=') && !h.startsWith('v=')) 
     return false
   for (let e of h.split("&")) {
@@ -252,9 +252,8 @@ function gotoHashPage() {
         gotoPage(s); break
       case 'r': // r=Sbr
         let L = rootToList.get(s)
-        if (L) { //L must in in Arabic
-          markRoot(s); break
-        } //else root not found -- down to 'w'
+        if (L) markRoot(s)
+        break
       case 'w': // w=yuwsuf
         markPattern(toArabic(s)); break
       case 'v': // v=12:90
