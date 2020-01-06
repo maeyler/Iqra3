@@ -7,12 +7,13 @@
     <meta name="description" content="Reader for the Quran" />
     <link rel="icon" href="image/icon.png">
     <script src="code/common.js"></script>
+    <title>Iqra Yardım </title>
 
   <style>
     body {
-        padding: 12px;
-        margin: 9;
-        font: 16px/1.5 sans-serif;
+        padding: 0 10px;
+        margin: 0;
+        font: 15px/1.4 sans-serif;
         background: #eee;
     }
     img  {
@@ -31,9 +32,12 @@
 <p>Yazılımı başlatmak için üç farklı türden adres verebiliriz:</p>
 
 <ul>
-  <li><a href="reader">https://maeyler.github.io/Iqra3/reader</a> (yalın – son kaldığı yerden devam eder)</li>
-  <li><a href="reader#p=378">https://maeyler.github.io/Iqra3/reader#p=378</a> (numarası verilen sayfadan)</li>
-  <li><a href="reader#v=27:28">https://maeyler.github.io/Iqra3/reader#v=27:28</a> (27. surenin 28. ayetinden)</li>
+  <li><a href="https://maeyler.github.io/Iqra3/reader" target="iqra">
+  https://maeyler.github.io/Iqra3/reader</a> (yalın – son kaldığı yerden devam eder)</li>
+  <li><a href="https://maeyler.github.io/Iqra3/reader#p=378" target="iqra">
+  https://maeyler.github.io/Iqra3/reader#p=378</a> (numarası verilen sayfadan)</li>
+  <li><a href="https://maeyler.github.io/Iqra3/reader#v=27:28" target="iqra">
+  https://maeyler.github.io/Iqra3/reader#v=27:28</a> (27. surenin 28. ayetinden)</li>
 </ul>
 
 <p>Ekran yeteri kadar geniş ise hem Kuran sayfası hem de meali görünür. Sayfa açılınca, sonraki ya da önceki sayfaya geçmek, başka bir sure ya da sayfa numarası vermek mümkün. Sağ üstte görünen tuşların anlamı:</p>
@@ -49,7 +53,9 @@
 
 <p><img src="image/Iqra_ktb.png" alt="Iqra ekranı" /></p>
 
-<p>Bu ekranı görmek için gereken adres: <a href="reader#v=27:28&r=ktb">https://maeyler.github.io/Iqra3/reader#v=27:28&amp;r=ktb</a></p>
+<p>Bu ekranı görmek için gereken adres: 
+  <a href="https://maeyler.github.io/Iqra3/reader#v=27:28&r=ktb" target="iqra">
+  https://maeyler.github.io/Iqra3/reader#v=27:28&amp;r=ktb</a></p>
 
 <p>Dar ekranlarda, ayetin anlamını görmek için T tuşuna basmak gerekiyor. Fontlar ekran genişliği ile orantılı olduğundan, telefonu yan tutmak daha iyi görüntü verecektir.</p>
 
@@ -76,7 +82,8 @@
 
 <p><img src="image/Mucem_menu.png" alt="Mucem menu" /></p>
 
-<p><strong>Ayrıntılar <a href="/Iqra3/guideM.html">ilgili sayfada</a></strong></p>
+<p><b>Ayrıntılar 
+  <a href="https://maeyler.github.io/Iqra3/guideM">ilgili sayfada</a></b></p>
 
 <h3 id="23-benzer-ayetler">2.3 Benzer ayetler</h3>
 <p>(Bu kısım henüz yapılmadı)</p>
@@ -109,11 +116,41 @@
 </ul>
 
 <h3 id="4-yazılımın-tarihçesi">4. Yazılımın tarihçesi</h3>
-<p>(Bu kısım henüz yazılmadı)</p>
+
+<ul>
+  <li>
+<p>V1. Iqra projesi 1992'de (henüz web yok iken) başladı. Basit bir DOS programı olan Salsabil'den Arapça metin, Diyanet mealinden Türkçe metin kullandık. (Easy View: Think Pascal'da yazıldı, sadece Mac OS altında çalışıyordu)</p>
+  </li>
+  <li>
+<p>V2. Yazılımın Windows'a çevrilmesi çok başarılı değildi. Mac altında 
+  çalışan bir çok özelliği taşımak mümkün olmadı. (Turbo Pascal -- 1998)</p>
+  </li>
+  <li>
+<p>V3.0 <a href="http://corpus.quran.com" target="Corpus">
+  Quranic Arabic Corpus</a> çıkınca, bütün masa-üstü ve diz-üstü 
+  sistemlerde çalışan ilk sürümü geliştirdik. (Java -- 2012)</p>
+  </li>
+  <li>
+<p><a href="https://github.com/maeyler/Iqra3/blob/master/code/iqra.jar">V3.05 jar file</a> ve 
+<a href="https://github.com/maeyler/Iqra3/blob/master/image/me_quran.ttf">me_quran font</a> (son Java sürümü -- 2017)</p>
+  </li>
+  <li>
+<p>V3.06 web sayfası, ilk mobil sürüm (JavaScript -- 2019)</p>
+  </li>
+  <li>
+<p>V3.10 Iqra ve Visual Mujam projeleri birleşti</a></p>
+  </li>
+</ul>
+
+<p>(C) 1992, 2012, 2019 by M Akif Eyler
+
+<p>Copied using 
+<a href="http://corpus.quran.com/download/" target="Corpus">GNU License</a></p>
+
 
 <script>
     title.innerText += ' '+VERSION
-    document.title = title.innerText
+    //document.title = title.innerText
 </script>
 
   </body>

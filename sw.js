@@ -1,11 +1,12 @@
 "use strict";
-const PREF ='iqra', CACHE = PREF+'17b'
+const PREF ='iqra', CACHE = PREF+'17c'
 const FILES = [
   '/Iqra3/',
   '/Iqra3/reader',
   '/Iqra3/mujam',
   '/Iqra3/reader.html',
   '/Iqra3/mujam.html',
+  '/Iqra3/guide',
   '/Iqra3/guideQ',
   '/Iqra3/guideM',
   '/Iqra3/code/common.js',
@@ -24,6 +25,13 @@ const FILES = [
   '/Iqra3/image/icon.png',
   '/Iqra3/image/iconF.png',
   '/Iqra3/image/me_quran.ttf',
+  '/Iqra3/image/Mucem_menu.png',
+  '/Iqra3/image/Iqra_dar.png',
+  '/Iqra3/image/Finder_meta.png',
+  '/Iqra3/image/Adem.jpg',
+  '/Iqra3/image/Three_windows.png',
+  '/Iqra3/image/Mucem_ktb.png',
+  '/Iqra3/image/Iqra_ktb.png',
   '/Iqra3/manifest.json'
 ]
 
