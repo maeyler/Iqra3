@@ -1,32 +1,38 @@
 ### Benzer Ayetler
 
-[Iqra yardım sayfası](https://maeyler.github.io/Iqra3/guideQ)
+Yazılıma başlamak için: [Iqra yardım sayfası](guideQ)
 
-* şettâ = çeşit çeşit (3+2)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=$tt" target="mujam">r=$tt</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=شَتَّىٰ" target="finder">w=شَتَّىٰ</a>
+Aşağıdaki örneklerde Mucem ve Finder aramaları yan yana gösteriliyor. Linklere basarak ilgili sayfalara geçin ama sayfayı kapatmayın. Mouse varsa tıklayarak, yoksa adres çubuğunu kaydırarak bu sayfaya geri gelebilirsiniz. Telefondan bakıyorsanız ekranı yan tutmanız daha iyi sonuç verir. Finder'da Tek-satır modunu kullanın.
 
-* bigayri 'amedin = direksiz (2)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=gyr&r=Emd" target="mujam">r=gyr&amp;r=Emd</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=بِغَيْرِ%20عَمَدٍ" target="finder">w=بِغَيْرِ%20عَمَدٍ</a>
+* Çeşit çeşit (3+2) <br>
+<a href="mujam#r=$tt" target="mujam">r=$tt</a>&emsp;
+<a href="/BahisQurani/finder#w=شَتَّىٰ" target="finder">şettâ</a>
 
-* Açık ve gizli infak (3+1)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=nfq&r=srr&r=Eln" target="mujam">r=nfq&amp;r=srr&amp;r=Eln</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=رَزَقْنَٰهُمْ%20سِرًّا%20وَعَلَانِيَةً" target="finder">w=رَزَقْنَٰهُمْ%20سِرًّا%20وَعَلَانِيَةً</a>
+* Direksiz (2) <br>
+<a href="mujam#r=gyr&r=Emd" target="mujam">r=gyr&amp;r=Emd</a>&emsp;
+<a href="/BahisQurani/finder#w=بِغَيْرِ%20عَمَدٍ" target="finder">bigayri 'amedin</a>
 
-* erzelil-'umur = ömrün rezili (2)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=r*l&r=Emr" target="mujam">r=r*l&amp;r=Emr</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=أَرْذَلِ ٱلْعُمُرِ" target="finder">w=أَرْذَلِ ٱلْعُمُرِ</a>
+* Açık ve gizli infak (3+1) <br>
+<a href="mujam#r=nfq&r=srr&r=Eln" target="mujam">r=nfq&amp;r=srr&amp;r=Eln</a>&emsp;
+<a href="/BahisQurani/finder#w=رَزَقْنَٰهُمْ%20سِرًّا%20وَعَلَانِيَةً" target="finder">sirren ve'alâniye</a>
 
-* ihtezzet verebet = titrer ve kabarır (2)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=hzz&r=rbw" target="mujam">r=hzz&amp;r=rbw</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=ٱهْتَزَّتْ%20وَرَبَتْ" target="finder">w=ٱهْتَزَّتْ%20وَرَبَتْ</a>
+* Ömrün rezili (2) <br>
+<a href="mujam#r=r*l&r=Emr" target="mujam">r=r*l&amp;r=Emr</a>&emsp;
+<a href="/BahisQurani/finder#w=أَرْذَلِ%20ٱلْعُمُرِ" target="finder">erzelil-'umur</a>
 
-* Hidayet ve felah (3)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=hdy&r=flH" target="mujam">r=hdy&amp;r=flH</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=هُدًى%20مِّن%20رَّبِّهِمْ" target="finder">w=هُدًى%20مِّن%20رَّبِّهِمْ</a>
+* Titrer ve kabarır (2) <br>
+<a href="mujam#r=hzz&r=rbw" target="mujam">r=hzz&amp;r=rbw</a>&emsp;
+<a href="/BahisQurani/finder#w=ٱهْتَزَّتْ%20وَرَبَتْ" target="finder">ihtezzet verebet</a>
 
-* uscudû li-âdeme = Adem'e secde (5+2)
-<a href="https://maeyler.github.io/Iqra3/mujam#r=sjd&r=A^dam" target="mujam">r=sjd&amp;r=A^dam</a>&emsp;
-<a href="https://a0m0rajab.github.io/BahisQuraniDev/finder#w=ٱسْجُدُوا۟%20لِءَادَمَ" target="finder">w=ٱسْجُدُوا۟%20لِءَادَمَ</a>
+* Hidayet ve felah (3) <br>
+<a href="mujam#r=hdy&r=flH" target="mujam">r=hdy&amp;r=flH</a>&emsp;
+<a href="/BahisQurani/finder#w=هُدًى%20مِّن%20رَّبِّهِمْ" target="finder">hudemmirrabbihim</a>
+
+* Adem'e secde (5+2) <br>
+<a href="mujam#r=sjd&r=A^dam" target="mujam">r=sjd&amp;r=A^dam</a>&emsp;
+<a href="/BahisQurani/finder#w=ٱسْجُدُوا۟%20لِءَادَمَ" target="finder">uscudû li-âdeme</a>
+
+* Aykırı bir örnek (2+523) <br>
+<a href="mujam#r=Alh&r=Alh" target="mujam">r=Alh</a>&emsp;
+<a href="/BahisQurani/finder#w=لَآ%20إِلَٰهَ%20إِلَّا%20ٱللَّهُ" target="finder">lâ ilâhe illallâh</a>
 
