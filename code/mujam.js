@@ -192,7 +192,7 @@ function selectLetter(ch) {
  * 
  * @param {string} root to be seleceted, example: سجد 23
  */
-function selectRoot(root) { //root in Arabic 
+function selectRoot(root, modifyHash=true) { //root in Arabic 
     if (!root) [root] = menu2.value.split(EM_SPACE);
     else if (menu2.value.startsWith(root)) return;
     else {
@@ -209,6 +209,7 @@ function selectRoot(root) { //root in Arabic
     menu3.style.color = (nL == 1 ? "gray" : "");
     //combine refs in list
     combine.hidden = true;
+    if (!modifyHash) return
     /*let indA = []; handled by gotoHashRoot()
     for (let j = 0; j < nL; j++) {
         let str = wordToRefs.get(list[j]);
@@ -220,6 +221,7 @@ function selectRoot(root) { //root in Arabic
     let b = encodeURI(toBuckwalter(root))
     location.hash = "#r=" + b;
     //history.pushState('', '', "#r=" + b)
+    showSelections(true)
 }
 /**
  * Select word, if undefined menu3 values will be the selected one.
@@ -265,6 +267,7 @@ function displayRoots(ra) { //root array in Arabic
        i1 = i1.filter(x=> i2.includes(x)) //intersection
     }
     displayRef(ra.join('+'), indexToArray(i1));
+    selectRoot(ra[0], false)  //adjust menus
 }
 /**
  * Create and build the HTML table to show the information on it.

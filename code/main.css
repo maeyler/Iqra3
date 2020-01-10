@@ -1,0 +1,16 @@
+    body {
+        padding: 0 10px;
+        margin: 0;
+        font: 15px/1.4 sans-serif;
+        background: #eee;
+    }
+    pre  {
+        font-size: 13px;
+        background: white;
+        overflow-x: auto;
+    }
+    img  {
+        max-width: 100%;
+        box-sizing: content-box;
+    }
+

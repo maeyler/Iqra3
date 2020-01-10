@@ -1,8 +1,8 @@
 {
-  "name": "Iqra V3",
-  "short_name": "Iqra",
+  "name": "Iqra Quran Reader",
+  "short_name": "Iqra3",
   "description": "Reader for the Quran",
-  "start_url": "/Iqra3/reader.html",
+  "start_url": "https://maeyler.github.io/Iqra3/reader",
   "display": "standalone",
   "background_color": "cyan",
   "theme_color": "cyan",

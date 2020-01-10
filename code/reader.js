@@ -310,8 +310,9 @@ function initReader() {
  * We have two Menu elements: menuC (context)  menuK (open source)
  *
  */
-var LINKF = 'https://maeyler.github.io/BahisQurani/finder#w='
-var LINKM = isRemote()? 'mujam#r=' : 'mujam.html#r='
+const EXT = isRemote()? '' : '.html'
+var LINKF = '../../BahisQurani/finder'+EXT+'#w='
+var LINKM = 'mujam'+EXT+'#r='
 function menuFn() {
   function menuItem(m) {
       if (m == 'I') {

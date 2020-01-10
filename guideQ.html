@@ -5,22 +5,10 @@
     <meta name="viewport"    content="width=device-width">
     <meta name="author"      content="M A Eyler, Istanbul, 2019" />
     <meta name="description" content="Reader for the Quran" />
+    <link rel="stylesheet" href="code/main.css" media="all">
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" href="image/icon.png">
-    <script src="code/common.js"></script>
     <title>Iqra Yardım </title>
-
-  <style>
-    body {
-        padding: 0 10px;
-        margin: 0;
-        font: 15px/1.4 sans-serif;
-        background: #eee;
-    }
-    img  {
-        max-width: 100%;
-        box-sizing: content-box;
-    }
-  </style>
   </head>
   <body>
 
@@ -120,16 +108,18 @@
 
 <ul>
   <li>
-<p>V1. Iqra projesi 1992'de (henüz web yok iken) başladı. Basit bir DOS programı olan Salsabil'den Arapça metin, Diyanet mealinden Türkçe metin kullandık. (Easy View: Think Pascal'da yazıldı, sadece Mac OS altında çalışıyordu)</p>
+<p>V1.0 Iqra projesi 1992'de (henüz web yok iken) başladı. Basit bir DOS programı olan Salsabil'den Arapça metin, Diyanet mealinden Türkçe metin kullandık. (Easy View: Think Pascal'da geliştirilen bu yazılım sadece Mac OS altında çalışıyordu)</p>
   </li>
   <li>
-<p>V2. Yazılımın Windows'a çevrilmesi çok başarılı değildi. Mac altında 
-  çalışan bir çok özelliği taşımak mümkün olmadı. (Turbo Pascal -- 1998)</p>
+<p>V2.0 Yazılımın Windows'a çevrilmesi çok başarılı olmadı. Mac OS'de 
+  çalışan bir çok özelliği Windows'a taşıyamadık. (Turbo Pascal -- 1998)</p>
   </li>
   <li>
 <p>V3.0 <a href="http://corpus.quran.com" target="Corpus">
   Quranic Arabic Corpus</a> çıkınca, bütün masa-üstü ve diz-üstü 
-  sistemlerde çalışan ilk sürümü geliştirdik. (Java -- 2012)</p>
+  sistemlerde çalışan ilk sürümü geliştirdik. (Java -- 2012)
+  Lakin o yıllar mobil cihazların tırmanış zamanıydı ve standart Java
+  bu cihazlarla uyumlu değildi.</p>
   </li>
   <li>
 <p><a href="https://github.com/maeyler/Iqra3/blob/master/code/iqra.jar">V3.05 jar file</a> ve 
@@ -148,7 +138,7 @@
 <p>Copied using 
 <a href="http://corpus.quran.com/download/" target="Corpus">GNU License</a></p>
 
-
+<script src="code/common.js"></script>
 <script>
     title.innerText += ' '+VERSION
     //document.title = title.innerText

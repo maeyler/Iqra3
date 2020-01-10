@@ -1,5 +1,5 @@
 "use strict";
-const PREF ='iqra', CACHE = PREF+'18a'
+const PREF ='iqra', CACHE = PREF+'18b'
 const FILES = [
   '/Iqra3/',
   '/Iqra3/reader',
