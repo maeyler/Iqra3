@@ -28,11 +28,12 @@ function forceSelection() {
     if (s) return s
     else alert("Önce Arapça bir kelime seçin")
 }
-function markRoot(root, cls='mavi') {
+function markWord(w, root, cls='mavi') {
     let n=0
     for (let x of html.children) {
       let b = toBuckwalter(x.innerText.trim())
-      if (wordToRoot.get(b) != root) continue
+      if (root) b = wordToRoot.get(b)
+      if (b != w) continue
       x.classList.add(cls); n++
     }
     //console.log('markRoot '+root, n)
@@ -44,7 +45,7 @@ function markVerse(n, cls='gri') {
     let p = kur[curPage].replace(e, t)
     text.innerHTML = p.replace(/\n/g, '<br>')
 }
-function markPattern(e, cls='mavi') {
+function markPattern(e, cls='mavi') { //not used
     if (typeof e == "string")
         e = new RegExp(e, 'g')
     let t = "<span class="+cls+">$&</span>"
@@ -82,7 +83,7 @@ function selectWord(evt) {
         s.removeAllRanges(); s.addRange(range);
     }
 }
-function unmarkWord(evt) {
+function hideWord(evt) {
     evt.target.style.background = ''
     hideElement(out)  //; out.innerText = ''
 }
@@ -103,7 +104,7 @@ function gotoPage(k) { // 1<=k<=P
     console.log('Page '+k, wc+' words');
     for (let x of html.children) {
       x.onmouseenter = displayWord
-      x.onmouseleave = unmarkWord
+      x.onmouseleave = hideWord
       x.oncontextmenu = selectWord
     }
     document.title = 'Iqra s'+k;
@@ -252,10 +253,13 @@ function gotoHashPage() {
         gotoPage(s); break
       case 'r': // r=Sbr
         let L = rootToList.get(s)
-        if (L) markRoot(s)
+        if (L) markWord(s, true)
         break
       case 'w': // w=yuwsuf
-        markPattern(toArabic(s)); break
+        for (let t of s.split("%20"))
+          markWord(t, false)
+          //markPattern(toArabic(t))
+        break
       case 'v': // v=12:90
         let [c, v] = s.split(':') 
         c = Number(c); v = Number(v)
@@ -340,7 +344,7 @@ function menuFn() {
               if (a.length > 0) {
                 let p = a.join('&r=')
                 mujam = window.open(LINKM + p, "mujam")
-                for (let r of a) markRoot(r); 
+                for (let r of a) markWord(r, true); 
                 console.log('mucem: r='+p)
               }
               else alert('Mucemde bulunamadı')

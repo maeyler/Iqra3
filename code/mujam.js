@@ -445,6 +445,7 @@ function initMujam() {
     // mark places for sajda
     let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
     [sajda, ] = parseRefs(str);
+//sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 999]
     let letters = [];
     for (let c=1575; c<1609; c++) letters.push(String.fromCharCode(c));
     makeMenu(menu1, letters); 
