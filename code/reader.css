@@ -62,6 +62,7 @@
 /** common to all screens **/
     button {
       user-select: none;
+      position: relative;
       cursor: pointer;
       padding: 5px 18px 5px 8px;
     }
@@ -159,12 +160,13 @@
       position: fixed;
       display: none;
       background: #cfc;
+      border: black 1px solid;
     }
     .options {
       margin: 10px 0;
     }
     .menu-option {
-      padding: 10px 15px;
+      padding: 10px 12px;
       font: bold 14px sansserif, arial;
       color: blue;
       user-select: none;
@@ -175,17 +177,29 @@
     .menu-option:hover .tip {
       visibility: visible;
     }
-    .tip {
+    button:hover .tip2 {
+      visibility: visible;
+    }
+    .tip, .tip2 {
       visibility: hidden;
       font-size: small;
       font-weight: normal;
-      background: #cfc;
       color: blue;
       text-align: center;
       padding: 5px 5px;
       position: absolute;
+      border: blue 1px solid;
+      z-index: 1;
+    }
+    .tip {
+      background: #cfc;
       left: 0px; 
       top: 38px;
+    }
+    .tip2 {
+      background: #ff7;
+      left: -60px; 
+      top: 26px;
     }
     ::selection {
       color: yellow; 

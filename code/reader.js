@@ -11,7 +11,7 @@ const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
 const LS = location.protocol.startsWith('http') && localStorage;
 const rootToList = new Map()
 const wordToRoot = new Map()
-const CHECKED = 'yellow' // when the Button is down
+const CHECKED = '#ff7' // when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var mujam, hashInProgress;
@@ -256,7 +256,7 @@ function gotoHashPage() {
         if (L) markWord(s, true)
         break
       case 'w': // w=yuwsuf
-        for (let t of s.split("%20"))
+        for (let t of decodeURI(s).split(' '))
           markWord(t, false)
           //markPattern(toArabic(t))
         break
@@ -287,7 +287,7 @@ function initReader() {
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
-    geri.onclick   = () => {history.go(-1)}
+    //geri.onclick   = () => {history.go(-1)}
     sure.onchange  = () => {gotoSura(sure.value)}
     sayfa.onchange = () => {gotoPage(sayfa.value)}
     trans.onclick  = toggleTrans
@@ -315,7 +315,7 @@ function initReader() {
  *
  */
 const EXT = isRemote()? '' : '.html'
-var LINKF = '../../BahisQurani/finder'+EXT+'#w='
+var LINKF = '../BahisQurani/finder'+EXT+'#w='
 var LINKM = 'mujam'+EXT+'#r='
 function menuFn() {
   function menuItem(m) {
@@ -380,7 +380,7 @@ function menuFn() {
             toggleMenuK(evt); break
           case '+':
             toggleZoom();  break
-          case 'W':
+          case 'K':
             toggleWords(); break
       }
 }
