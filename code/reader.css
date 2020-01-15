@@ -159,28 +159,32 @@
       box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
       position: fixed;
       display: none;
-      background: #cfc;
       border: black 1px solid;
+      background: #eee;
+      font: 13px sansserif, arial;
+      user-select: none;
     }
     .options {
       margin: 10px 0;
     }
-    .menu-option {
-      padding: 10px 12px;
-      font: bold 14px sansserif, arial;
-      color: blue;
-      user-select: none;
+    .menuK {
+      display: block;
+      padding: 10px;
     }
-    .menu-option:hover {
+    .menuC {
+      padding: 10px 12px;
+      color: blue;
+    }
+    .menuC:hover, .menuK:hover {
       background: rgba(0, 0, 0, 0.2);
     }
-    .menu-option:hover .tip {
+    .menuC:hover .tip {
       visibility: visible;
     }
     button:hover .tip2 {
       visibility: visible;
     }
-    .tip, .tip2 {
+    .tip2 {
       visibility: hidden;
       font-size: small;
       font-weight: normal;
@@ -190,13 +194,6 @@
       position: absolute;
       border: blue 1px solid;
       z-index: 1;
-    }
-    .tip {
-      background: #cfc;
-      left: 0px; 
-      top: 38px;
-    }
-    .tip2 {
       background: #ff7;
       left: -60px; 
       top: 26px;

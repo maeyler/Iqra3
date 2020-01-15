@@ -314,17 +314,11 @@ function initReader() {
  * We have two Menu elements: menuC (context)  menuK (open source)
  *
  */
-const EXT = isRemote()? '' : '.html'
+//const EXT  defined in common.js
 var LINKF = '../BahisQurani/finder'+EXT+'#w='
 var LINKM = 'mujam'+EXT+'#r='
 function menuFn() {
   function menuItem(m) {
-      if (m == 'I') {
-          //let s = title.innerText+'\nQuran Reader'
-          //alert(s+'\n(C) 2019 MAE'); 
-          window.open('/Iqra3/','NewTab'); 
-          hideMenus(); return
-      } 
       let s = forceSelection() //s is not empty
       switch (m) {
           case 'K':
@@ -367,6 +361,8 @@ function menuFn() {
       let k = evt.key.toUpperCase()
       if (evt.key == 'Escape') 
           hideMenus()
+      else if (evt.key == 'F1') 
+          openSitePage('Y') //Yardım
       else if (menuC.style.display)
           menuItem(k)
       else if (menuK.style.display)
@@ -374,11 +370,11 @@ function menuFn() {
       else switch (k) {
           case 'T':
             toggleTrans(); break
-          case 'M':
+          case 'M': case '.':
             evt.clientX = linkB.offsetLeft
             evt.clientY = linkB.offsetTop +10
             toggleMenuK(evt); break
-          case '+':
+          case 'Z': case '+':
             toggleZoom();  break
           case 'K':
             toggleWords(); break
@@ -416,7 +412,7 @@ function toggleMenuK(evt) {
     } else {
       linkB.style.background = CHECKED
       hideElement(menuC)
-      setPosition(menuK, linkB.offsetLeft, linkB.offsetTop+24, 220)
+      setPosition(menuK, linkB.offsetLeft, linkB.offsetTop+28, 130)
     }
 }
 function toggleZoom() {

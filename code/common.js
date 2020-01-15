@@ -5,6 +5,12 @@
 const VERSION = "V3.19a";
 
 /**
+ * html file extension -- empty for remote GitHub files
+ *
+ * @see isRemote
+ */
+const EXT = isRemote()? '' : '.html'
+/**
  * Location for data files
  */
 const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
@@ -59,6 +65,8 @@ function hideElement(elt) {
 function openSitePage(s, p) {
   let url, name;
   switch (s) {
+    case 'Y': case '?':  //Yardım
+        url = 'guideQ'+EXT; name = 'NewTab'; break
     case 'K':
         url = "http://kuranmeali.com/Sayfalar.php?sayfa="+p
         name = "Kuran"; break
