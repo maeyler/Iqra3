@@ -160,6 +160,7 @@
       position: fixed;
       display: none;
       border: black 1px solid;
+      color: blue;
       background: #eee;
       font: 13px sansserif, arial;
       user-select: none;
@@ -173,7 +174,6 @@
     }
     .menuC {
       padding: 10px 12px;
-      color: blue;
     }
     .menuC:hover, .menuK:hover {
       background: rgba(0, 0, 0, 0.2);

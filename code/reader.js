@@ -15,6 +15,7 @@ const CHECKED = '#ff7' // when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var mujam, hashInProgress;
+var adjusting;  //the slider value
    
 function numberToArabic(n) { //n is an integer
     let t = ''
@@ -87,8 +88,18 @@ function hideWord(evt) {
     evt.target.style.background = ''
     hideElement(out)  //; out.innerText = ''
 }
+function adjustPage(adj) {
+    let k = slider.value
+    if (adj) {
+        adjusting = true; sayfa.value = k
+        setSura(suraFromPage(k))
+    } else {
+        adjusting = false; gotoPage(k)
+    }
+}
 function gotoPage(k) { // 1<=k<=P
 //This is the only place where hash is set
+    if (adjusting) return;
     if (!k || k < 1) k = 1;
     if (k > P) k = P;
     k = Number(k);
@@ -295,7 +306,8 @@ function initReader() {
     zoomB.onclick  = toggleZoom
     showWords.onclick = toggleWords
     solBut.onclick = () => {gotoPage(curPage-1)}
-    slider.onchange= () => {gotoPage(slider.value)}
+    slider.oninput = () => {adjustPage(true)}
+    slider.onchange= () => {adjustPage(false)} //committed
     sagBut.onclick = () => {gotoPage(curPage+1)}
     try {
         readNames("iqra.names"); readText("Quran.txt", qur); 
