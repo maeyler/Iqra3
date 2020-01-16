@@ -120,7 +120,7 @@
       width: 40px;
     }
     #isim { 
-      width: 70px;
+      min-width: 70px;
       text-align: left;
       display: inline-block;
     }
@@ -186,18 +186,17 @@
       background: #eee;
       font: 13px sansserif, arial;
       user-select: none;
+      z-index: 1;
     }
     #version { 
       color: black;
-    }
-    .options {
-      margin: 10px 0;
     }
     .menuK {
       display: block;
       padding: 10px;
     }
     .menuC {
+      display: inline-block;
       padding: 10px 12px;
     }
     .menuC:hover, .menuK:hover {

@@ -441,6 +441,7 @@ function gotoHashRoot() {
  * 
  */
 function initMujam() {
+    version.innerText = 'Iqra '+VERSION;
     showSelections(false);
     // mark places for sajda
     let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
@@ -492,7 +493,8 @@ function menuFn() {
   }
   window.showMenuK = (evt) => { 
       evt.preventDefault(); //hideElement(bilgi)
-      setPosition(menuK, evt.clientX, evt.clientY-50, 220)
+      let y = Math.max(evt.clientY-200, 0)
+      setPosition(menuK, evt.clientX, y)
   }
 }
 
