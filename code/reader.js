@@ -291,7 +291,7 @@ function initialPage() {
 }
 function initReader() {
     title.innerHTML = 'Iqra -- Oku'+'&emsp;';
-    version.innerText = VERSION;
+    version.innerText = 'Iqra '+VERSION;
     text.addEventListener("touchstart", dragStart);
     html.addEventListener("touchstart", dragStart);
     text.addEventListener("touchmove", drag);
