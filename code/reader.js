@@ -327,7 +327,7 @@ function initReader() {
  *
  */
 //const EXT  defined in common.js
-var LINKF = '../BahisQurani/finder'+EXT+'#w='
+var LINKF = 'https://finder-ar.imfast.io/finder'+EXT+'#w='
 var LINKM = 'mujam'+EXT+'#r='
 function menuFn() {
   function menuItem(m) {

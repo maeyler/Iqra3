@@ -6,10 +6,11 @@ const VERSION = "V3.19";
 
 /**
  * html file extension -- empty for remote GitHub files
+ *   in fast.io, we need full extension
  *
  * @see isRemote
  */
-const EXT = isRemote()? '' : '.html'
+const EXT = /*isRemote()? '' :*/ '.html'
 /**
  * Location for data files
  */
