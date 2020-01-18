@@ -52,11 +52,11 @@
 
 <script>
 "use strict";
-    if (navigator.serviceWorker && isRemote()) {
+    /*if (navigator.serviceWorker && isRemote()) {
         navigator.serviceWorker.register('sw.js')
         .then(reg => { console.log('Service Worker', reg.scope) })
         .catch(alert)
-    }
+    }*/
     const TITLE = document.title; 
     initMujam();
 </script>

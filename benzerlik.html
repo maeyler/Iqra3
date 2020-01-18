@@ -71,7 +71,7 @@
 
 <script src="code/common.js"></script>
 <script>
-    if (!isRemote()) //local links require file extension
+    //if (!isRemote()) //All links require file extension
       for (let e of document.querySelectorAll('a')) 
         e.href = e.href.replace('#','.html#')
 </script>

@@ -10,7 +10,7 @@ const VERSION = "V3.19";
  *
  * @see isRemote
  */
-const EXT = /*isRemote()? '' :*/ '.html'
+const EXT = /*isRemote()? '' : */ '.html'
 /**
  * Location for data files
  */
