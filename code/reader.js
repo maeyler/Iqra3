@@ -3,6 +3,7 @@
 const LEFT = 0xFD3E, RIGHT = 0xFD3F;
 const M = 114; //suras
 const names = new Array(M+1);
+const labels= new Array(M+1);
 const first = new Array(M+1);
 const P = 604; //pages
 const qur = new Array(P+1);
@@ -200,9 +201,10 @@ function readNames(name) {
     function toNames(t) {
       let i = 0;
       for (let s of t.split('\n')) {
-        i++; let j = s.indexOf('\t'); //TAB
-        names[i] = s.substring(j+1);
-        first[i] = Number(s.substring(0, j));
+        i++; //skip 0
+        let [f, n] = s.split('\t'); //TAB
+        names[i] = n; labels[i] = i+'. '+n
+        first[i] = Number(f)
       }
       console.log(name, names.length); 
     }

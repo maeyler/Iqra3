@@ -288,9 +288,8 @@ function displayRef(word, [page, refA]) {
     function toColor(n) {
         if (n == 0) return "";
         if (n > 15) n = 15;
-        let g = 255 - 16 * n,
-            b = 160 - 10 * n;
-        let col = "rgb(" + g + ", " + g + ", " + b + ")";
+        let L = 96 - 6*n;
+        let col = "hsl(225, 100%, "+L+"%"
         return "background: " + col;
     }
     // m number of juzz, 20 pages per juzz.
@@ -320,7 +319,7 @@ function displayRef(word, [page, refA]) {
                 let k = refA[p].indexOf(":");
                 k = (k < 0 ? 0 : Number(refA[p].substring(0, k)));
                 let refs = "S."+pn+' '+sName[k] +EM_SPACE+ refA[p];
-                if (c > 1) refs += EM_SPACE+"("+ c +")";
+                if (c > 0) refs += EM_SPACE+"("+ c +")";
                 //s2 = "<span class=t2>" + refs + "</span>";
                 pRefs.push(refs); p++;
                 nc += c;
@@ -464,6 +463,8 @@ function initMujam() {
   */
 function menuFn() {
   function menuItem(m) {
+      if (m == 'Y' || m == '?')
+        openSitePage('Y')
       let s = bilgi.innerText
       if (!s) return
       let [nam, ref] = s.split(EM_SPACE)
@@ -484,6 +485,8 @@ function menuFn() {
   }
   document.onkeydown = (evt) => {
     if (evt.key == 'Escape') hideMenus()
+    else if (evt.key == 'F1') 
+      openSitePage('Y') //Yardım
     else if (menuK.style.display) 
       menuItem(evt.key.toUpperCase())
   }

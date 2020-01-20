@@ -35,13 +35,13 @@
         box-sizing: border-box;
         min-width: 21px;
         height: 21px;
-        border: 1px solid blue; 
+        border: 1px solid black; 
         padding: 0px;
         /*cursor: pointer;*/
         position: relative;
     }
     td:hover { 
-        border-width: 3px;
+        border: 4px solid brown;
     }
     button:hover .t1 { 
         display: block; 
@@ -62,14 +62,14 @@
         font: 12px/1.6 sansserif, arial;
         padding: 5px;
         cursor: pointer;
-    }
-    .t1 {
-        background-color: cyan;
+        border: black 1px solid;
         color: black;
     }
+    .t1 {
+        background: #eee;
+    }
     .t2 {
-        background-color: blue;
-        color: white;
+        background: yellow;
     }
     #corpus {
         color: blue;
