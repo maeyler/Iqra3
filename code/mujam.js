@@ -17,6 +17,12 @@ var sajda;
  */
 var iqra;
 /**
+ * base color in the table -- default is blue
+ * hue indicates angle in color wheel
+ */
+var HUE = (isRemote() && localStorage.mujamHue) || 240
+
+/**
  * A map holds the letters and its roots.
  * set at report2 @see report2
  */
@@ -284,13 +290,10 @@ function displayRef(word, [page, refA]) {
         return s;
     }
     // get colour based on the number of verses in a page.
-    // why not to use 3 colour heat map? or HSL ??
     function toColor(n) {
-        if (n == 0) return "";
-        if (n > 15) n = 15;
-        let L = 96 - 6*n;
-        let col = "hsl(225, 100%, "+L+"%"
-        return "background: " + col;
+        if (n == 0) return ""
+        let L = 96 - 6 * Math.min(n, 16)
+        return "background: hsl("+HUE+", 100%, "+L+"%"
     }
     // m number of juzz, 20 pages per juzz.
     // make the table
