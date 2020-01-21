@@ -19,23 +19,18 @@
 <body>
 <div id=div3>
   <b id=title></b>
-  <!--button id=geri>◀</button--> Sure  
-  <input id=sure  type=number min=1 max=114 value=1>
-  <span id=isim></span> Sayfa
-  <input id=sayfa type=number min=1 max=604 value=1>
+  <select id=sure></select>  
+  <!--input id=sure  type=number min=1 max=114 value=1-->
+  <span id=pageS>
+    Sayfa <span id=sayfa></span>
+    <input id=sayNo type=number min=1 max=604 value=1>
+  </span>
   &emsp;
-  <button id=trans>T
-    <span class=tip2>Tercüme göster/gizle</span>
-  </button>
-  <button id=linkB><b>…</b>
-    <!--span class=tip2>Başka sitelerde aç</span-->
-  </button>
-  <button id=zoomB>+
-    <span class=tip2>Geçici büyüteç</span>
-  </button>
-  <button id=showWords>K
-    <span class=tip2>Kökleri göster/gizle</span>
-  </button>  
+  <button id=starB>☆</button> 
+  <button id=trans>T</button>
+  <button id=linkB>…</button>
+  <button id=zoomB>+</button>
+  <button id=showR>K</button>  
 </div>
 
 <div id=div2>
@@ -44,9 +39,10 @@
 </div>
 
 <div id=div1>
-  <button id=solBut>⇐</button>
+  <button id=leftB>⇐</button>
   <input id=slider type=range min=1 max=604 value=1>
-  <button id=sagBut>⇒</button>
+  <span  id=infoS></span>
+  <button id=rightB>⇒</button>
 </div>
 
 <div id=div0></div>

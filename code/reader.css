@@ -63,10 +63,22 @@
     button {
       user-select: none;
       cursor: pointer;
+      font-weight: bolder;
       padding: 5px 18px 5px 8px;
     }
     div { 
       text-align: center;
+    }
+    #pageS {
+      display: inline-block;
+      user-select: none;
+      cursor: pointer;
+    }
+    #sayNo {  
+      display: none;
+      position: relative;
+      right: 0;
+      width: 40px; 
     }
     #div2 { 
       overflow-x: hidden;
@@ -104,7 +116,7 @@
     #html { 
       text-align: justify;
     }
-    #text, #div3 { 
+    #text, #div3, #infoS { 
       font-family: sansserif, arial;
     }
     #html, #out { 
@@ -115,17 +127,18 @@
 @media screen and (max-height: 420px) {
     #div1 { display: none; }
 }
-    #sure {
-      text-align: right;
-      width: 40px;
-    }
-    #isim { 
-      min-width: 70px;
-      text-align: left;
-      display: inline-block;
-    }
-    #sayfa { 
-      width: 40px;
+    #infoS { 
+      display: none;
+      font-size: small;
+      color: blue;
+      text-align: center;
+      padding: 5px 5px;
+      position: fixed;
+      border: black 1px solid;
+      z-index: 1;
+      background: #ff7;
+      left: 120px; 
+      bottom: 26px;
     }
     #slider {
       position: relative;

@@ -3,7 +3,6 @@
 const LEFT = 0xFD3E, RIGHT = 0xFD3F;
 const M = 114; //suras
 const names = new Array(M+1);
-const labels= new Array(M+1);
 const first = new Array(M+1);
 const P = 604; //pages
 const qur = new Array(P+1);
@@ -16,7 +15,6 @@ const CHECKED = '#ff7' // when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var mujam, hashInProgress;
-var adjusting;  //the slider value
    
 function numberToArabic(n) { //n is an integer
     let t = ''
@@ -68,7 +66,7 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function displayWord(evt) {
-    if (!showWords.style.background) return
+    if (!showR.style.background) return
     let w = evt.target.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
     if (!r) { hideElement(out); return }
@@ -90,25 +88,23 @@ function hideWord(evt) {
     hideElement(out)  //; out.innerText = ''
 }
 function adjustPage(adj) {
-    let k = slider.value
+    infoS.style.display = adj? 'block' : ''
+    gotoPage(slider.value, adj)
     if (adj) {
-        adjusting = true; sayfa.value = k
-        setSura(suraFromPage(k))
-    } else {
-        adjusting = false; gotoPage(k)
+      let s = sure.value+' -- '+pageS.innerText
+      infoS.innerText = s
     }
 }
-function gotoPage(k) { // 1<=k<=P
+function gotoPage(k, adjusting) { // 1<=k<=P
 //This is the only place where hash is set
-    if (adjusting) return;
     if (!k || k < 1) k = 1;
     if (k > P) k = P;
     k = Number(k);
+    sayfa.innerText = k;
     if (curPage == k) return;
     setSura(suraFromPage(k));
-    //linkB.href = LINK+k;
+    if (adjusting) return;
     curPage = k;
-    sayfa.value = k;
     slider.value = k;
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
@@ -131,8 +127,7 @@ function setSura(k) { // 1<=k<=M
     k = Number(k);
     if (curSura == k) return;
     curSura = k;
-    sure.value = k;
-    isim.innerText = names[k]  //+" Suresi";
+    sure.selectedIndex = k-1
 }
 function gotoSura(k) {
     if (!k || k < 1)  k = 1;
@@ -199,14 +194,15 @@ function dragEnd(evt) {
 }
 function readNames(name) {
     function toNames(t) {
-      let i = 0;
+      let i = 0, labels = []
       for (let s of t.split('\n')) {
         i++; //skip 0
         let [f, n] = s.split('\t'); //TAB
-        names[i] = n; labels[i] = i+'. '+n
+        names[i] = n; labels.push(i+'. '+n)
         first[i] = Number(f)
       }
-      console.log(name, names.length); 
+      console.log(name, names.length); labels.pop()
+      sure.innerHTML = '<option>'+labels.join('<option>')
     }
     fetch(DATA_URL+name).then(x => x.text()).then(toNames)
 }
@@ -259,7 +255,7 @@ function gotoHashPage() {
   let h = location.hash.substring(1)
   if (!h.startsWith('p=') && !h.startsWith('v=')) 
     return false
-  for (let e of h.split("&")) {
+  for (let e of h.split('&')) {
     let s = e.substring(2)
     switch (e.charAt(0)) {
       case 'p': // p=245
@@ -300,22 +296,23 @@ function initReader() {
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
-    //geri.onclick   = () => {history.go(-1)}
-    sure.onchange  = () => {gotoSura(sure.value)}
-    sayfa.onchange = () => {gotoPage(sayfa.value)}
+    sure.onchange  = () => {gotoSura(sure.selectedIndex+1)}
+    sayNo.onchange = hidePage
+    pageS.onclick  = showPage
+    starB.onclick  = toggleStar
     trans.onclick  = toggleTrans
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
-    showWords.onclick = toggleWords
-    solBut.onclick = () => {gotoPage(curPage-1)}
+    showR.onclick  = toggleWords
+    leftB.onclick  = () => {gotoPage(curPage-1)}
     slider.oninput = () => {adjustPage(true)}
     slider.onchange= () => {adjustPage(false)} //committed
-    sagBut.onclick = () => {gotoPage(curPage+1)}
+    rightB.onclick = () => {gotoPage(curPage+1)}
     try {
         readNames("iqra.names"); readText("Quran.txt", qur); 
         readText("Kuran.txt", kur); readWords("words.txt");
     } catch(err) { 
-        isim.innerText = err;
+        console.log(err)
     }
     window.onhashchange = gotoHashPage
     window.name ="iqra" //by A Rajab
@@ -329,7 +326,7 @@ function initReader() {
  *
  */
 //const EXT  defined in common.js
-var LINKF = 'https://finder-ar.imfast.io/finder'+EXT+'#w='
+var LINKF = '../BahisQurani/finder'+EXT+'#w='
 var LINKM = 'mujam'+EXT+'#r='
 function menuFn() {
   function menuItem(m) {
@@ -408,6 +405,26 @@ function menuFn() {
 /**
 * End of menu functions 
 ***********************************************/
+function showPage() {
+    if (sayNo.style.display) return
+    sayfa.style.display = 'none'
+    sayNo.style.display = 'inline'
+    sayNo.value = curPage
+}
+function hidePage() {
+    sayfa.style.display = ''
+    sayNo.style.display = ''
+    gotoPage(sayNo.value); 
+}
+function toggleStar() {
+    if (starB.style.background) {
+      starB.style.background = ''
+      console.log("Remove bookmark ")
+    } else {
+      starB.style.background = CHECKED
+      console.log("Bookmark "+curPage)
+    }
+}
 function toggleTrans() {
     if (trans.style.background) {
       html.style.display = ''
@@ -439,8 +456,8 @@ function toggleZoom() {
     }
 }
 function toggleWords() {
-    if  (showWords.style.background)
-         showWords.style.background = ''
-    else showWords.style.background = CHECKED
+    if  (showR.style.background)
+         showR.style.background = ''
+    else showR.style.background = CHECKED
 }
 
