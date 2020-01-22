@@ -1,21 +1,6 @@
 "use strict";
-const PREF ='iqra', CACHE = PREF+'19'
+const PREF ='iqra', CACHE = PREF+'01'
 const FILES = [
-  'reader',
-  'mujam',
-  'reader.html',
-  'mujam.html',
-  'guide',
-  'guideQ',
-  'guideM',
-  'code/main.css',
-  'code/common.js',
-  'code/reader.js',
-  'code/reader.css',
-  'code/mujam.js',
-  'code/mujam.css',
-  'code/utilities.js',
-  'code/buckwalter.js',
   'data/Quran.txt',
   'data/Kuran.txt',
   'data/iqra.names',
@@ -25,18 +10,11 @@ const FILES = [
   'image/icon.png',
   'image/iconF.png',
   'image/me_quran.ttf',
-  'image/Mucem_menu.png',
-  'image/Iqra_dar.png',
-  'image/Finder_meta.png',
-  'image/Adem.jpg',
-  'image/Three_windows.png',
-  'image/Mucem_ktb.png',
-  'image/Iqra_ktb.png',
   'manifest.json'
 ]
 
 function installCB(e) {  //CB means call-back
-  console.log(CACHE, e);
+  console.log("installing "+CACHE);
   e.waitUntil(
     caches.open(CACHE)
     .then(cache => cache.addAll(FILES))
@@ -45,29 +23,39 @@ function installCB(e) {  //CB means call-back
 }
 addEventListener('install', installCB)
 
-function cacheCB(e) { //cache first
+function save(req, resp) {
+  if (!req.url.includes("Iqra3")) 
+     return resp;
+  return caches.open(CACHE)
+  .then(cache => { // save request
+    cache.put(req, resp.clone());
+    return resp;
+  }) 
+  .catch(console.err)
+}
+function report(req) {
+  console.log(CACHE+' matches '+req.url)
+  return req
+}
+function fetchCB(e) { //fetch first
+  let req = e.request
   e.respondWith(
-    caches.match(e.request)
-    .then(r => {
-       if (r) return r
-       console.log('not in', CACHE, e.request.url)
-       return fetch(e.request)
-    })
-    .catch(console.log)
+    fetch(req).then(r2 => save(req, r2))
+    .catch(() => caches.match(req).then(report))
   )
 }
-addEventListener('fetch', cacheCB)
+addEventListener('fetch', fetchCB)
 
 function removeOld(L) {
   return Promise.all(L.map(key => {
     if (!key.startsWith(PREF) || key == CACHE)
        return null;
-    console.log('deleted', key)
+    console.log(key+" is deleted")
     return caches.delete(key)
   }))
 }
 function activateCB(e) {
-  console.log(CACHE, e);
+  console.log(CACHE+" is activated");
   e.waitUntil(
     caches.keys().then(removeOld)
   )

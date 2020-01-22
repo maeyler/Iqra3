@@ -12,7 +12,7 @@ const LS = location.protocol.startsWith('http') && localStorage;
 const rootToList = new Map()
 const wordToRoot = new Map()
 const ADD_STAR = 'Yıldız koy'
-const RMV_STAR = 'Yıldız sil'
+const RMV_STAR = 'Yıldızı sil'
 const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
@@ -309,6 +309,7 @@ function initReader() {
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     showR.onclick  = toggleWords
+    out.onclick    = () => {openMujam(toBuckwalter(out.innerText))}
     leftB.onclick  = () => {gotoPage(curPage-1)}
     slider.oninput = () => {adjustPage(true)}
     slider.onchange= () => {adjustPage(false)} //committed
@@ -319,7 +320,11 @@ function initReader() {
     } catch(err) { 
         console.log(err)
     }
-    bookmarks = new Set() //use localStorage
+    bookmarks = new Set()
+    if (LS && localStorage.bookmarks) {
+        let a = localStorage.bookmarks.split(' ')
+        for (k of a) bookmarks.add(Number(k))
+      }
     window.onhashchange = gotoHashPage
     window.name ="iqra" //by A Rajab
     menuFn(); 
@@ -334,6 +339,12 @@ function initReader() {
 //const EXT  defined in common.js
 var LINKF = '../BahisQurani/finder'+EXT+'#w='
 var LINKM = 'mujam'+EXT+'#r='
+function openMujam(...a) { //array of roots in Buckwalter
+    let p = a.join('&r=')
+    mujam = window.open(LINKM + p, "mujam")
+    for (let r of a) markWord(r, true); 
+    console.log('mucem: r='+p)
+}
 function menuFn() {
   function menuItem(m) {
       let s = forceSelection() //s is not empty
@@ -352,12 +363,7 @@ function menuFn() {
                 let r = wordToRoot.get(toBuckwalter(w))
                 if (r) a.push(r)
               }
-              if (a.length > 0) {
-                let p = a.join('&r=')
-                mujam = window.open(LINKM + p, "mujam")
-                for (let r of a) markWord(r, true); 
-                console.log('mucem: r='+p)
-              }
+              if (a.length > 0) openMujam(...a)
               else alert('Mucemde bulunamadı')
               break
           case 'B':
@@ -366,15 +372,15 @@ function menuFn() {
       }
       hideMenus()
   }
-  menuC.onclick = (evt) => { //context
+  menuC.onclick = (evt) => { //context menu
       evt.preventDefault()
       menuItem(evt.target.innerText[0])
   }
-  menuS.onclick = (evt) => { //bookmarks
+  menuS.onclick = (evt) => { //bookmarks menu
       evt.preventDefault()
       let t = evt.target.innerText
       console.log(t)
-      if (t == ADD_STAR) { //use localStorage
+      if (t == ADD_STAR) {
           starB.style.background = CHECKED
           bookmarks.add(curPage)
       } else if (t == RMV_STAR) {
@@ -382,11 +388,12 @@ function menuFn() {
           bookmarks.delete(curPage)
       } else {
           let [x, k] = t.split(/s| /)
-          gotoPage(k)
+          gotoPage(Number(k)); return
       }
       menuS.style.display = ''
+      if (LS) localStorage.bookmarks = bookmarks.join(' ')
   }
-  menuK.onclick = (evt) => { //open site
+  menuK.onclick = (evt) => { //ellipsis menu
       evt.preventDefault()
       openSitePage(evt.target.innerText[0], curPage)
   }
@@ -403,6 +410,8 @@ function menuFn() {
       else switch (k) {
           case 'T':
             toggleTrans(); break
+          case '*':
+            handleStar(); break
           case 'M': case '.':
             evt.clientX = linkB.offsetLeft
             evt.clientY = linkB.offsetTop +10
@@ -462,7 +471,8 @@ function makeStarMenu() {
     const span = '<span class="menuK">'
     let y = starB.style.background? RMV_STAR : ADD_STAR
     let t = span+y+'</span><hr>\n'
-    for (let k of bookmarks) if (k != curPage)
+    for (let k of [...bookmarks].reverse()) 
+      if (k != curPage)
         t += span+'s'+k+' '+names[suraFromPage(k)]+'</span>\n'
     menuS.innerHTML = t
 }
