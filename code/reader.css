@@ -8,11 +8,11 @@
     button { 
       width: 25px;
     }
-    #title, #geri { 
+    #title { 
       display: none;
     }
-    #div3 { 
-      font-size: 3.1vw;
+    #div3, #sure { 
+      font-size: 3vw;
     }
     #text { 
       font-size: 3.3vw;
@@ -38,6 +38,9 @@
     #trans { 
       display: none;
     }
+    #div3, #sure {
+      font-size: 13px;
+    }
     #text, #html {
       width: 400px; 
       display: inline-block;
@@ -46,17 +49,11 @@
       height: 88vh;
       border: black 1px solid;
     }
-    #div3 { 
-      font-size: 13px;
-    }
     #text { 
       font-size: 14px;
     }
     #html, #out { 
       font-size: 19px;
-    }
-    button:hover .tip2 {
-      /*visibility: visible;*/
     }
 }
 /** common to all screens **/
@@ -68,6 +65,9 @@
     }
     div { 
       text-align: center;
+    }
+    #sure {
+      padding: 4px 0;
     }
     #pageS {
       display: inline-block;
@@ -129,16 +129,17 @@
 }
     #infoS { 
       display: none;
-      font-size: small;
+      font-size: 13px;
+      background: #ff7;
       color: blue;
       text-align: center;
       padding: 5px 5px;
       position: fixed;
       border: black 1px solid;
       z-index: 1;
-      background: #ff7;
-      left: 120px; 
-      bottom: 26px;
+      left: 40vw; 
+      bottom: 90px;
+      min-width: 160px;
     }
     #slider {
       position: relative;
@@ -162,20 +163,6 @@
     }
     .gri { 
       background : #ffa;
-    }
-    .tip2 {
-      visibility: hidden;
-      font-size: small;
-      font-weight: normal;
-      color: blue;
-      text-align: center;
-      padding: 5px 5px;
-      position: absolute;
-      border: blue 1px solid;
-      z-index: 1;
-      background: #ff7;
-      left: -60px; 
-      top: 26px;
     }
     ::selection {
       color: yellow; 

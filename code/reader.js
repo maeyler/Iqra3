@@ -11,10 +11,12 @@ const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
 const LS = location.protocol.startsWith('http') && localStorage;
 const rootToList = new Map()
 const wordToRoot = new Map()
-const CHECKED = '#ff7' // when the button is down
+const ADD_STAR = 'Yıldız koy'
+const RMV_STAR = 'Yıldız sil'
+const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
-var mujam, hashInProgress;
+var mujam, hashInProgress, bookmarks;
    
 function numberToArabic(n) { //n is an integer
     let t = ''
@@ -108,6 +110,8 @@ function gotoPage(k, adjusting) { // 1<=k<=P
     slider.value = k;
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
+    starB.style.background = 
+        bookmarks.has(k)? CHECKED : ''
     let wc = html.childElementCount
     console.log('Page '+k, wc+' words');
     for (let x of html.children) {
@@ -297,10 +301,11 @@ function initReader() {
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
     sure.onchange  = () => {gotoSura(sure.selectedIndex+1)}
+    sayNo.onkeydown= keyToPage
     sayNo.onchange = hidePage
     pageS.onclick  = showPage
-    starB.onclick  = toggleStar
     trans.onclick  = toggleTrans
+    starB.onclick  = handleStar
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     showR.onclick  = toggleWords
@@ -314,6 +319,7 @@ function initReader() {
     } catch(err) { 
         console.log(err)
     }
+    bookmarks = new Set() //use localStorage
     window.onhashchange = gotoHashPage
     window.name ="iqra" //by A Rajab
     menuFn(); 
@@ -360,11 +366,27 @@ function menuFn() {
       }
       hideMenus()
   }
-  menuC.onclick = (evt) => {
+  menuC.onclick = (evt) => { //context
       evt.preventDefault()
       menuItem(evt.target.innerText[0])
   }
-  menuK.onclick = (evt) => {
+  menuS.onclick = (evt) => { //bookmarks
+      evt.preventDefault()
+      let t = evt.target.innerText
+      console.log(t)
+      if (t == ADD_STAR) { //use localStorage
+          starB.style.background = CHECKED
+          bookmarks.add(curPage)
+      } else if (t == RMV_STAR) {
+          starB.style.background = ''
+          bookmarks.delete(curPage)
+      } else {
+          let [x, k] = t.split(/s| /)
+          gotoPage(k)
+      }
+      menuS.style.display = ''
+  }
+  menuK.onclick = (evt) => { //open site
       evt.preventDefault()
       openSitePage(evt.target.innerText[0], curPage)
   }
@@ -392,7 +414,8 @@ function menuFn() {
       }
 }
   window.hideMenus = () => { 
-      hideElement(menuC); hideElement(menuK); hideElement(out)
+      hideElement(menuC); hideElement(menuK); 
+      hideElement(menuS); hideElement(out)
       linkB.style.background = ''
   }
 
@@ -405,25 +428,24 @@ function menuFn() {
 /**
 * End of menu functions 
 ***********************************************/
-function showPage() {
+function keyToPage(evt) {
+    if (evt.key == 'Escape') {
+      sayNo.value = curPage; hidePage()
+    } else if (evt.key == 'Enter') {
+      hidePage()
+    }
+}
+function showPage(evt) {
     if (sayNo.style.display) return
     sayfa.style.display = 'none'
     sayNo.style.display = 'inline'
-    sayNo.value = curPage
+    sayNo.value = curPage; sayNo.select(0,3)
 }
-function hidePage() {
+function hidePage(evt) {
+    if (!sayNo.style.display) return
     sayfa.style.display = ''
     sayNo.style.display = ''
     gotoPage(sayNo.value); 
-}
-function toggleStar() {
-    if (starB.style.background) {
-      starB.style.background = ''
-      console.log("Remove bookmark ")
-    } else {
-      starB.style.background = CHECKED
-      console.log("Bookmark "+curPage)
-    }
 }
 function toggleTrans() {
     if (trans.style.background) {
@@ -436,14 +458,33 @@ function toggleTrans() {
       trans.style.background = CHECKED
     }
 }
-function toggleMenuK(evt) {
+function makeStarMenu() {
+    const span = '<span class="menuK">'
+    let y = starB.style.background? RMV_STAR : ADD_STAR
+    let t = span+y+'</span><hr>\n'
+    for (let k of bookmarks) if (k != curPage)
+        t += span+'s'+k+' '+names[suraFromPage(k)]+'</span>\n'
+    menuS.innerHTML = t
+}
+function displayMenu(m, e, w) {
+      setPosition(m, e.offsetLeft, e.offsetTop+28, w)
+}
+function handleStar() {
+    if (menuS.style.display) {
+      hideElement(menuS)
+    } else {
+      hideMenus(); makeStarMenu()
+      displayMenu(menuS, starB, 90)
+    }
+}
+function toggleMenuK() {
     if (linkB.style.background) {
       linkB.style.background = ''
       hideElement(menuK)
     } else {
-      linkB.style.background = CHECKED
-      hideElement(menuC)
-      setPosition(menuK, linkB.offsetLeft, linkB.offsetTop+28, 130)
+      hideMenus(); linkB.style.background = CHECKED
+      displayMenu(menuK, linkB, 120)
+    //setPosition(menuK, linkB.offsetLeft, linkB.offsetTop+28, 120)
     }
 }
 function toggleZoom() {
