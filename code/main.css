@@ -10,7 +10,19 @@
         overflow-x: auto;
     }
     img  {
-        max-width: 100%;
+        max-width: 500px;
         box-sizing: content-box;
     }
-
+    .large  {
+        max-width: 800px;
+    }
+@media screen and (max-width: 500px) {
+    img  {
+        max-width: 100%;
+    }
+}
+@media screen and (max-width: 800px) {
+    .large  {
+        max-width: 100%;
+    }
+}
