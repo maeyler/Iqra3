@@ -323,8 +323,8 @@ function initReader() {
     bookmarks = new Set()
     if (LS && localStorage.bookmarks) {
         let a = localStorage.bookmarks.split(' ')
-        for (k of a) bookmarks.add(Number(k))
-      }
+        for (let k of a) bookmarks.add(Number(k))
+    }
     window.onhashchange = gotoHashPage
     window.name ="iqra" //by A Rajab
     menuFn(); 
@@ -379,7 +379,7 @@ function menuFn() {
   menuS.onclick = (evt) => { //bookmarks menu
       evt.preventDefault()
       let t = evt.target.innerText
-      console.log(t)
+      console.log(curPage, t)
       if (t == ADD_STAR) {
           starB.style.background = CHECKED
           bookmarks.add(curPage)
@@ -391,7 +391,10 @@ function menuFn() {
           gotoPage(Number(k)); return
       }
       menuS.style.display = ''
-      if (LS) localStorage.bookmarks = bookmarks.join(' ')
+      if (LS) {
+          let a = [...bookmarks]
+          localStorage.bookmarks = a.join(' ')
+      }
   }
   menuK.onclick = (evt) => { //ellipsis menu
       evt.preventDefault()
@@ -471,8 +474,8 @@ function makeStarMenu() {
     const span = '<span class="menuK">'
     let y = starB.style.background? RMV_STAR : ADD_STAR
     let t = span+y+'</span><hr>\n'
-    for (let k of [...bookmarks].reverse()) 
-      if (k != curPage)
+    let a = [...bookmarks].reverse()
+    for (let k of a) if (k != curPage)
         t += span+'s'+k+' '+names[suraFromPage(k)]+'</span>\n'
     menuS.innerHTML = t
 }

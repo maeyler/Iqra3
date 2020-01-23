@@ -322,7 +322,7 @@ function displayRef(word, [page, refA]) {
                 let k = refA[p].indexOf(":");
                 k = (k < 0 ? 0 : Number(refA[p].substring(0, k)));
                 let refs = "S."+pn+' '+sName[k] +EM_SPACE+ refA[p];
-                if (c > 0) refs += EM_SPACE+"("+ c +")";
+                if (c > 1) refs += EM_SPACE+"("+ c +")";
                 //s2 = "<span class=t2>" + refs + "</span>";
                 pRefs.push(refs); p++;
                 nc += c;
