@@ -8,16 +8,27 @@ const P = 604; //pages
 const qur = new Array(P+1);
 const kur = new Array(P+1);
 const LINK = "http://kuranmeali.com/Sayfalar.php?sayfa=";
-const LS = location.protocol.startsWith('http') && localStorage;
 const rootToList = new Map()
 const wordToRoot = new Map()
-const ADD_STAR = 'Yıldız koy'
-const RMV_STAR = 'Yıldızı sil'
 const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage;
 var mujam, hashInProgress, bookmarks;
-   
+
+const LS = location.protocol.startsWith('http') && localStorage;
+const DEFAULT = {page:400, roots:true, marks:[56,95,328]}
+function getStorage() {
+    if (!LS || !localStorage.iqra) return DEFAULT
+    return JSON.parse(localStorage.iqra)
+}
+function setStorage() {
+    if (!LS) return
+    let page  = curPage
+    let roots = showR.style.background? true : false
+    let marks = [...bookmarks]
+    let pref = {page, roots, marks}
+    localStorage.iqra = JSON.stringify(pref)
+}
 function numberToArabic(n) { //n is an integer
     let t = ''
     for (let c of String(n)) 
@@ -38,7 +49,6 @@ function markWord(w, root, cls='mavi') {
       if (b != w) continue
       x.classList.add(cls); n++
     }
-    //console.log('markRoot '+root, n)
 }
 function markVerse(n, cls='gri') {
     //markPattern('[^﴾﴿]*﴿'+numberToArabic(n)+'﴾?', 'cls)
@@ -93,7 +103,7 @@ function adjustPage(adj) {
     infoS.style.display = adj? 'block' : ''
     gotoPage(slider.value, adj)
     if (adj) {
-      let s = sure.value+' -- '+pageS.innerText
+      let s = sureS.value+' -- '+pageS.innerText
       infoS.innerText = s
     }
 }
@@ -124,14 +134,15 @@ function gotoPage(k, adjusting) { // 1<=k<=P
         location.hash = '#p='+curPage
         //history.pushState('', '', '#p='+curPage)
     hashInProgress = false
-    if (LS) localStorage.iqraPage = k
+    setStorage()
+    //if (LS) localStorage.iqraPage = k
     hideMenus();  //html.scrollTo(0)
 }
 function setSura(k) { // 1<=k<=M
     k = Number(k);
     if (curSura == k) return;
     curSura = k;
-    sure.selectedIndex = k-1
+    sureS.selectedIndex = k-1
 }
 function gotoSura(k) {
     if (!k || k < 1)  k = 1;
@@ -206,7 +217,7 @@ function readNames(name) {
         first[i] = Number(f)
       }
       console.log(name, names.length); labels.pop()
-      sure.innerHTML = '<option>'+labels.join('<option>')
+      sureS.innerHTML = '<option>'+labels.join('<option>')
     }
     fetch(DATA_URL+name).then(x => x.text()).then(toNames)
 }
@@ -288,7 +299,8 @@ function gotoHashPage() {
 function initialPage() {
     if (!gotoHashPage()) {
       console.log("initialPage")
-      gotoPage(LS? localStorage.iqraPage : 1)
+      let k = getStorage().page || 1
+      gotoPage(k)
     }
 }
 function initReader() {
@@ -300,12 +312,11 @@ function initReader() {
     html.addEventListener("touchmove", drag);
     text.addEventListener("touchend", dragEnd);
     html.addEventListener("touchend", dragEnd);
-    sure.onchange  = () => {gotoSura(sure.selectedIndex+1)}
+    sureS.onchange = () => {gotoSura(sureS.selectedIndex+1)}
     sayNo.onkeydown= keyToPage
-    sayNo.onchange = hidePage
-    pageS.onclick  = showPage
+    pageS.onclick  = handleStars
     trans.onclick  = toggleTrans
-    starB.onclick  = handleStar
+    starB.onclick  = toggleStar
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     showR.onclick  = toggleWords
@@ -320,10 +331,13 @@ function initReader() {
     } catch(err) { 
         console.log(err)
     }
+    let {roots, marks} = getStorage()
+    //we cannot use page yet, files are not read -- see initialPage()
+    showR.style.background = roots? CHECKED : ''
     bookmarks = new Set()
-    if (LS && localStorage.bookmarks) {
-        let a = localStorage.bookmarks.split(' ')
-        for (let k of a) bookmarks.add(Number(k))
+    if (/*LS && localStorage.book*/ marks) {
+        //let marks = localStorage.bookmarks.split(' ')
+        for (let k of marks) bookmarks.add(Number(k))
     }
     window.onhashchange = gotoHashPage
     window.name ="iqra" //by A Rajab
@@ -380,21 +394,18 @@ function menuFn() {
       evt.preventDefault()
       let t = evt.target.innerText
       console.log(curPage, t)
-      if (t == ADD_STAR) {
-          starB.style.background = CHECKED
-          bookmarks.add(curPage)
-      } else if (t == RMV_STAR) {
-          starB.style.background = ''
-          bookmarks.delete(curPage)
+      if (t.startsWith('Git:')) {
+          
       } else {
           let [x, k] = t.split(/s| /)
           gotoPage(Number(k)); return
       }
       menuS.style.display = ''
-      if (LS) {
+      setStorage()
+      /*if (LS) {
           let a = [...bookmarks]
           localStorage.bookmarks = a.join(' ')
-      }
+      }*/
   }
   menuK.onclick = (evt) => { //ellipsis menu
       evt.preventDefault()
@@ -414,7 +425,7 @@ function menuFn() {
           case 'T':
             toggleTrans(); break
           case '*':
-            handleStar(); break
+            toggleStar(); break
           case 'M': case '.':
             evt.clientX = linkB.offsetLeft
             evt.clientY = linkB.offsetTop +10
@@ -442,22 +453,11 @@ function menuFn() {
 ***********************************************/
 function keyToPage(evt) {
     if (evt.key == 'Escape') {
-      sayNo.value = curPage; hidePage()
+      hideElement(menuS)
     } else if (evt.key == 'Enter') {
-      hidePage()
+      gotoPage(sayNo.value)
+      hideElement(menuS)
     }
-}
-function showPage(evt) {
-    if (sayNo.style.display) return
-    sayfa.style.display = 'none'
-    sayNo.style.display = 'inline'
-    sayNo.value = curPage; sayNo.select(0,3)
-}
-function hidePage(evt) {
-    if (!sayNo.style.display) return
-    sayfa.style.display = ''
-    sayNo.style.display = ''
-    gotoPage(sayNo.value); 
 }
 function toggleTrans() {
     if (trans.style.background) {
@@ -472,23 +472,34 @@ function toggleTrans() {
 }
 function makeStarMenu() {
     const span = '<span class="menuK">'
-    let y = starB.style.background? RMV_STAR : ADD_STAR
-    let t = span+y+'</span><hr>\n'
+    let t = ''
     let a = [...bookmarks].reverse()
     for (let k of a) if (k != curPage)
         t += span+'s'+k+' '+names[suraFromPage(k)]+'</span>\n'
-    menuS.innerHTML = t
+    starred.innerHTML = t
 }
 function displayMenu(m, e, w) {
-      setPosition(m, e.offsetLeft, e.offsetTop+28, w)
+      setPosition(m, e.offsetLeft+27, e.offsetTop+27, w)
 }
-function handleStar() {
+function handleStars() {
     if (menuS.style.display) {
       hideElement(menuS)
     } else {
       hideMenus(); makeStarMenu()
-      displayMenu(menuS, starB, 90)
+      displayMenu(menuS, pageS, 90)
+      sayNo.value = curPage
+      sayNo.select(0,3); sayNo.focus()
     }
+}
+function toggleStar() {
+    if (starB.style.background) {
+      starB.style.background = ''
+      bookmarks.delete(curPage)
+    } else {
+      starB.style.background = CHECKED
+      bookmarks.add(curPage)
+    }
+    setStorage()
 }
 function toggleMenuK() {
     if (linkB.style.background) {
@@ -513,5 +524,6 @@ function toggleWords() {
     if  (showR.style.background)
          showR.style.background = ''
     else showR.style.background = CHECKED
+    setStorage()
 }
 

@@ -19,13 +19,10 @@
 <body>
 <div id=div3>
   <b id=title></b>
-  <select id=sure></select>  
-  <!--input id=sure  type=number min=1 max=114 value=1-->
-  <span id=pageS>
-    Sayfa <span id=sayfa></span>
-    <input id=sayNo type=number min=1 max=604 value=1>
-  </span>
-  &emsp;
+  <select id=sureS></select>  
+  <button id=pageS>
+    Sayfa <span id=sayfa></span>&emsp;▾
+  </button>
   <button id=trans>T</button>
   <button id=starB>☆</button> 
   <button id=linkB>…</button>
@@ -39,10 +36,10 @@
 </div>
 
 <div id=div1>
-  <button id=leftB>⇐</button>
+  <button id=leftB>◁</button>
   <input id=slider type=range min=1 max=604 value=1>
   <span  id=infoS></span>
-  <button id=rightB>⇒</button>
+  <button id=rightB>▷</button>
 </div>
 
 <div id=div0></div>
@@ -50,8 +47,8 @@
 <span id=out>Display Root</span>
 
 <div id=menuS class=menu>
-   <span class="menuK">Yıldız koy</span><hr>
-   <span class="menuK">s125 Maide</span>
+   &emsp; <input id=sayNo type=number min=1 max=604 value=1>
+   <hr> <span id=starred>star menu</span>
 </div>
 
 <div id=menuC class=menu>

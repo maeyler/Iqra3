@@ -11,7 +11,7 @@
     #title { 
       display: none;
     }
-    #div3, #sure { 
+    #div3, #sureS, #pageS { 
       font-size: 3vw;
     }
     #text { 
@@ -38,8 +38,8 @@
     #trans { 
       display: none;
     }
-    #div3, #sure {
-      font-size: 13px;
+    #div3, #sureS, #pageS {
+      font-size: 14px;
     }
     #text, #html {
       width: 400px; 
@@ -66,19 +66,16 @@
     div { 
       text-align: center;
     }
-    #sure {
+    #sureS {
       padding: 4px 0;
     }
     #pageS {
-      display: inline-block;
-      user-select: none;
-      cursor: pointer;
+      padding: 4px;
+      width: auto;
+      font-weight: normal;
     }
     #sayNo {  
-      display: none;
-      position: relative;
-      right: 0;
-      width: 40px; 
+      margin-top: 6px;
     }
     #div2 { 
       overflow-x: hidden;
@@ -129,7 +126,7 @@
 }
     #infoS { 
       display: none;
-      font-size: 13px;
+      font-size: 14px;
       background: #ff7;
       color: blue;
       text-align: center;
