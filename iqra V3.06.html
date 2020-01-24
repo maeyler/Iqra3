@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="mae/iqra/iqra.gif">
+    <title>Iqra V3.06</title>
+
+  <style> 
+    body { max-width: 705px }
+    #sure { width: 50px }
+    #sayfa { width: 50px }
+    #slider { width: 100% }
+    #text, #html {
+      display: inline-block;
+      vertical-align: middle;
+      overflow-y: auto;
+      border: black 1px solid;
+      width: 340px; 
+      padding: 4px;
+    }
+    #text { 
+      font: 12px sansserif, arial;
+    }
+    #html { 
+      font: 16px me_quran, serif;
+      text-align: center;
+      height: 520px;
+    }
+	@font-face {
+	  font-family: me_quran;
+	  src: url("image/me_quran.ttf")
+	}
+
+  </style>
+</head>
+
+<h2 id=title></h2>
+
+<div>
+  <input id=sure  type=number min=1 max=114 value=1 onChange=gotoSura(value)>
+  <span id=isim></span> &emsp;
+  <input id=geri  type=button value='<' onClick=setState(hist.pop())>
+  &emsp; Sayfa
+  <input id=sayfa type=number min=1 max=604 value=1 onChange=gotoPage(value)>
+</div>
+  <input id=slider type=range min=1 max=604 value=1 onChange=gotoPage(value)>
+<div>
+  <div id=text>Türkçe</div>
+  <textarea id=html readonly>Arabic</textarea>
+</div>
+<hr />
+
+<script>
+"use strict";
+const URL = "http://maeyler.github.io/Iqra3/data/"; 
+const QUR = "Quran.txt"; 
+const KUR = "Kuran.txt"; 
+const NAM = "iqra.names";
+const LEFT = 0xFD3E, RIGHT = 0xFD3F;
+const hist = []; //previous pages
+const M = 114; //suras
+const names = new Array(M+1);
+const first = new Array(M+1);
+const P = 604; //pages
+const qur = new Array(P+1);
+const kur = new Array(P+1);
+var curSura, curPage;
+    
+function setState(s) {
+    let [p, ss, se] = s.split(/:|-/);
+    setPage(p, false);
+    slider.value = p;
+    html.selectionStart = ss;
+    html.selectionEnd = se;
+    html.focus()
+}
+function getState() {
+    let i = html.selectionStart;
+    let j = html.selectionEnd;
+    return (curPage+':'+i+'-'+j);
+}
+function suraFromPage(k) {
+    let i = 1;
+    while (k > first[i]) i++;
+    if (k < first[i]) i--;
+    return i;
+}
+function suraContainsPage(k) {
+    if (curSura == M) return (k == P);
+    let i = first[curSura];
+    let j = first[curSura+1];
+    if (i == j) return (k == i);
+    return (i<=k && k<j);
+}
+function setPage(k, save) { // 1<=k<=P
+    if (!k || k < 1) k = 1;
+    if (k > P) k = P;
+    if (curPage == k) return;
+    if (curPage && save) hist.push(getState())
+    setSura(suraFromPage(k));
+    curPage = k;
+    sayfa.value = k;
+    text.innerText = (kur[k]);
+    //remove line breaks inhereted from Java
+    html.innerText = (qur[k].replace(/<BR>/g,''));
+    //html.scrollTo(0);
+}
+function gotoPage(k) {
+    setPage(k, true);
+    slider.value = k;
+}
+function setSura(k) {
+    if (curSura == k) return;
+    curSura = k;
+    sure.value = k;
+    isim.innerText = names[k]+" Suresi";
+    /*file = new File("sound", "s"+k+".mp3");
+    if (!file.exists())
+         file = new File("sound", "s"+k+".wav");
+    pan.iqra.setVisible(file.exists());*/
+}
+function gotoSura(k) {
+    if (!k || k < 1)  k = 1;
+    if (k > M) k = M;
+    setSura(k);
+    gotoPage(first[k]);
+    //if (playing && pan.iqra.isVisible()) audio();
+}
+function readNames() {
+    function toNames(t) {
+      let i = 0;
+      //remove line breaks inhereted from Java
+      //t = t.replace(/<BR>/g,'')
+      for (let s of t.split('\n')) {
+        i++; let j = s.indexOf('\t'); //TAB
+        names[i] = s.substring(j+1);
+        first[i] = Number(s.substring(0, j));
+      }
+      console.log("readNames", i, names.length); 
+      setTimeout(gotoSura, 1000)
+    }
+    fetch(URL+NAM).then(x => x.text()).then(toNames)
+}
+function readText(name, array) {
+    function toLines(t) {
+      let a = t.split('¶');
+      for (let i=0; i<a.length; i++) array[i] = a[i]    
+      console.log(name, a.length); 
+    }
+    fetch(URL+name).then(x => x.text()).then(toLines)
+}
+
+    title.innerText = document.title;
+    //sample.innerText = increment.toString();
+    readNames(); 
+    readText(QUR, qur);
+    readText(KUR, kur);
+    slider.focus(); 
+</script>
+
+</body>
+</html>
