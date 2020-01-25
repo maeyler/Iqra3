@@ -12,7 +12,7 @@ const rootToList = new Map()
 const wordToRoot = new Map()
 const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
-var curSura, curPage;
+var curSura, curPage, bilgi;
 var mujam, hashInProgress, bookmarks;
 
 const LS = location.protocol.startsWith('http') && localStorage;
@@ -79,13 +79,15 @@ function suraContainsPage(k) {
 }
 function displayWord(evt) {
     if (!showR.style.background) return
-    let w = evt.target.innerText.trim()
+    let t = evt.target
+    let w = t.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
-    if (!r) { hideElement(out); return }
-    evt.target.style.background = '#ddd'
+    if (!r) { hideElement(bilgi); return }
     let n = rootToList.get(r).length
-    out.innerText = toArabic(r)  //+' => '+n
-    setPosition(out, evt.clientX, evt.pageY+10, 130)
+    bilgi.innerText = toArabic(r)  //+' => '+n
+    t.style.background = '#ddd'; t.append(bilgi)
+    let y = t.offsetTop + t.offsetHeight
+    setPosition(bilgi, t.offsetLeft+24, y-5, 90)
 }
 function selectWord(evt) {
     let s = window.getSelection()
@@ -97,7 +99,7 @@ function selectWord(evt) {
 }
 function hideWord(evt) {
     evt.target.style.background = ''
-    hideElement(out)  //; out.innerText = ''
+    hideElement(bilgi)
 }
 function adjustPage(adj) {
     infoS.style.display = adj? 'block' : ''
@@ -129,6 +131,10 @@ function gotoPage(k, adjusting) { // 1<=k<=P
       x.onmouseleave = hideWord
       x.oncontextmenu = selectWord
     }
+    bilgi = document.createElement('span')
+    bilgi.id = 'bilgi'; document.body.append(bilgi)
+    bilgi.onclick = 
+      () => {openMujam(toBuckwalter(bilgi.innerText))} 
     document.title = 'Iqra s'+k;
     if (!hashInProgress)
         location.hash = '#p='+curPage
@@ -320,7 +326,7 @@ function initReader() {
     linkB.onclick  = toggleMenuK
     zoomB.onclick  = toggleZoom
     showR.onclick  = toggleWords
-    out.onclick    = () => {openMujam(toBuckwalter(out.innerText))}
+    //bilgi.onclick -- do on each page
     leftB.onclick  = () => {gotoPage(curPage-1)}
     slider.oninput = () => {adjustPage(true)}
     slider.onchange= () => {adjustPage(false)} //committed
@@ -438,7 +444,7 @@ function menuFn() {
 }
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); 
-      hideElement(menuS); hideElement(out)
+      hideElement(menuS); hideElement(bilgi)
       linkB.style.background = ''
   }
 

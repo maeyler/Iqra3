@@ -7,6 +7,7 @@
     }
     button { 
       width: 25px;
+      height: 30px;
     }
     #title { 
       display: none;
@@ -18,7 +19,7 @@
       font-size: 3.3vw;
       display: none;
     }
-    #html, #out { 
+    #html, #bilgi { 
       font-size: 4.6vw;
     }
 }
@@ -29,6 +30,7 @@
     }
     button { 
       width: 30px;
+      height: 30px;
     }
     #title {
       margin: 0;
@@ -52,7 +54,7 @@
     #text { 
       font-size: 14px;
     }
-    #html, #out { 
+    #html, #bilgi { 
       font-size: 19px;
     }
 }
@@ -83,15 +85,16 @@
     #div0 { 
       height: 30px;
     }
-    #out { 
+    #bilgi { 
       display: none;
       position: absolute;
       min-width: 90px;
       text-align: center;
-      margin: 15px;
+      padding: 5px;
       color: blue;
       background: #ff7;
       border: blue 1px solid;
+      cursor: pointer;
     }
     #div1, #div3 { 
       white-space: nowrap;
@@ -116,7 +119,7 @@
     #text, #div3, #infoS { 
       font-family: sansserif, arial;
     }
-    #html, #out { 
+    #html, #bilgi { 
       font-family: me_quran, serif;
       line-height: 1.9;
       direction: rtl;
