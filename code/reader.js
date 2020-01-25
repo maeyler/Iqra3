@@ -103,7 +103,7 @@ function adjustPage(adj) {
     infoS.style.display = adj? 'block' : ''
     gotoPage(slider.value, adj)
     if (adj) {
-      let s = sureS.value+' -- '+pageS.innerText
+      let s = sureS.value+' -- Sayfa '+slider.value
       infoS.innerText = s
     }
 }
