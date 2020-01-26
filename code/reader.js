@@ -16,7 +16,7 @@ var curSura, curPage, bilgi;
 var mujam, hashInProgress, bookmarks;
 
 const LS = location.protocol.startsWith('http') && localStorage;
-const DEFAULT = {page:400, roots:true, marks:[56,95,328]}
+const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
 function getStorage() {
     if (!LS || !localStorage.iqra) return DEFAULT
     return JSON.parse(localStorage.iqra)
@@ -28,6 +28,10 @@ function setStorage() {
     let marks = [...bookmarks]
     let pref = {page, roots, marks}
     localStorage.iqra = JSON.stringify(pref)
+      /*if (LS) {
+          let a = [...bookmarks]
+          localStorage.bookmarks = a.join(' ')
+      }*/
 }
 function numberToArabic(n) { //n is an integer
     let t = ''
@@ -87,7 +91,7 @@ function displayWord(evt) {
     bilgi.innerText = toArabic(r)  //+' => '+n
     t.style.background = '#ddd'; t.append(bilgi)
     let y = t.offsetTop + t.offsetHeight
-    setPosition(bilgi, t.offsetLeft+24, y-5, 90)
+    setPosition(bilgi, t.offsetLeft+24, y-4, 90)
 }
 function selectWord(evt) {
     let s = window.getSelection()
@@ -399,19 +403,10 @@ function menuFn() {
   menuS.onclick = (evt) => { //bookmarks menu
       evt.preventDefault()
       let t = evt.target.innerText
-      console.log(curPage, t)
-      if (t.startsWith('Git:')) {
-          
-      } else {
-          let [x, k] = t.split(/s| /)
-          gotoPage(Number(k)); return
-      }
-      menuS.style.display = ''
-      setStorage()
-      /*if (LS) {
-          let a = [...bookmarks]
-          localStorage.bookmarks = a.join(' ')
-      }*/
+      //console.log(curPage, t)
+      let [x, k] = t.split(/s| /)
+      if (Number(k)) gotoPage(Number(k))
+      //setStorage() done in gotoPage
   }
   menuK.onclick = (evt) => { //ellipsis menu
       evt.preventDefault()

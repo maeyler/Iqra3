@@ -87,6 +87,7 @@
     }
     #bilgi { 
       display: none;
+      user-select: none;
       position: absolute;
       min-width: 90px;
       text-align: center;
@@ -95,9 +96,11 @@
       background: #ff7;
       border: blue 1px solid;
       cursor: pointer;
+      z-index: 1;
     }
     #div1, #div3 { 
       white-space: nowrap;
+      user-select: none;
       margin: 0;
     }
     #div1 { 
@@ -129,6 +132,7 @@
 }
     #infoS { 
       display: none;
+      user-select: none;
       font-size: 14px;
       background: #ff7;
       color: blue;
