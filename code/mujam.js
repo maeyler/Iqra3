@@ -355,7 +355,6 @@ function displayRef(word, [page, refA]) {
       x.onmouseleave = () => {
         if (!menuK.style.display) hideElement(bilgi)
       }
-      //x.onmouseup = doClick -- implement later
     }
     bilgi = document.createElement('div') //lost within table
     bilgi.id = 'bilgi'; document.body.append(bilgi)

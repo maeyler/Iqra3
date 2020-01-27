@@ -37,9 +37,6 @@
       font-size: 15px;
       display: inline-block;
     }
-    #trans { 
-      display: none;
-    }
     #div3, #sureS, #pageS {
       font-size: 14px;
     }
@@ -190,6 +187,8 @@
       background: #eee;
       font: 13px sansserif, arial;
       user-select: none;
+      overflow-y: auto;
+      height: 80vh;
       z-index: 1;
     }
     #version { 

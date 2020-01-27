@@ -423,6 +423,14 @@ function menuFn() {
       else if (menuK.style.display)
           openSitePage(k, curPage)
       else switch (k) {
+          case 'ARROWLEFT':
+            if (!evt.altKey && !evt.ctrlKey)
+              gotoPage(curPage-1)
+            break
+          case 'ARROWRIGHT':
+            if (!evt.altKey && !evt.ctrlKey)
+              gotoPage(curPage+1);
+            break
           case 'T':
             toggleTrans(); break
           case '*':
