@@ -91,7 +91,7 @@ function displayWord(evt) {
     bilgi.innerText = toArabic(r)  //+' => '+n
     t.style.background = '#ddd'; t.append(bilgi)
     let y = t.offsetTop + t.offsetHeight
-    setPosition(bilgi, t.offsetLeft+24, y-4, 90)
+    setPosition(bilgi, t.offsetLeft+24, y-6, 105)
 }
 function selectWord(evt) {
     let s = window.getSelection()
@@ -517,7 +517,6 @@ function toggleMenuK() {
     } else {
       hideMenus(); linkB.style.background = CHECKED
       displayMenu(menuK, linkB, 120)
-    //setPosition(menuK, linkB.offsetLeft, linkB.offsetTop+28, 120)
     }
 }
 function toggleZoom() {

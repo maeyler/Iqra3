@@ -188,7 +188,7 @@
       font: 13px sansserif, arial;
       user-select: none;
       overflow-y: auto;
-      height: 80vh;
+      max-height: 70vh;
       z-index: 1;
     }
     #version { 

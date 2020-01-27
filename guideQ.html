@@ -12,40 +12,42 @@
   </head>
   <body>
 
-<h2 id=title>Iqra </h2>
+<h2 id=title>Iqra -- Oku </h2>
 
-<p>Iqra3, Kerim Kitabımız Kuran’ı okumak için yapılan yüzlerce yazılımdan biridir.</p>
+<p>Iqra, Kerim Kitabımız Kuran’ı okumak için yapılan yüzlerce yazılımdan biridir.</p>
 
 <h3 id="1-sayfa">1. Sayfayı açmak ve çevirmek</h3>
-<p>Yazılımı başlatmak için üç farklı türden adres verebiliriz:</p>
 
-<ul>
-  <li><a href="reader.html" target="iqra">
-  reader.html</a> (yalın – son kaldığı yerden devam eder)</li>
-  <li><a href="reader.html#p=378" target="iqra">
-  reader.html#p=378</a> (numarası verilen sayfadan)</li>
-  <li><a href="reader.html#v=27:28" target="iqra">
-  reader.html#v=27:28</a> (27. surenin 28. ayetinden)</li>
-</ul>
+<p>Yazılımın başlangıç linki:
+<a href="reader.html" target="iqra">reader.html</a></p>
 
 <p>Ekran yeteri kadar geniş ise hem Kuran sayfası hem de meali görünür. Sayfa açılınca, sonraki ya da önceki sayfaya geçmek, başka bir sure ya da sayfa numarası vermek mümkün. Sağ üstte görünen tuşların anlamı:</p>
 
 <ul>
-  <li>T - Meal göster/gizle (sadece dar ekranda)</li>
-  <li>☆ - Yer işareti ekle/sil/göster</li>
-  <li>… - Aynı sayfayı dış kaynaklarda aç</li>
+  <li>☆ - Yer işareti ekle/sil</li>
+  <li>T - Arapça metni göster/gizle</li>
+  <li>… - Bu sayfayı dış kaynaklarda aç</li>
   <li>+ - Geçici bir büyüteç göster/gizle</li>
   <li>K - Arapça kelime köklerini göster/gizle</li>
 </ul>
 
-<p>Sayfanın adresinde yazılan sayfa ya da ayet numarasından sonra, <code>&amp;r=ktb</code> şeklinde kelime kökleri verilirse, bu kelimeler renkli gösterilir. Mucem’de seçilen kelimeler bu şekilde renklendiriliyor.</p>
+<p>Yazılımın en önemli özelliği bu olduğu için, K tuşunun sürekli seçili olmasını tavsiye ediyoruz.</p>
 
 <p><img src="image/Iqra_ktb.png" alt="Iqra ekranı" class=large /></p>
-<p>Bu renkleri görmek için gereken adres: 
-  <a href="reader.html#v=27:28&r=ktb" target="iqra">
-  reader.html#v=27:28&amp;r=ktb</a></p>
 
-<p>Dar ekranlara hem ayet hem de meal sütunları bir arada sığmıyor. Ayetler ile anlamlar arasındaki geçiş için T tuşuna basmak gerekiyor. Fontlar ekran genişliği ile orantılı olduğundan, telefonu yan tutmak daha iyi görüntü verecektir.</p>
+<p>Başlangıç adresinde sayfa ya da ayet numaraları belirtilebilir:</p>
+<ul>
+  <li><a href="reader.html#p=378" target="iqra">
+  reader.html#p=378</a> (numarası verilen sayfa)</li>
+  <li><a href="reader.html#v=27:28" target="iqra">
+  reader.html#v=27:28</a> (27. surenin 28. ayeti)</li>
+  <li><a href="reader.html#v=27:28&r=ktb" target="iqra">
+  reader.html#v=27:28&amp;r=ktb</a> (şekildeki renkler için)</li>
+</ul>
+
+<p>Sayfanın adresinde yazılan sayfa ya da ayet numarasından sonra, <code>&amp;r=ktb</code> şeklinde kelime kökleri verilirse, bu kelimeler renkli gösterilir. Mucem’de seçilen kelimeler bu şekilde renklendiriliyor.</p>
+
+<p>Dar ekranlara hem ayet hem de meal sütunları bir arada sığmaz, ayetler ile anlamlar arasındaki geçiş için T tuşuna basmak gerekiyor. Fontlar ekran genişliği ile orantılı olduğundan, telefonu yan tutmak daha iyi görüntü verecektir.</p>
 
 <p><img src="image/Iqra_dar.png" alt="Iqra dar" /></p>
 
@@ -61,6 +63,7 @@ Bu resimde, iki kelime seçildikten sonra bağlam menüsü görülüyor. Bağlam
 </ol>
 
 <h3 id="21-finder">2.1 Finder (Üç dil)</h3>
+
 <p>Arapça metin ya da Türkçe-İngilizce meal içinde düz metin aramak için Abdurrahman Rajab tarafından bitirme projesi olarak hazırlanıyor (Bitiş tarihi: 2020 Mayıs)</p>
 
 <p><img src="image/Finder_meta.png" alt="Finder" /></p>
@@ -68,6 +71,7 @@ Bu resimde, iki kelime seçildikten sonra bağlam menüsü görülüyor. Bağlam
 <p>Arapça-Türkçe-İngilizce sesli arama özelliği eklendi (Ayrıntılar ilgili sayfada açıklanacak)</p>
 
 <h3 id="22-mucem">2.2 Mucem (sadece Arapça)</h3>
+
 <p>Mucem yöntemi ise, seçilen Arapça kelimelerin köküne bağlı çalışıyor. Bu yöntem, Kuran dilini bilenler ya da öğrenmek isteyenler için tasarlandı. Sayfada görülen 604 kutunun herbiri Kuran’dan bir sayfa. Aranan kök beyaz sayfalarda hiç yok. Her kutunun rengi, ilgili sayfada bulunan kelime sayısı ile orantılı.</p>
 
 <p><img src="image/Mucem_menu.png" alt="Mucem menu" /></p>
@@ -76,10 +80,12 @@ Bu resimde, iki kelime seçildikten sonra bağlam menüsü görülüyor. Bağlam
   <a href="guideM.html">ilgili sayfada</a></b></p>
 
 <h3 id="23-benzerlik">2.3 Benzer ayetler</h3>
+
 <p>(Bu kısım henüz yapılmadı ama birkaç örnek
   <a href="benzerlik.html">bu sayfada</a>)</p>
 
 <h3 id="3-yetenekler">3. Yazılımın yetenekleri</h3>
+
 <p>PWA (Progressive web application) olduğu için taşıdığı özellikler:</p>
 
 <ul>
@@ -109,7 +115,7 @@ Bu resimde, iki kelime seçildikten sonra bağlam menüsü görülüyor. Bağlam
 
 <ul>
   <li>
-    <p>Mushaf: Açık olan 47. sayfada “indallah” kelimeleri seçilmiş. Bağlam menüsünden Finder motoruna kolayca geçebiliriz.</p>
+    <p>Mushaf: Açık olan 47. sayfada “indallah” kelimeleri seçilmiş. Bağlam menüsünden Finder penceresine kolayca geçebiliriz.</p>
   </li>
   <li>
     <p>Finder: Resimde “indallah” harf dizisinin bulunduğu ayetler görülüyor. Ayet numarasına ya da bulunan renkli metne basarak Mushaf’a dönmek ya da menüden dış yazılıma geçmek mümkün.</p>
@@ -138,16 +144,18 @@ Bu resimde, iki kelime seçildikten sonra bağlam menüsü görülüyor. Bağlam
 <a href="https://github.com/maeyler/Iqra3/blob/master/image/me_quran.ttf">me_quran font</a> (son Java sürümü -- 2017)</p>
   </li>
   <li>
-<p>V3.06 web sayfası, ilk mobil sürüm (JavaScript -- 2019)</p>
+<p><a href="iqra%20V3.06.html" target="iqra">V3.06</a>
+ Web sayfası (ilk mobil sürüm, JavaScript -- 2019)</p>
   </li>
   <li>
-<p>V3.10 Iqra ve Visual Mujam projeleri birleşti</a></p>
+<p><a href="iqra%20V3.11.html" target="iqra">V3.10</a>
+ Iqra ve Visual Mujam projeleri birleşti</a></p>
   </li>
   <li>
-<p>V3.20 Menüler ve yer işaretleri</a></p>
+<p><a href="https://iqra3.imfast.io/reader.html" target="iqra">V3.20</a>
+ Menüler ve yer işaretleri</a></p>
   </li>
 </ul>
-
 <p>(C) 1992, 2012, 2019 by M Akif Eyler
 
 <p>Copied using 
