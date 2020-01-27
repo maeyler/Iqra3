@@ -443,7 +443,9 @@ function menuFn() {
             toggleZoom();  break
           case 'K':
             toggleWords(); break
+          default: return
       }
+      evt.preventDefault()
 }
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); 
