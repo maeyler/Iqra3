@@ -425,11 +425,11 @@ function menuFn() {
       else switch (k) {
           case 'ARROWLEFT':
             if (!evt.altKey && !evt.ctrlKey)
-              gotoPage(curPage-1)
+              {gotoPage(curPage-1); evt.preventDefault()}
             break
           case 'ARROWRIGHT':
             if (!evt.altKey && !evt.ctrlKey)
-              gotoPage(curPage+1);
+              {gotoPage(curPage+1); evt.preventDefault()}
             break
           case 'T':
             toggleTrans(); break
@@ -445,7 +445,6 @@ function menuFn() {
             toggleWords(); break
           default: return
       }
-      evt.preventDefault()
 }
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); 

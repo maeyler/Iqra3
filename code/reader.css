@@ -20,7 +20,7 @@
       display: none;
     }
     #html, #bilgi { 
-      font-size: 4.6vw;
+      font-size: 4.5vw;
     }
 }
 
@@ -88,10 +88,10 @@
       position: absolute;
       min-width: 90px;
       text-align: center;
-      padding: 5px;
       color: blue;
       background: #ff7;
-      border: blue 1px solid;
+      border: black 1px solid;
+      padding-bottom: 5px;
       cursor: pointer;
       z-index: 1;
     }
@@ -121,7 +121,7 @@
     }
     #html, #bilgi { 
       font-family: me_quran, serif;
-      line-height: 1.9;
+      line-height: 2;
       direction: rtl;
     }
 @media screen and (max-height: 420px) {

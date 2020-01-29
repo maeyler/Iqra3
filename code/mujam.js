@@ -6,8 +6,6 @@ var bilgi;
 /**
  * Global array to hold the places of Sajda.
  * used in marking sajdah verses
- *
- * @see displayRef 
  */
 var sajda;
 /**
@@ -272,7 +270,8 @@ function displayRoots(ra) { //root array in Arabic
        let i2 = getIndicesOf(ra[k])
        i1 = i1.filter(x=> i2.includes(x)) //intersection
     }
-    displayRef(ra.join('+'), indexToArray(i1));
+    let a = ra.map(x => rootToCounts.get(x))
+    displayRef(a.join(' + '), indexToArray(i1));
     selectRoot(ra[0], false)  //adjust menus
 }
 /**
@@ -348,7 +347,7 @@ function displayRef(word, [page, refA]) {
     document.title = TITLE + " -- " + word;
     let nn = refA.length
     out1.innerText = nn + " sayfa"
-    out2.innerText = nn +EM_SPACE+ word
+    out2.innerText = nn + "  sayfa" +EM_SPACE+ word
     console.log(word, nn)
     for (let x of tablo.querySelectorAll('td')) {
       x.onmouseenter = doHover
