@@ -454,7 +454,7 @@ function initMujam() {
     } catch(err) { 
         out2.innerText = ""+err;
     }
-    window.name ="mujam"
+    window.name = "mujam"
     window.onhashchange = gotoHashRoot
     menuFn()
 }

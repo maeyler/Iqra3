@@ -350,7 +350,7 @@ function initReader() {
         for (let k of marks) bookmarks.add(Number(k))
     }
     window.onhashchange = gotoHashPage
-    window.name ="iqra" //by A Rajab
+    window.name = "iqra" //by A Rajab
     menuFn(); 
 }
 /********************
