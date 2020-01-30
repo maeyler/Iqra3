@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"  content="width=device-width">
+    <link rel="stylesheet" href="code/main.css" media="all">
+    <title>Forms to Sheets</title>
+</head>
+
+<body>
+<h3>Bookmarks <a id=form target="NewTab">Form</a></h3>
+<div>
+    <p>User:  <input type="text" id="user"></p>
+    <p>Topic: <input type="text" id="topic"></p>
+    <p>Marks: <input type="text" id="marks"></p>
+</div>
+
+<button onclick="submitFormData()">Submit Data</button>
+<button onclick="readTabularData(report, showError)">Read Data</button>
+
+<h3>Current <a id=docs target="NewTab">Data</a></h3>
+<pre id=out></pre>
+
+<script src="https://maeyler.github.io/JS/Utilities.js"></script>
+<script src="code/submitForm.js"></script>
+<script>
+"use strict";
+function submitFormData() { //to Google Forms -- add one line
+    submitData(user.value, topic.value, marks.value)
+    out.innerText="sumbitted"
+}
+// Report results
+function report(t) {
+    out.innerText = t
+}
+function showError(e) {
+    out.innerText = 'Error '+e
+    console.error(e)
+}
+
+    form.href = FORM_URL+'viewform'
+    docs.href = DOCS_URL+'pub?output=html'
+    </script>
+</body>
+
+</html>
