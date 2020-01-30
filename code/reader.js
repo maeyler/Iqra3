@@ -17,21 +17,35 @@ var mujam, hashInProgress, bookmarks;
 
 const LS = location.protocol.startsWith('http') && localStorage;
 const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
+const MAX_MARKS = 12  // if more marks, delete the oldest
+const PAGES = '_pages_'  //topic for page marks
+
 function getStorage() {
     if (!LS || !localStorage.iqra) return DEFAULT
     return JSON.parse(localStorage.iqra)
 }
-function setStorage() {
+function setBookmarks(text, bm) { //called at most once in initReader()
+    if (!text || !bm.data.length) return
+    let b = bm.data.reverse()  //reverse search
+      .find(x => x.user == localStorage.userName && x.topic == PAGES)
+    console.log(b)
+    bookmarks = new Set()
+    for (let k of b.marks.split(' ')) 
+        bookmarks.add(Number(k))
+    console.log('Bookmarks set to '+b.marks)  
+    setStorage(false)
+}
+function setStorage(synch) {
     if (!LS) return
     let page  = curPage
     let roots = showR.style.background? true : false
     let marks = [...bookmarks]
     let pref = {page, roots, marks}
     localStorage.iqra = JSON.stringify(pref)
-      /*if (LS) {
-          let a = [...bookmarks]
-          localStorage.bookmarks = a.join(' ')
-      }*/
+    if (synch && localStorage.userName) {
+        submitData(localStorage.userName, PAGES, marks.join(' '))
+        console.log(marks.length+" bookmarks sumbitted")
+    }
 }
 function numberToArabic(n) { //n is an integer
     let t = ''
@@ -144,8 +158,7 @@ function gotoPage(k, adjusting) { // 1<=k<=P
         location.hash = '#p='+curPage
         //history.pushState('', '', '#p='+curPage)
     hashInProgress = false
-    setStorage()
-    //if (LS) localStorage.iqraPage = k
+    setStorage(false)
     hideMenus();  //html.scrollTo(0)
 }
 function setSura(k) { // 1<=k<=M
@@ -345,10 +358,10 @@ function initReader() {
     //we cannot use page yet, files are not read -- see initialPage()
     showR.style.background = roots? CHECKED : ''
     bookmarks = new Set()
-    if (/*LS && localStorage.book*/ marks) {
-        //let marks = localStorage.bookmarks.split(' ')
+    if (marks)
         for (let k of marks) bookmarks.add(Number(k))
-    }
+    if (localStorage.userName)
+        readTabularData(setBookmarks, console.error)
     window.onhashchange = gotoHashPage
     window.name = "iqra" //by A Rajab
     menuFn(); 
@@ -406,7 +419,6 @@ function menuFn() {
       //console.log(curPage, t)
       let [x, k] = t.split(/s| /)
       if (Number(k)) gotoPage(Number(k))
-      //setStorage() done in gotoPage
   }
   menuK.onclick = (evt) => { //ellipsis menu
       evt.preventDefault()
@@ -508,8 +520,11 @@ function toggleStar() {
     } else {
       starB.style.background = CHECKED
       bookmarks.add(curPage)
-    }
-    setStorage()
+      let a = [...bookmarks]
+      if (a.length > MAX_MARKS)
+      bookmarks.delete(a.pop())
+  }
+    setStorage(true) //may need to synch
 }
 function toggleMenuK() {
     if (linkB.style.background) {
@@ -533,6 +548,6 @@ function toggleWords() {
     if  (showR.style.background)
          showR.style.background = ''
     else showR.style.background = CHECKED
-    setStorage()
+    setStorage(false)
 }
 

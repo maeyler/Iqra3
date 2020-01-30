@@ -33,7 +33,7 @@ function fetchData(success, failure) { //simplest method
 function readTabularData(success) { //uses fetch -- external
     const B = {time:0, user:0, topic:0, marks:0}
     const bm = new TabularData(B, 'bookmarks') //external class
-    bm.readData(URL, t => {success(t); console.log(bm.data)})
+    bm.readData(URL, t => {console.log(bm.data); success(t, bm)})
 }
 function readLinkData(success, failure) { //complicated XML
     const xmlhttp = new XMLHttpRequest()
