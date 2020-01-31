@@ -28,11 +28,12 @@
 "use strict";
 function submitFormData() { //to Google Forms -- add one line
     submitData(user.value, topic.value, marks.value)
-    out.innerText="sumbitted"
+    report("sumbitted: "+marks.value)
 }
 // Report results
-function report(t) {
+function report(t, d) {
     out.innerText = t
+    console.log(d? d : t)
 }
 function showError(e) {
     out.innerText = 'Error '+e

@@ -13,7 +13,7 @@ const wordToRoot = new Map()
 const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage, bilgi;
-var mujam, hashInProgress, bookmarks;
+var mujam, /*hashInProgress,*/ bookmarks;
 
 const LS = location.protocol.startsWith('http') && localStorage;
 const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
@@ -24,15 +24,20 @@ function getStorage() {
     if (!LS || !localStorage.iqra) return DEFAULT
     return JSON.parse(localStorage.iqra)
 }
-function setBookmarks(text, bm) { //called at most once in initReader()
-    if (!text || !bm.data.length) return
-    let b = bm.data.reverse()  //reverse search
-      .find(x => x.user == localStorage.userName && x.topic == PAGES)
-    console.log(b)
+function arrayToSet(m) {
+    if (!m) return
+    console.log('Bookmarks set to '+m.join(' '))  
     bookmarks = new Set()
-    for (let k of b.marks.split(' ')) 
+    for (let k of m) 
         bookmarks.add(Number(k))
-    console.log('Bookmarks set to '+b.marks)  
+}
+function setBookmarks(text, data) { //called once in initReader()
+    if (!text || !data.length) return
+    console.log(data)
+    let b = data.reverse()  //b is the latest entry in data
+      .find(x => x.user == localStorage.userName && x.topic == PAGES)
+    console.log(b); if (!b) return
+    arrayToSet(b.marks.split(' '))
     setStorage(false)
 }
 function setStorage(synch) {
@@ -154,10 +159,10 @@ function gotoPage(k, adjusting) { // 1<=k<=P
     bilgi.onclick = 
       () => {openMujam(toBuckwalter(bilgi.innerText))} 
     document.title = 'Iqra s'+k;
-    if (!hashInProgress)
+    //if (!hashInProgress)
         location.hash = '#p='+curPage
         //history.pushState('', '', '#p='+curPage)
-    hashInProgress = false
+    //hashInProgress = false
     setStorage(false)
     hideMenus();  //html.scrollTo(0)
 }
@@ -317,7 +322,8 @@ function gotoHashPage() {
         return false
     }
   }
-  hashInProgress = true; return true
+  //hashInProgress = true; 
+  return true
 }
 function initialPage() {
     if (!gotoHashPage()) {
@@ -354,17 +360,15 @@ function initReader() {
     } catch(err) { 
         console.log(err)
     }
+    menuFn(); 
+    window.onhashchange = gotoHashPage
+    window.name = "iqra" //by A Rajab
     let {roots, marks} = getStorage()
     //we cannot use page yet, files are not read -- see initialPage()
     showR.style.background = roots? CHECKED : ''
-    bookmarks = new Set()
-    if (marks)
-        for (let k of marks) bookmarks.add(Number(k))
-    if (localStorage.userName)
+    arrayToSet(marks) //immediate action
+    if (localStorage.userName) //takes time to load
         readTabularData(setBookmarks, console.error)
-    window.onhashchange = gotoHashPage
-    window.name = "iqra" //by A Rajab
-    menuFn(); 
 }
 /********************
  * Start of Menu functions -- added by Abdurrahman Rajab - FSMVU
@@ -413,14 +417,14 @@ function menuFn() {
       evt.preventDefault()
       menuItem(evt.target.innerText[0])
   }
-  menuS.onclick = (evt) => { //bookmarks menu
+  menuS.onclick = (evt) => { //page menu
       evt.preventDefault()
       let t = evt.target.innerText
       //console.log(curPage, t)
       let [x, k] = t.split(/s| /)
       if (Number(k)) gotoPage(Number(k))
   }
-  menuK.onclick = (evt) => { //ellipsis menu
+  menuK.onclick = (evt) => { //external source menu
       evt.preventDefault()
       openSitePage(evt.target.innerText[0], curPage)
   }
@@ -522,7 +526,7 @@ function toggleStar() {
       bookmarks.add(curPage)
       let a = [...bookmarks]
       if (a.length > MAX_MARKS)
-      bookmarks.delete(a.pop())
+      bookmarks.delete(a[0]) //the oldest entry
   }
     setStorage(true) //may need to synch
 }
