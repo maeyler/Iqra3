@@ -18,7 +18,7 @@ var mujam, /*hashInProgress,*/ bookmarks;
 const LS = location.protocol.startsWith('http') && localStorage;
 const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
 const MAX_MARKS = 12  // if more marks, delete the oldest
-const PAGES = '_pages_'  //topic for page marks
+//const PAGES = '_pages_'  //topic for page marks
 
 function getStorage() {
     if (!LS || !localStorage.iqra) return DEFAULT
@@ -35,7 +35,7 @@ function setBookmarks(text, data) { //called once in initReader()
     if (!text || !data.length) return
     console.log(data)
     let b = data.reverse()  //b is the latest entry in data
-      .find(x => x.user == localStorage.userName && x.topic == PAGES)
+      .find(x => x.user == localStorage.userName) //&& x.topic == PAGES)
     console.log(b); if (!b) return
     arrayToSet(b.marks.split(' '))
     setStorage(false)
@@ -47,8 +47,9 @@ function setStorage(synch) {
     let marks = [...bookmarks]
     let pref = {page, roots, marks}
     localStorage.iqra = JSON.stringify(pref)
+    let topic = navigator.platform  //PAGES
     if (synch && localStorage.userName) {
-        submitData(localStorage.userName, PAGES, marks.join(' '))
+        submitData(localStorage.userName, topic, marks.join(' '))
         console.log(marks.length+" bookmarks sumbitted")
     }
 }
