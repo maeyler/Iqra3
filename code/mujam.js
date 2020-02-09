@@ -4,6 +4,14 @@
  */
 var bilgi;
 /**
+ * Array where page refs are stored -- used in table view
+ */
+var pRefs;
+/**
+ * Array where word refs are stored -- used in list view
+ */
+var wRefs;
+/**
  * Global array to hold the places of Sajda.
  * used in marking sajdah verses
  */
@@ -54,60 +62,42 @@ function currentRoot() {
  * Used to parse indexes from a string encoded by encode36 and add it to index array (indA)
  * 
  * @param {string} str The chapter number.
- * @param {Array} indA index. 
+ * @param {Array} of indexes. 
  * 
  */
-function addIndexes(str, indA) {
+function decodeIndexes(str) {
+    let a = []
     for (let j = 0; j < str.length; j += 3) {
         let code = str.substring(j, j + 3);
-        indA.push(decode36(code));
+        a.push(decode36(code));
     }
+    return a
 }
 /**
  * 
- * Get the page of index and add it to page array and the holded verses of the page to refA array.
- * note that: Page array are equal to refA array.
+ * Get the page of index and add it to page array pRefs.
  * 
- * @param {array} indA index array which parsed from add indexes.
- * @returns {array} The index(page number,refA string). 
+ * @param {array} indA VerseRef array which parsed from add indexes.
  * 
  */
 function indexToArray(indA) {
-    let page = [],
-        refA = [],
-        prev = -1;
-    for (let i of indA) {
-        let [c, v] = toCV(i);
-        let cv = c + ":" + v;
-        let p = pageOf(c, v);
-        // if the page are same as before.
-        if (prev == p)
-        // get pop() as the last element of the array, 
-        // then add CV at the end 
-            cv = refA.pop() + " " + cv;
-        else {
-            page.push(p);
-            prev = p
-        }
-
-        refA.push(cv);
+    //for (let p=1; p<pRefs.length; p++) pRefs[p] = []
+    pRefs = new Array(nPage + 1)
+    for (let v of indA.map(i => new VerseRef(i))) {
+        let p = v.page
+        if (pRefs[p]) pRefs[p].push(v)
+        else pRefs[p] = [v]
     }
-    // only used in tests.
-    page.push(999); //999 is sentinel
-    return [page, refA];
 }
 /**
  * Add indexes to array, then parse this array with its pages.
- * @see addIndexes
- * @see indexToArray. 
+ * 
  * @param {str} str index array which parsed from add indexes.
- * @returns {array} array holds pages number and references number 
  * 
  */
-function parseRefs(str) {
-    let indA = [];
-    addIndexes(str, indA);
-    return indexToArray(indA)
+function parseRefs(word) {
+    let list = decodeIndexes(word)
+    indexToArray(list); wRefs = [{word, list}]
 }
 /**
  * Parsing and using remote data. 
@@ -204,23 +194,16 @@ function selectRoot(root, modifyHash=true) { //root in Arabic
       menu2.value = rootToCounts.get(root);
     }
     let cnt = rootToCounts.get(root);
-    let list = rootToWords.get(cnt);
-    let nL = list? list.length : 0;
-    if (list) makeMenu(menu3, list);
+    let lst = rootToWords.get(cnt);
+    let nL = lst? lst.length : 0;
+    if (lst) makeMenu(menu3, lst);
     if (nL > 1)
         menu3.selectedIndex = -1; //do not select Word
     menu3.disabled = (nL == 1);
     menu3.style.color = (nL == 1 ? "gray" : "");
-    //combine refs in list
+    //combine refs in lst
     combine.hidden = true;
     if (!modifyHash) return
-    /*let indA = []; handled by gotoHashRoot()
-    for (let j = 0; j < nL; j++) {
-        let str = wordToRefs.get(list[j]);
-        addIndexes(str, indA);
-    }
-    indA.sort((a, b) => (a - b));
-    displayRef(root, indexToArray(indA));*/
     //replace special chars
     let b = encodeURI(toBuckwalter(root))
     location.hash = "#r=" + b;
@@ -230,13 +213,10 @@ function selectRoot(root, modifyHash=true) { //root in Arabic
 /**
  * Select word, if undefined menu3 values will be the selected one.
  * when its used combine will be shown.
- * @see displayRef
- * @see parseRefs
- * @see wordToRefs
  * 
  * get the references from wordsToRefs map.
  * 
- * @param {*} word to be selected.
+ * @param {string} word to be selected.
  */
 function selectWord(word) { //called by menu3 only
     if (!word) word = menu3.value;
@@ -244,120 +224,139 @@ function selectWord(word) { //called by menu3 only
     else menu3.value = word;
     combine.hidden = false;
     let str = wordToRefs.get(word);
-    //let [page, refA] = parseRefs(str);
-    displayRef(word, parseRefs(str));
+    displayTable(word)
+}
+/**
+ * calculate the index array for given root.
+ * 
+ * @param {string} roots to be displayed
+ * @returns {Array} of numbers
+ */
+function getIndicesOf(root) {
+    let cnt = rootToCounts.get(root);
+    let indA = []
+    for (let word of rootToWords.get(cnt)) {
+        let list = decodeIndexes(wordToRefs.get(word))
+        wRefs.push({word, list})
+        for (let i of list) indA.push(i)
+        //indA.concat(list)  concat returns another Array
+    }
+    indA.sort((a, b) => (a.index - b.index));
+    return indA
 }
 /**
  * display specified roots, hide the menus.
  * 
  * @param {Array} roots to be displayed
  */
-function getIndicesOf(root) {
-    let cnt = rootToCounts.get(root);
-    let list = rootToWords.get(cnt);
-    let indA = [];
-    for (let w of list) {
-        addIndexes(wordToRefs.get(w), indA);
-    }
-    indA.sort((a, b) => (a - b));
-    return indA
-}
 function displayRoots(ra) { //root array in Arabic
     //console.log(ra)
     if (!ra.length) throw "displayRoots: "+ra.length
-    let i1 = getIndicesOf(ra[0]);
+    wRefs = []
+    let i1 = getIndicesOf(ra[0])
     for (let k=1; k<ra.length; k++) {
        let i2 = getIndicesOf(ra[k])
-       i1 = i1.filter(x=> i2.includes(x)) //intersection
+       //find intersection
+       i1 = i1.filter(x => i2.includes(x))
     }
-    let a = ra.map(x => rootToCounts.get(x))
-    displayRef(a.join(' + '), indexToArray(i1));
+    let word = ra.map(x => rootToCounts.get(x)).join(' + ')
+    indexToArray(i1)  //fills pRefs
+    let makeObject = i => new VerseRef(i)
+    if (ra.length == 1) {
+        for (let w of wRefs) 
+            w.list = w.list.map(makeObject)
+    } else {
+        let list = i1.map(makeObject)
+        wRefs = [{word, list}]
+    }
+    displayTable(word)
     selectRoot(ra[0], false)  //adjust menus
 }
 /**
- * Create and build the HTML table to show the information on it.
+ * Create and build the HTML list to show the information on it.
+ * Uses global Array wRefs
  * 
  * @param {String} word: on single word
- * @param {Array} page: Array of page numbers
- * @param {Array} refA Array of page references (chapter:verse ..)
  */
-function displayRef(word, [page, refA]) {
+function displayList(word) {
+    const SPAN = '<span class=item>', _SPAN = '</span>'
+    const LIST = ({word, list}) => '<li>'+word+'<br>'
+        +SPAN+list.map(v => v.cv).join(_SPAN+SPAN)+_SPAN
+    liste.innerHTML = wRefs.map(LIST).join('\n')
+}
+    /**
+ * Create and build the HTML table to show the information on it.
+ * Uses global Array pRefs
+ * 
+ * @param {String} word: on single word
+ */
+function displayTable(word) {
     // put three zeros on the first of the number (K)
     function threeDigits(k) { //same as (""+k).padStart(3,"0")
-        let s = "" + k;
-        while (s.length < 3) s = "0" + s;
-        return s;
+        let s = "" + k
+        while (s.length < 3) s = "0" + s
+        return s
     }
     // get colour based on the number of verses in a page.
     function toColor(n) {
         if (n == 0) return ""
         let L = 96 - 6 * Math.min(n, 16)
-        return "background: hsl("+HUE+", 100%, "+L+"%"
+        return "background: hsl("+HUE+", 100%, "+L+"%)"
     }
+    /*if (!liste.hidden)*/ displayList(word)
     // m number of juzz, 20 pages per juzz.
     // make the table
-    const m = 30, n = 20;
-    let row = "<th>Sayfa</th>";
+    const m = 30, n = 20
+    let row = "<th>Sayfa</th>"
     for (let j = 1; j <= n; j++) {
-        row += "<th>" + (j % 10) + "</th>"; //use last digit
+        row += "<th>" + (j % 10) + "</th>" //use last digit
     }
-    let text = "<tr>" + row + "</tr>";
-    let pn = 0,
-        p = 0,
-        q = 0,
-        nc = 0;
-    pRefs.length = 1; //start with empty array
+    let text = "<tr>" + row + "</tr>"
+    let pn = 0, numC = 0, numP = 0  //counters
     for (let i = 1; i <= m + 1; i++) {
-        // pn == 20*(i-1);   //s2 is hidden
-        let z = i > m ? m : i;
-        let s2 = ''  //"<span class=t1>Cüz " + z + "</span>";
-        row = "<th class=first>" +threeDigits(pn)+ s2 + "</th>";
-        let U = i > m ? 4 : n;
+        let z = i > m ? m : i
+        let s2 = '' //unused "<span class=t1>Cüz " + z + "</span>"
+        row = "<th class=first>" +threeDigits(pn)+ s2 + "</th>"
+        let U = i > m ? 4 : n
         for (let j = 1; j <= U; j++) {
-            pn++; //page number
-            let c = 0;
-            if (pn == page[p]) {
-                c = refA[p].split(" ").length;
-                let k = refA[p].indexOf(":");
-                k = (k < 0 ? 0 : Number(refA[p].substring(0, k)));
-                let refs = "S."+pn+' '+sName[k] +EM_SPACE+ refA[p];
-                if (c > 1) refs += EM_SPACE+"("+ c +")";
-                //s2 = "<span class=t2>" + refs + "</span>";
-                pRefs.push(refs); p++;
-                nc += c;
-            } else {
-                pRefs.push('') //no refs on this page
-                //s2 = "<span class=t1>" + pLabel[pn] + "</span>";
+            pn++  // pn == 20*(i-1)+j  page number
+            let c = 0, L = pRefs[pn]
+            if (L) { //update counts
+                c = L.length
+                numC += c; numP++
             }
-            let ch = "&nbsp;"
-            if (pn == sajda[q]) {
-                ch = "۩"; q++;
-            }
-            row += "<td style='" +toColor(c)+"'>"+ ch + "</td>";
+            let ch = sajda.includes(pn)? "۩" : "&nbsp;"
+            row += "<td style='" +toColor(c)+"'>"+ ch + "</td>"
         }
         if (i > m) { //use th for the last row
           row += "<th colspan=13>Iqra "+VERSION+" (C) 2019 MAE</th>"
            +"<th id=corpus colspan=3 onClick=doClick2()>Corpus</th>"
         }
-        text += "<tr>" + row + "</tr>";
+        text += "<tr>" + row + "</tr>"
     }
     // end of table
-    tablo.innerHTML = text;
-    tablo.oncontextmenu = showMenuK;
-    document.title = TITLE + " -- " + word;
-    let nn = refA.length
-    out1.innerText = nn + " sayfa"
-    out2.innerText = nn + "  sayfa" +EM_SPACE+ word
-    console.log(word, nn)
+    tablo.innerHTML = text
+    tablo.oncontextmenu = showMenuK
+    document.title = TITLE + " -- " + word
+    out1.innerText = numP + " sayfa"
+    out2.innerText = numP + " sayfa"
+    out3.innerText = word
+    console.log(word, numP)
     for (let x of tablo.querySelectorAll('td')) {
-      x.onmouseenter = doHover
-      x.onmouseleave = () => {
-        if (!menuK.style.display) hideElement(bilgi)
-      }
+        x.onmouseenter = doHover
+        x.onmouseleave = hideBilgi
     }
+    for (let x of liste.querySelectorAll('.item')) {
+        x.onmouseenter = doHover
+        x.onmouseleave = hideBilgi
+      }
     bilgi = document.createElement('div') //lost within table
     bilgi.id = 'bilgi'; document.body.append(bilgi)
     bilgi.onclick = doClick
+}
+
+function hideBilgi() {
+    if (!menuK.style.display) hideElement(bilgi);
 }
 
 /**
@@ -394,7 +393,7 @@ function doClick2() {
     let p = "";
     if (menu2.value) p = "?q=" + currentRoot()
     console.log("Corpus" + p);
-    window.open(REF + p, "Corpus")  //, "resizable,scrollbars");
+    window.open(REF + p, "NewTab")  //, "resizable,scrollbars");
 }
 /**
  * Use the hash part of URL in the address bar
@@ -427,7 +426,7 @@ function gotoHashRoot() {
     let title = '', refs = h.substring(1)
     if (refs.includes('='))
         [title, refs] = refs.split('=')
-    displayRef(title, parseRefs(refs))
+    displayTable(title)
     menu2.value=''; menu3.value=''
     combine.hidden = true
   }
@@ -443,9 +442,9 @@ function initMujam() {
     version.innerText = 'Iqra '+VERSION;
     showSelections(false);
     // mark places for sajda
-    let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
-    [sajda, ] = parseRefs(str);
-//sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 999]
+    //let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
+    //[sajda, ] = parseRefs(str);
+sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 999]
     let letters = [];
     for (let c=1575; c<1609; c++) letters.push(String.fromCharCode(c));
     makeMenu(menu1, letters); 
@@ -518,9 +517,16 @@ function getPageOf(td) {
 function doHover(evt) {  //listener for each td element
     if (menuK.style.display) return
     let p = getPageOf(evt.target)
-    bilgi.innerHTML = pRefs[p]?
-         "<div class=t2>" + pRefs[p]  + "</div>"
-       : "<div class=t1>" + pLabel[p] + "</div>"
+    let L = pRefs[p]
+    let n = L? L.length : -1
+    let refs = L? L[0].toString() : pLabel[p]
+    if (n > 1) { //convert Array to string
+        for (let i=1; i<n; i++)
+            refs += ' '+L[i].cv
+        refs += EM_SPACE+"("+ n +")"
+    }
+    let cls = L? 't2>' : 't1>' //background color
+    bilgi.innerHTML = "<div class="+ cls + refs +"</div>"
     evt.target.append(bilgi); 
     //center over evt.target
     //setPosition(bilgi, evt.clientX, 20, 180)
@@ -528,10 +534,23 @@ function doHover(evt) {  //listener for each td element
     let x0 = evt.target.offsetLeft + 10
     let dx = Math.max(-mw/2, -x0)  
     //if (x0-mw/2 < 0) dx = -x0
-    let cw = (tablo.clientWidth || 460) + 20
+    let cw = (tablo.clientWidth || 460) + 16
     dx = Math.min(dx, cw-mw-x0)
     //if (x0+mw/2 > cw) dx = cw-mw-x0
     bilgi.style.left = (dx)+'px'
     bilgi.style.display = "block"
 }
-
+function test(prop='index') {
+    let testEval = (a) => {
+      let e = eval(a); console.log(a, e); return e
+    }
+    //a and b contain the same objects
+    let a = testEval('pRefs.flat() //already sorted')
+    let b = testEval('wRefs.map(x => x.list).flat()')
+    //convert a and b to string
+    b.sort((x, y) => x.index - y.index)
+    let testJoin = (a) => a.map(x => x[prop]).join(' ')
+    console.log(a = testJoin(a))
+    console.log(b = testJoin(b))
+    console.log(a == b)
+}

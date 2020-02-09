@@ -1,5 +1,27 @@
 "use strict";
 
+class VerseRef {
+    constructor(index, chap, verse, cv, page) {
+        this.index = index
+        if (!chap) [chap, verse] = toCV(index)
+        this.chap = chap
+        this.verse = verse
+        this.cv = cv || chap+':'+verse
+        this.page = page || pageOf(chap, verse)
+    }
+    toString() {
+        return 'S.'+this.page+' '+sName[this.chap]+EM_SPACE+this.cv
+    }
+    static fromNumbers(chap, verse) {
+        return new VerseRef(indexOf(chap, verse), chap, verse)
+    }
+    static fromString(cv) {
+        let [chap, verse] = cv.split(':')
+        if (isNaN(verse)) return null
+        return VerseRef.fromNumbers(Number(chap), Number(verse))
+    }
+}
+
 /**
  * Encode a number to base 36.
  * started from 100 for optimisation.
@@ -35,8 +57,8 @@ function decode36(s) {
  */
 function encodeLine(s) {
     const sa = s.split(" ");
-    var v = "";
-    for (var j = 0; j < sa.length; j++) {
+    let v = "";
+    for (let j = 0; j < sa.length; j++) {
         const cv = sa[j].split(":");
         const i = indexOf(Number(cv[0]), Number(cv[1]));
         v += encode36(i);
@@ -48,21 +70,36 @@ function encodeLine(s) {
  * Decode one line to string of base36.
  * 
  * @param {string} s The line string to be decoded.
- * @returns {string} decoded number 
- * 
+ * @returns {string} decoded cv's 
  * 
  *  @example
  *
- *     decodeLine('38z3fs3x8')
+ *     decodeLine('38z3fs3x8') returns 3 cv's
  */
 function decodeLine(s) {
-    var v = "";
-    for (var j = 0; j < s.length; j += 3) {
+    let v = "";
+    for (let j = 0; j < s.length; j += 3) {
         const c = s.substring(j, j + 3);
         const cv = toCV(decode36(c));
         v += cv[0] + ":" + cv[1] + " ";
     }
     return v;
+}
+/**
+* @param {string} s The line string to be decoded.
+* @returns {Array} decoded VerseRef's 
+* 
+*  @example
+*
+*     decodeLine('38z3fs3x8') returns 3 VerseRef's
+*/
+function decodeToArray(s) {
+   let v = []
+   for (let j = 0; j < s.length; j += 3) {
+       const c = s.substring(j, j + 3)
+       v.push(new VerseRef(decode36(c)))
+   }
+   return v
 }
 // legacy code.
 function charCode(i) {
@@ -96,7 +133,7 @@ function indexOf(c, v) {
 function pageOf(c, v) {
     const i = indexOf(c, v);
     // n=number;
-    var p = Math.trunc(i * nPage / nVerse);
+    let p = Math.trunc(i * nPage / nVerse);
     // TODO;
     if (i == index[p]) return p;
     while (i < index[p]) p--;
@@ -111,7 +148,7 @@ function pageOf(c, v) {
  */
 function toChapter(i) {
     // loop all chapter and check if the index is in it, since last holds the summed number of indexes till that chapter.
-    for (var c = 1; c <= nChap; c++)
+    for (let c = 1; c <= nChap; c++)
         if (i <= last[c]) return c;
 }
 
@@ -119,8 +156,8 @@ function toChapter(i) {
  * 
  * Get array of chapter,verses number based on the index itself.
  * uses: toChapter method and last array (contains the number of last summed verses)
- * @param {number} i The chapter number.
- * @returns {number} The index. 
+ * @param {number} index
+ * @returns {Array} [c,v]]
  * 
  */
 function toCV(i) {
@@ -152,10 +189,10 @@ const nChap = last.length - 1,
  * index: verse index for each page
  * nPage: number of pages
  * sName: Sura names
- * pLabel: show the sura name, Chapter, Last vers of this page from the sura and page number.
+ * pLabel: show the sura name, number, and first verse of this page.
  */
-var index, nPage, sName; //global
-const pLabel = [''], pRefs = ['']  //pages count from 1
+var index, nPage, sName  //global
+const pLabel = ['']
 /**
  * initialize the utilities and set the attributes.
  *  
@@ -311,9 +348,12 @@ Nas`;
     index.length = nPage + 1;
     sName = suraNames.split("\n");
     for (let p = 1; p <= nPage; p++) {
-        index[p + 1] = index[p] + count[p];
-        let [c, v] = toCV(index[p] + 1);
+        index[p + 1] = index[p] + count[p]
+        let v = new VerseRef(index[p]+1)
+        pLabel.push(v.toString())
+/*        let [c, v] = toCV(index[p] + 1);
         pLabel.push("S."+p +" "+ sName[c] +EM_SPACE+c+":"+v)
+ */
     }
     console.log(nPage + " pages -> " + index[nPage]);
 }

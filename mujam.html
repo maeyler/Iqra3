@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <meta name="theme-color" content="#EFEF96" />
+    <meta name="theme-color" content="cyan" />
     <meta name="author"      content="M A Eyler, Istanbul, 2019" />
     <meta name="description" content="Reader for the Quran" />
     <link rel="stylesheet" href="code/mujam.css" media="all">
@@ -17,24 +17,25 @@
 </head>
 
 <body>
+<div id=div2>
+   <button id=menu0 onClick="showSelections(true)">Liste</button> &nbsp;
+   <span id=out2>page count</span> &nbsp;
+   <span id=out3>root/word</span>
+</div>
 <div id=div1>
+   <span id=out1>page count</span> &nbsp;
    <select id=menu1 onChange="selectLetter()">
    <span class='t1'>Aranan kökün ilk harfi</span>
    </select>
    Kök: <select id=menu2 onChange="selectRoot()">
    <span class='t1'>Aranan kök ya da özel isim</span>
    </select>
-   <span id=out1>output will be here</span> &nbsp;
    <select id=menu3 onChange="selectWord()">
    <span class='t1'>Aranan kelime</span>
    </select>
-   <button id=combine onClick="gotoHashRoot()">C</button>
+   <button id=combine onClick="gotoHashRoot()">◀</button>
    <!--span class='t1'>Kelimeleri birleştir</span-->
    <ul id=liste></ul>
-</div>
-<div id=div2>
-   <button id=menu0 onClick="showSelections(true)">M</button> &nbsp;
-   <span id=out2>output will be here</span>
 </div>
 
 <table id=tablo></table>

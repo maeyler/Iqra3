@@ -2,7 +2,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.22d";
+const VERSION = "V3.22f";
 
 /**
  * html file extension -- empty for remote GitHub files
@@ -86,13 +86,13 @@ function openSiteVerse(s, c, v) {
         name = "Kuran"; break
     case 'C':
         url = "http://corpus.quran.com/wordbyword.jsp?chapter="+c+"&verse="+v
-        name = "Corpus"; break
+        name = "NewTab"; break
     case 'Q':
         url = "https://quran.com/"+c+"/"+v
-        name = "Quran"; break
+        name = "NewTab"; break
     case 'A':
         url = "https://acikkuran.com/"+c+"/"+v
-        name = "AcikK"; break
+        name = "NewTab"; break
     case 'R':
         alert('Reader -- not implemented yet')
     default:  return
