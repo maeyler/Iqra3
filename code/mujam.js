@@ -58,12 +58,10 @@ function currentRoot() {
 }
 
 /**
- * 
  * Used to parse indexes from a string encoded by encode36 and add it to index array (indA)
  * 
- * @param {string} str The chapter number.
+ * @param {string} encoded indexes.
  * @param {Array} of indexes. 
- * 
  */
 function decodeIndexes(str) {
     let a = []
@@ -74,11 +72,9 @@ function decodeIndexes(str) {
     return a
 }
 /**
+ * Make VerseRef array pRefs.
  * 
- * Get the page of index and add it to page array pRefs.
- * 
- * @param {array} indA VerseRef array which parsed from add indexes.
- * 
+ * @param {array} index array which parsed from decodeIndexes.
  */
 function indexToArray(indA) {
     //for (let p=1; p<pRefs.length; p++) pRefs[p] = []
@@ -90,14 +86,16 @@ function indexToArray(indA) {
     }
 }
 /**
- * Add indexes to array, then parse this array with its pages.
+ * Add indexes for a given topic.
  * 
- * @param {str} str index array which parsed from add indexes.
- * 
+ * @param {string} Topic name.
+ * @param {string} Encoded indexes.
  */
-function parseRefs(word) {
-    let list = decodeIndexes(word)
-    indexToArray(list); wRefs = [{word, list}]
+function parseRefs(word, ref) {
+    let list = decodeIndexes(ref)
+    indexToArray(list)
+    list = list.map(i => new VerseRef(i))    
+    wRefs = [{word, list}]
 }
 /**
  * Parsing and using remote data. 
@@ -208,7 +206,7 @@ function selectRoot(root, modifyHash=true) { //root in Arabic
     let b = encodeURI(toBuckwalter(root))
     location.hash = "#r=" + b;
     //history.pushState('', '', "#r=" + b)
-    showSelections(true)
+    //showSelections(true)
 }
 /**
  * Select word, if undefined menu3 values will be the selected one.
@@ -241,7 +239,7 @@ function getIndicesOf(root) {
         for (let i of list) indA.push(i)
         //indA.concat(list)  concat returns another Array
     }
-    indA.sort((a, b) => (a.index - b.index));
+    //indA.sort((a, b) => (a - b));
     return indA
 }
 /**
@@ -266,7 +264,7 @@ function displayRoots(ra) { //root array in Arabic
         for (let w of wRefs) 
             w.list = w.list.map(makeObject)
     } else {
-        let list = i1.map(makeObject)
+        let list = i1.sort((a,b) => (a-b)).map(makeObject)
         wRefs = [{word, list}]
     }
     displayTable(word)
@@ -280,9 +278,21 @@ function displayRoots(ra) { //root array in Arabic
  */
 function displayList(word) {
     const SPAN = '<span class=item>', _SPAN = '</span>'
-    const LIST = ({word, list}) => '<li>'+word+'<br>'
-        +SPAN+list.map(v => v.cv).join(_SPAN+SPAN)+_SPAN
-    liste.innerHTML = wRefs.map(LIST).join('\n')
+    // const LIST = ({word, list}) => '<li>'+word+'<br>'
+    //     +SPAN+list.map(v => v.cv).join(_SPAN+SPAN)+_SPAN
+    // liste.innerHTML = wRefs.map(LIST).join('\n')
+    let s = ''
+    for (let x of wRefs) { // x is {word, list}
+        s += '<li>'+ x.word +'<br>'
+        for (let y of x.list) // y is VerseRef
+            s += SPAN+ y.cv +_SPAN
+        s += '\n'
+    }
+    liste.innerHTML = s
+    for (let x of liste.querySelectorAll('.item')) {
+        x.onmouseenter = doHover
+        x.onmouseleave = hideBilgi
+    }
 }
     /**
  * Create and build the HTML table to show the information on it.
@@ -303,9 +313,7 @@ function displayTable(word) {
         let L = 96 - 6 * Math.min(n, 16)
         return "background: hsl("+HUE+", 100%, "+L+"%)"
     }
-    /*if (!liste.hidden)*/ displayList(word)
-    // m number of juzz, 20 pages per juzz.
-    // make the table
+    // m number of rows, 20 pages per row.
     const m = 30, n = 20
     let row = "<th>Sayfa</th>"
     for (let j = 1; j <= n; j++) {
@@ -346,10 +354,6 @@ function displayTable(word) {
         x.onmouseenter = doHover
         x.onmouseleave = hideBilgi
     }
-    for (let x of liste.querySelectorAll('.item')) {
-        x.onmouseenter = doHover
-        x.onmouseleave = hideBilgi
-      }
     bilgi = document.createElement('div') //lost within table
     bilgi.id = 'bilgi'; document.body.append(bilgi)
     bilgi.onclick = doClick
@@ -423,10 +427,11 @@ function gotoHashRoot() {
     let ra = h.split('&r=').map(toArabic)
     displayRoots(ra)
   } else {
-    let title = '', refs = h.substring(1)
-    if (refs.includes('='))
-        [title, refs] = refs.split('=')
-    displayTable(title)
+    let title = '', ref = h.substring(1)
+    if (ref.includes('='))
+        [title, ref] = ref.split('=')
+        parseRefs(title, ref)  //makes wRefs
+        displayTable(title)
     menu2.value=''; menu3.value=''
     combine.hidden = true
   }
@@ -443,7 +448,7 @@ function initMujam() {
     showSelections(false);
     // mark places for sajda
     //let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
-    //[sajda, ] = parseRefs(str);
+    //[sajda, ] = parseRefs('Secde', str);
 sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 999]
     let letters = [];
     for (let c=1575; c<1609; c++) letters.push(String.fromCharCode(c));
@@ -504,7 +509,8 @@ function showSelections(show) {
     if (show) {
       div1.style.display = ''
       div2.style.display = 'none'
-    } else {
+      displayList(out3.innerText)
+} else {
       div1.style.display = 'none'
       div2.style.display = ''
     }
@@ -514,19 +520,28 @@ function getPageOf(td) {
     let p = 20*(r-1) + td.cellIndex;
     return p
 }
-function doHover(evt) {  //listener for each td element
+function doHover(evt) {  //listener for each td and span element
     if (menuK.style.display) return
-    let p = getPageOf(evt.target)
-    let L = pRefs[p]
-    let n = L? L.length : -1
-    let refs = L? L[0].toString() : pLabel[p]
-    if (n > 1) { //convert Array to string
-        for (let i=1; i<n; i++)
-            refs += ' '+L[i].cv
-        refs += EM_SPACE+"("+ n +")"
+    let cls, ref, cw
+    if (evt.target.tagName == 'SPAN') {
+        let cv = evt.target.innerText
+        ref = VerseRef.fromString(cv).toString()
+        cls = 't2>' //background yellow
+        cw = liste.clientWidth
+    } else { // TD
+        let p = getPageOf(evt.target)
+        let L = pRefs[p]
+        let n = L? L.length : -1
+        ref = L? L[0].toString() : pLabel[p]
+        if (n > 1) { //convert Array to string
+            for (let i=1; i<n; i++)
+                ref += ' '+L[i].cv
+            ref += EM_SPACE+"("+ n +")"
+        }
+        cls = L? 't2>' : 't1>' //background color
+        cw = tablo.clientWidth
     }
-    let cls = L? 't2>' : 't1>' //background color
-    bilgi.innerHTML = "<div class="+ cls + refs +"</div>"
+    bilgi.innerHTML = "<div class="+ cls + ref +"</div>"
     evt.target.append(bilgi); 
     //center over evt.target
     //setPosition(bilgi, evt.clientX, 20, 180)
@@ -534,13 +549,14 @@ function doHover(evt) {  //listener for each td element
     let x0 = evt.target.offsetLeft + 10
     let dx = Math.max(-mw/2, -x0)  
     //if (x0-mw/2 < 0) dx = -x0
-    let cw = (tablo.clientWidth || 460) + 16
+    cw = (cw || 460) + 16
     dx = Math.min(dx, cw-mw-x0)
     //if (x0+mw/2 > cw) dx = cw-mw-x0
     bilgi.style.left = (dx)+'px'
     bilgi.style.display = "block"
 }
 function test(prop='index') {
+    if (!div1.style.display) showSelections(true)
     let testEval = (a) => {
       let e = eval(a); console.log(a, e); return e
     }

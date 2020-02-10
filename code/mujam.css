@@ -11,9 +11,10 @@
         width: 100%;
         margin: 8px 0px;
     }
-/*     #div1 { 
-      white-space: nowrap;
-    }*/
+    #div1, #div2 {
+        width: 100%;
+      /* white-space: nowrap; */
+    }
     #out1, #out2, .item {
         font: 15px arial, sans-serif;
     }
@@ -39,6 +40,9 @@
     }
     table, ul { 
         background: white;
+    }
+    ul span {
+        position: relative;
     }
     table {
         border-collapse: collapse; 
