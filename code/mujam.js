@@ -221,8 +221,10 @@ function selectWord(word) { //called by menu3 only
     else if (word == menu3.value) return;
     else menu3.value = word;
     combine.hidden = false;
-    let str = wordToRefs.get(word);
-    displayTable(word)
+    let ref = wordToRefs.get(word);
+    let list = decodeIndexes(ref)
+    //wRefs.find(x => x.word == word)
+    indexToArray(list); displayTable(word)
 }
 /**
  * calculate the index array for given root.
@@ -484,8 +486,10 @@ function menuFn() {
       menuItem(evt.target.innerText[0])
   }
   document.onclick = (evt) => {
-      if (evt.target.tagName == "TD"
-        && !menuK.style.display) return
+      if (!menuK.style.display) {
+        let t = evt.target.tagName
+        if (t == "TD" || t == "SPAN") return
+      }
       hideMenus(); evt.preventDefault()
   }
   document.onkeydown = (evt) => {
