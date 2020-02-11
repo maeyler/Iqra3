@@ -58,28 +58,13 @@ function currentRoot() {
 }
 
 /**
- * Used to parse indexes from a string encoded by encode36 and add it to index array (indA)
- * 
- * @param {string} encoded indexes.
- * @param {Array} of indexes. 
- */
-function decodeIndexes(str) {
-    let a = []
-    for (let j = 0; j < str.length; j += 3) {
-        let code = str.substring(j, j + 3);
-        a.push(decode36(code));
-    }
-    return a
-}
-/**
  * Make VerseRef array pRefs.
  * 
- * @param {array} index array which parsed from decodeIndexes.
+ * @param list number Array
  */
-function indexToArray(indA) {
-    //for (let p=1; p<pRefs.length; p++) pRefs[p] = []
+function indexToArray(list) {
     pRefs = new Array(nPage + 1)
-    for (let v of indA.map(i => new VerseRef(i))) {
+    for (let v of list) {
         let p = v.page
         if (pRefs[p]) pRefs[p].push(v)
         else pRefs[p] = [v]
@@ -88,14 +73,12 @@ function indexToArray(indA) {
 /**
  * Add indexes for a given topic.
  * 
- * @param {string} Topic name.
- * @param {string} Encoded indexes.
+ * @param {string} word Topic name.
+ * @param {string} str Encoded indexes.
  */
-function parseRefs(word, ref) {
-    let list = decodeIndexes(ref)
-    indexToArray(list)
-    list = list.map(i => new VerseRef(i))    
-    wRefs = [{word, list}]
+function parseRefs(word, str) {
+    let set = RefSet.fromEncoded(word, str)
+    indexToArray(set.list); wRefs = [set]
 }
 /**
  * Parsing and using remote data. 
@@ -159,15 +142,15 @@ function readData() {
  * Make the targeted menu the document has three.(letters, roots, words)
  * The first element  will be selected.
  * 
- * @param {object} m trgeted menu object (html) to create.
+ * @param {object} m targeted menu object (html)
  * @param {array} a array elements of the menu.
  */
 function makeMenu(m, a) { //first item is selected
     if (a) m.innerHTML = "<option selected>" + a.join("<option>");
 }
 /**
- * Select the letter from the menu, if no parameter entered the letter will be the menu1 value.
- * Then create menu2 based on the selected character.
+ * Select the letter from the menu, if no parameter entered the letter will 
+ * be the menu1 value. Then Build menu2 based on the selected character.
  * @see makeMenu
  * 
  * @param {string} ch letter to be selected (Arabic)
@@ -221,28 +204,27 @@ function selectWord(word) { //called by menu3 only
     else if (word == menu3.value) return;
     else menu3.value = word;
     combine.hidden = false;
-    let ref = wordToRefs.get(word);
-    let list = decodeIndexes(ref)
-    //wRefs.find(x => x.word == word)
-    indexToArray(list); displayTable(word)
+    let str = wordToRefs.get(word)
+    parseRefs(word, str)
+    displayTable(word)
 }
 /**
  * calculate the index array for given root.
  * 
- * @param {string} roots to be displayed
- * @returns {Array} of numbers
+ * @param {string} root to be displayed
+ * @returns {Array} Array of VerseRef's
  */
-function getIndicesOf(root) {
+function getReferences(root) {
     let cnt = rootToCounts.get(root);
-    let indA = []
+    let refA = []
     for (let word of rootToWords.get(cnt)) {
-        let list = decodeIndexes(wordToRefs.get(word))
-        wRefs.push({word, list})
-        for (let i of list) indA.push(i)
-        //indA.concat(list)  concat returns another Array
+        let enc = wordToRefs.get(word)
+        let set = RefSet.fromEncoded(word, enc)
+        for (let v of set.list) refA.push(v)
+        //refA.concat(set.list)  concat returns another Array
+        wRefs.push(set)
     }
-    //indA.sort((a, b) => (a - b));
-    return indA
+    return refA
 }
 /**
  * display specified roots, hide the menus.
@@ -253,39 +235,30 @@ function displayRoots(ra) { //root array in Arabic
     //console.log(ra)
     if (!ra.length) throw "displayRoots: "+ra.length
     wRefs = []
-    let i1 = getIndicesOf(ra[0])
+    let i1 = getReferences(ra[0])
     for (let k=1; k<ra.length; k++) {
-       let i2 = getIndicesOf(ra[k])
-       //find intersection
-       i1 = i1.filter(x => i2.includes(x))
+        let i2 = getReferences(ra[k])
+        //find intersection
+        i1 = i1.filter(v => //i2.includes(v)
+             i2.find(x => x.index == v.index))
     }
     let word = ra.map(x => rootToCounts.get(x)).join(' + ')
-    indexToArray(i1)  //fills pRefs
-    let makeObject = i => new VerseRef(i)
-    if (ra.length == 1) {
-        for (let w of wRefs) 
-            w.list = w.list.map(makeObject)
-    } else {
-        let list = i1.sort((a,b) => (a-b)).map(makeObject)
-        wRefs = [{word, list}]
+    if (ra.length > 1) {
+        let list = i1.sort((a,b) => (a.index - b.index))
+        wRefs = [new RefSet(word, list)]
     }
+    indexToArray(i1)  //fills pRefs
     displayTable(word)
     selectRoot(ra[0], false)  //adjust menus
 }
 /**
- * Create and build the HTML list to show the information on it.
- * Uses global Array wRefs
- * 
- * @param {String} word: on single word
+ * Build and display the HTML list. Uses global Array wRefs
  */
-function displayList(word) {
+function displayList() {
     const SPAN = '<span class=item>', _SPAN = '</span>'
-    // const LIST = ({word, list}) => '<li>'+word+'<br>'
-    //     +SPAN+list.map(v => v.cv).join(_SPAN+SPAN)+_SPAN
-    // liste.innerHTML = wRefs.map(LIST).join('\n')
     let s = ''
     for (let x of wRefs) { // x is {word, list}
-        s += '<li>'+ x.word +'<br>'
+        s += '<li>'+ x.name +'<br>'
         for (let y of x.list) // y is VerseRef
             s += SPAN+ y.cv +_SPAN
         s += '\n'
@@ -297,8 +270,7 @@ function displayList(word) {
     }
 }
     /**
- * Create and build the HTML table to show the information on it.
- * Uses global Array pRefs
+ * Build and display the HTML table. Uses global Array pRefs
  * 
  * @param {String} word: on single word
  */
@@ -432,8 +404,8 @@ function gotoHashRoot() {
     let title = '', ref = h.substring(1)
     if (ref.includes('='))
         [title, ref] = ref.split('=')
-        parseRefs(title, ref)  //makes wRefs
-        displayTable(title)
+    parseRefs(title, ref)  //makes wRefs
+    displayTable(title)
     menu2.value=''; menu3.value=''
     combine.hidden = true
   }
@@ -536,7 +508,7 @@ function doHover(evt) {  //listener for each td and span element
         let p = getPageOf(evt.target)
         let L = pRefs[p]
         let n = L? L.length : -1
-        ref = L? L[0].toString() : pLabel[p]
+        ref = L? L[0].toString() : labels[p]
         if (n > 1) { //convert Array to string
             for (let i=1; i<n; i++)
                 ref += ' '+L[i].cv

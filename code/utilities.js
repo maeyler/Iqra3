@@ -1,13 +1,15 @@
 "use strict";
 
 class VerseRef {
-    constructor(index, chap, verse, cv, page) {
+    constructor(index, chap, verse, page) {
         this.index = index
         if (!chap) [chap, verse] = toCV(index)
         this.chap = chap
         this.verse = verse
-        this.cv = cv || chap+':'+verse
         this.page = page || pageOf(chap, verse)
+    }
+    get cv() {
+        return this.chap+':'+this.verse
     }
     toString() {
         return 'S.'+this.page+' '+sName[this.chap]+EM_SPACE+this.cv
@@ -19,6 +21,30 @@ class VerseRef {
         let [chap, verse] = cv.split(':')
         if (isNaN(verse)) return null
         return VerseRef.fromNumbers(Number(chap), Number(verse))
+    }
+}
+
+class RefSet {
+    constructor(name, list) {
+        this.name = name
+        this.list = list
+    }
+    contains(v) {
+        return this.list.find(x => x.index == v.index)
+    }
+    addAll(refSet) { //modifies list
+        for (let v of refSet.list)
+            if (!this.contains(v)) this.list.push(v)
+    }
+    toString() {
+        return this.name+' '+this.list.map(v => v.cv).join(' ')
+    }
+    static fromEncoded(name, str) {
+        return RefSet.fromIndexes(name, decodeIndexes(str))
+    }
+    static fromIndexes(name, indA) {
+        let list = indA.map(i => new VerseRef(i))
+        return new RefSet(name, list)
     }
 }
 
@@ -42,6 +68,22 @@ function encode36(n) {
  */
 function decode36(s) {
     return Number.parseInt(s, 36) - 36 * 36;
+}
+
+/**
+ * Used to parse indexes from a string encoded by encode36 
+ * and add it to index array (indA)
+ * 
+ * @param {string} encoded indexes.
+ * @param {Array} of indexes. 
+ */
+function decodeIndexes(str) {
+    let a = []
+    for (let j = 0; j < str.length; j += 3) {
+        let code = str.substring(j, j + 3);
+        a.push(decode36(code));
+    }
+    return a
 }
 
 /**
@@ -147,7 +189,8 @@ function pageOf(c, v) {
  * @returns {number} chapter number.
  */
 function toChapter(i) {
-    // loop all chapter and check if the index is in it, since last holds the summed number of indexes till that chapter.
+    // loop all chapters and check if the index is in it, 
+    // last holds the cumulative number of indexes till that chapter.
     for (let c = 1; c <= nChap; c++)
         if (i <= last[c]) return c;
 }
@@ -189,10 +232,10 @@ const nChap = last.length - 1,
  * index: verse index for each page
  * nPage: number of pages
  * sName: Sura names
- * pLabel: show the sura name, number, and first verse of this page.
+ * labels: show the sura name, number, and first verse of this page.
  */
 var index, nPage, sName  //global
-const pLabel = ['']
+const labels = ['']
 /**
  * initialize the utilities and set the attributes.
  *  
@@ -350,10 +393,7 @@ Nas`;
     for (let p = 1; p <= nPage; p++) {
         index[p + 1] = index[p] + count[p]
         let v = new VerseRef(index[p]+1)
-        pLabel.push(v.toString())
-/*        let [c, v] = toCV(index[p] + 1);
-        pLabel.push("S."+p +" "+ sName[c] +EM_SPACE+c+":"+v)
- */
+        labels.push(v.toString())
     }
     console.log(nPage + " pages -> " + index[nPage]);
 }
