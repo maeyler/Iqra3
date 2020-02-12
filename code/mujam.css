@@ -8,10 +8,6 @@
     body, th {
         background: #eee;
     }
-    p { 
-        width: 100%;
-        margin: 8px 0px;
-    }
     #div1, #div2 {
         width: 100%;
       /* white-space: nowrap; */
@@ -23,26 +19,35 @@
         display: inline-block;
         color: black;
         background: hsl(240, 100%, 95%);
-        margin: 4px;
+        margin: 4px 2px;
         border: 1px solid;
-        padding: 2px;
+        padding: 6px;
     }
     .item:hover { 
         background: hsl(240, 100%, 85%);
     }
     select, li, #out3 {
-        font: 17px me_quran, serif;
+        font: 18px me_quran, serif;
+        line-height: 1.5;
         margin-right: 4px;
         padding-right: 4px;
         color: blue;
     }
-    button { 
+    button {
+        margin: 2px;
+        font: inherit;
+        cursor: pointer;
         padding: 4px; 
     }
-    table, ul { 
+    table, li { 
         background: white;
     }
-    ul span {
+    li {
+        margin: 12px 0;
+        padding: 3px 6px;
+        list-style: none;
+    }
+    li span {
         position: relative;
     }
     table {

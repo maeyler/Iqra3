@@ -17,7 +17,7 @@ class VerseRef {
     static fromNumbers(chap, verse) {
         return new VerseRef(indexOf(chap, verse), chap, verse)
     }
-    static fromString(cv) {
+    static fromChapVerse(cv) {
         let [chap, verse] = cv.split(':')
         if (isNaN(verse)) return null
         return VerseRef.fromNumbers(Number(chap), Number(verse))
@@ -38,6 +38,11 @@ class RefSet {
     }
     toString() {
         return this.name+' '+this.list.map(v => v.cv).join(' ')
+    }
+    static fromString(str) {
+        let [name, ...list] = str.split(' ')
+        list = list.map(cv => VerseRef.fromChapVerse(cv))
+        return new RefSet(name, list)
     }
     static fromEncoded(name, str) {
         return RefSet.fromIndexes(name, decodeIndexes(str))
