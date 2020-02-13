@@ -17,12 +17,13 @@
 </head>
 
 <body>
-<div id=div2>
-   <button id=menu0 onClick="showSelections(true)">Liste</button> &nbsp;
+<div id=div0>
+   <button onClick="showSelections(true)">Liste</button> &nbsp;
    <span id=out2>page count</span> &nbsp;
    <span id=out3>root/word</span>
+   <button onClick="showTopics(true)">Konular</button>
 </div>
-<div id=div1>
+<div id=div1 hidden>
    <span id=out1>page count</span> &nbsp;
    <select id=menu1 onChange="selectLetter()">
    <span class='t1'>Aranan kökün ilk harfi</span>
@@ -36,6 +37,14 @@
    <button id=combine onClick="gotoHashRoot()">◀</button>
    <!--span class='t1'>Kelimeleri birleştir</span-->
    <p id=liste></p>
+</div>
+<div id=div4 hidden>
+   <span id=out4>page count</span> &nbsp;
+   <select id=menu4 onChange="selectTopic()">
+   <span class='t1'>Aranan konu</span>
+   </select>
+   <button id=combin4 onClick="gotoHashRoot()">◀</button>
+   <p id=konular></p>
 </div>
 
 <table id=tablo></table>

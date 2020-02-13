@@ -8,6 +8,10 @@ var bilgi;
  */
 var pRefs;
 /**
+ * Array where topic refs are stored -- used in topic view
+ */
+var tRefs;
+/**
  * Array where word refs are stored -- used in list view
  */
 var wRefs;
@@ -179,11 +183,27 @@ function selectWord(word) { //called by menu3 and list items
     else if (word == menu3.value) return;
     else menu3.value = word;
     combine.hidden = false;
-    let str = wordToRefs.get(word)
-    parseRefs(word, str)
+    //let enc = wordToRefs.get(word)
+    //parseRefs(word, enc)
+    let set = wRefs.find(x => x.name == word)
+    if (!set) return
+    displayTable(set)
     for (let i of liste.querySelectorAll('li'))
-      i.style.background = 
+      i.style.background =  //set colors
         i.firstElementChild.innerText == word? '#fec' : ''
+}
+/**
+ * Select topic, from menu4
+ * 
+ * @param {string} topic to be selected.
+ */
+function selectTopic(topic) { //called by menu4 and list items
+    if (!topic) topic = menu4.value;
+    else if (topic == menu4.value) return;
+    else menu4.value = topic;
+    let set = tRefs.find(x => x.name == topic)
+    if (!set) return
+    displayTable(set)
 }
 /**
  * calculate the index array for given root.
@@ -217,40 +237,66 @@ function indexToArray(list) {
     }
 }
 /**
- * Make wRefs & pRefs for specified roots
+ * Make wRefs for specified roots
  * 
  * @param {Array} roots Array to be displayed
  */
 function parseRoots(roots) { //root array in Arabic
     wRefs = []
-    let [first, ...rest] = roots
-    let i1 = getReferences(first)
-    for (let r of rest) {
-        let i2 = getReferences(r)
-        //find intersection
-        i1 = i1.filter(v => //i2.includes(v)
-             i2.find(x => x.index == v.index))
+    let [word, ...rest] = roots
+    let i1 = getReferences(word) //combined
+    if (rest) { //multiple roots, single RefSet
+        for (let r of rest) {
+            let i2 = getReferences(r)
+            //find intersection
+            i1 = i1.filter(v => //i2.includes(v)
+                 i2.find(x => x.index == v.index))
+        }
+        word = roots.map(x => rootToCounts.get(x)).join(' + ')
     }
-    let word = roots.map(x => rootToCounts.get(x)).join(' + ')
-    if (roots.length > 1) wRefs = [new RefSet(word, i1)]
-    indexToArray(i1); displayTable(word)
+    let set = new RefSet(word, i1)
+    if (rest.length > 0) wRefs = [set]
+    return set
+}
+
+/**
+ * Add given topic to tRefs, menu4, and localStorage
+ * 
+ * @param {string} str topic + Encoded indexes
+ */
+function addTopic(str) {
+    let [topic, enc] = str.split('=')
+    let set = tRefs.find(x => x.name == topic)
+    if (set) {
+        menu4.value = topic
+        console.log(topic, 'already in tRefs')
+        return set
+    }
+    set = RefSet.fromEncoded(topic, enc)
+    tRefs.splice(0, 0, set)  //insert as item 0
+    localStorage.topics = str +'\n'+ localStorage.topics
+    menu4.innerHTML = menu4.innerHTML
+        .replace('>','>'+topic+'</option><option>')
+    console.log(topic, 'inserted to tRefs')
+    return set
 }
 /**
- * Make wRefs & pRefs for a given topic
- * 
- * @param {string} topic
- * @param {string} ref Encoded indexes
+ * Make tRefs & menu4 from localStorage.topics
  */
-function parseRefs(topic, ref) {
-    let set = RefSet.fromEncoded(topic, ref)
-    indexToArray(set.list); wRefs = [set]; 
-    displayTable(topic)
+function readTopics() {
+    tRefs = []; let a = []
+    for (let s of localStorage.topics.split('\n')) {
+        let [topic, enc] = s.split('=')
+        tRefs.push(RefSet.fromEncoded(topic, enc))
+        a.push(topic)
+    }
+    makeMenu(menu4, a)
 }
 /**
  * Build and display the HTML list. Uses global Array wRefs
  */
 function displayList() {
-    const MAX_REFS = 15  //hide larger lists
+    const MAX_REFS = 8  //hide larger lists
     const SPAN = '<span class=item>', _SPAN = '</span>'
     let BUTTON = '', _BUTTON = ''
     if (wRefs.length > 1) {
@@ -271,12 +317,20 @@ function displayList() {
     if (!BUTTON) return
     for (let x of liste.querySelectorAll('button')) {
         let div = x.nextElementSibling
-        if (div.children.length > MAX_REFS)
+        if (div.children.length > MAX_REFS) {
+            x.style.background = 'yellow'
+            x.parentElement.style.background = '#eee'
             div.hidden = true
-        x.onclick = function ccc(evt) {
+        }
+        x.onclick = () => {
         //x == evt.target && div == x.nextElementSibling
-            if (div.hidden) div.hidden = false
-            else selectWord(x.innerText)
+            if (div.hidden) {
+                x.style.background = ''
+                x.parentElement.style.background = ''
+                div.hidden = false
+            } else {
+                selectWord(x.innerText)
+            }
         } 
     }
 }
@@ -285,7 +339,7 @@ function displayList() {
  * 
  * @param {String} word: on single word
  */
-function displayTable(word) {
+function displayTable(set) {
     // put three zeros on the first of the number (K)
     function threeDigits(k) { //same as (""+k).padStart(3,"0")
         let s = "" + k
@@ -298,6 +352,7 @@ function displayTable(word) {
         let L = 96 - 6 * Math.min(n, 16)
         return "background: hsl("+HUE+", 100%, "+L+"%)"
     }
+    indexToArray(set.list)
     // m number of rows, 20 pages per row.
     const m = 30, n = 20
     let row = "<th>Sayfa</th>"
@@ -330,19 +385,20 @@ function displayTable(word) {
     // end of table
     tablo.innerHTML = text
     tablo.oncontextmenu = showMenuK
-    //let word = wRefs[0].name  given as argument
-    document.title = TITLE + " -- " + word
-    out1.innerText = numP + " sayfa"
-    out2.innerText = numP + " sayfa"
-    out3.innerText = word
-    console.log(word, numP, wRefs)
+    document.title = TITLE + " -- " + set.name
+    let pages = numP + " sayfa"
+    out1.innerText = pages
+    out2.innerText = pages
+    out3.innerText = set.name
+    out4.innerText = pages
+    console.log(pages, set)
     menu3.hidden = wRefs.length == 1
     for (let x of tablo.querySelectorAll('td')) {
         x.onmouseenter = doHover
         x.onmouseleave = hideBilgi
     }
     bilgi = document.createElement('div') //lost within table
-    bilgi.id = 'bilgi'; document.body.append(bilgi)
+    bilgi.id = 'bilgi'; tablo.append(bilgi)
     bilgi.onclick = doClick
 }
 
@@ -359,14 +415,15 @@ function doClick(evt) {
     //do not handle if menuK is on or bilgi is off
     if (menuK.style.display || !bilgi.style.display) return
     evt.preventDefault()
-    let [nam, ref] = bilgi.innerText.split(EM_SPACE)
+    let [nam, refs] = bilgi.innerText.split(EM_SPACE)
     let [xx, p] = nam.split(/\.| /)  //dot or space
     let h;
     if (pRefs[p]) { //use first reference & root
-        let [cv] = ref.split(' ')
+        let [cv] = refs.split(' ')
         h = "#v="+cv
-        let d = decodedHash()
-        if (!d.startsWith('#')) h += "&r="+d
+        let d = currentRoot() //decodedHash()
+        //if (!d.startsWith('#')) 
+        if (d && div4.hidden) h += "&r="+d
     } else { //use page number
         h = "#p="+p;
     }
@@ -409,31 +466,26 @@ function decodedHash() {
 function gotoHashRoot() {
   let h = decodedHash()
   if (!h) return false
-  showSelections(false)
+  showSelections(false); let set
   if (h.startsWith('#')) { //given topic
-    let [top, ref] = h.substring(1).split('=')
-    parseRefs(top, ref)
-    menu2.value=''; menu3.value=''
-    combine.hidden = true
+    //let [topic, enc] = h.substring(1).split('=')
+    //parseRefs(topic, enc)  use tRefs
+    set = addTopic(h.substring(1))
+    showTopics(true)
   } else { //given roots
     let roots = h.split('&r=').map(toArabic)
-    parseRoots(roots)
+    set = parseRoots(roots)
     selectRoot(roots[0], false)
   }
+  displayTable(set)
   return true
 }
 /**
  * Initialize the globals
- * 
- * @param none
- * 
  */
 function initMujam() {
     version.innerText = 'Iqra '+VERSION;
-    showSelections(false);
-    // mark places for sajda
-    //let str = "1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5";
-    //[sajda, ] = parseRefs('Secde', str);
+    //showSelections(false);
 sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 999]
     let letters = [];
     for (let c=1575; c<1609; c++) letters.push(String.fromCharCode(c));
@@ -443,7 +495,9 @@ sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 9
     } catch(err) { 
         out2.innerText = ""+err;
     }
-    window.name = "mujam"
+    if (!localStorage.topics)
+        localStorage.topics = 'Secde=1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5'
+    readTopics(); window.name = "mujam"
     window.onhashchange = gotoHashRoot
     menuFn()
 }
@@ -457,9 +511,9 @@ function menuFn() {
         openSitePage('Y')
       let s = bilgi.innerText
       if (!s) return
-      let [nam, ref] = s.split(EM_SPACE)
-      if (!ref) return
-      let [cv] = ref.split(' ')
+      let [nam, refs] = s.split(EM_SPACE)
+      if (!refs) return
+      let [cv] = refs.split(' ')
       let [c, v] = cv.split(':')
       openSiteVerse(m, c, v)
       hideMenus()
@@ -493,14 +547,16 @@ function menuFn() {
 }
 
 function showSelections(show) {
-    if (show) {
-      div1.style.display = ''
-      div2.style.display = 'none'
-      displayList(out3.innerText)
-} else {
-      div1.style.display = 'none'
-      div2.style.display = ''
-    }
+    div0.hidden = show
+    div1.hidden = !show
+    div4.hidden = true
+    if (show) displayList(out3.innerText)
+}
+function showTopics(show) {
+    div0.hidden = show
+    div1.hidden = true
+    div4.hidden = !show
+    if (show) selectTopic()
 }
 function getPageOf(td) {
     let r = td.parentElement.rowIndex;
@@ -545,7 +601,7 @@ function doHover(evt) {  //listener for each td and span element
     bilgi.style.display = "block"
 }
 function test(prop='index') {
-    if (!div1.style.display) showSelections(true)
+    if (div1.hidden) showSelections(true)
     let testEval = (a) => {
       let e = eval(a); console.log(a, e); return e
     }
