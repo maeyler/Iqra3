@@ -189,7 +189,7 @@ function selectWord(word) { //called by menu3 and list items
     if (!set) return
     displayTable(set)
     for (let i of liste.querySelectorAll('li'))
-      i.style.background =  //set colors
+      i.style.backgroundColor =  //set colors
         i.firstElementChild.innerText == word? '#fec' : ''
 }
 /**
@@ -318,15 +318,15 @@ function displayList() {
     for (let x of liste.querySelectorAll('button')) {
         let div = x.nextElementSibling
         if (div.children.length > MAX_REFS) {
-            x.style.background = 'yellow'
-            x.parentElement.style.background = '#eee'
+            x.style.backgroundColor = 'yellow'
+            x.parentElement.style.backgroundColor = '#eee'
             div.hidden = true
         }
         x.onclick = () => {
         //x == evt.target && div == x.nextElementSibling
             if (div.hidden) {
-                x.style.background = ''
-                x.parentElement.style.background = ''
+                x.style.backgroundColor = ''
+                x.parentElement.style.backgroundColor = ''
                 div.hidden = false
             } else {
                 selectWord(x.innerText)
@@ -569,7 +569,7 @@ function doHover(evt) {  //listener for each td and span element
     if (evt.target.tagName == 'SPAN') {
         let cv = evt.target.innerText
         ref = VerseRef.fromChapVerse(cv)
-        cls = 't2>' //background yellow
+        cls = 't2>' //backgroundColor yellow
         cw = liste.clientWidth
     } else { // TD
         let p = getPageOf(evt.target)
@@ -579,7 +579,7 @@ function doHover(evt) {  //listener for each td and span element
             if (L)  //convert Array to string
               ref += ' '+L.map(x => x.cv).join(' ')
                   + EM_SPACE +'('+ (L.length+1) +')'
-            cls = 't2>' //background color
+            cls = 't2>' //backgroundColor
         } else { //no ref on this page
             ref = labels[p]
             cls = 't1>' //no color

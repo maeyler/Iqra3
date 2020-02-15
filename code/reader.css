@@ -1,18 +1,17 @@
-    body { 
-      margin: 0;
-    }
+@media screen and (max-width: 450px) {
+    #zoomB { display: none; }
+}
+@media screen and (max-height: 420px) {
+    #div1 { display: none; }
+}
 @media screen and (max-width: 850px) {
     body { 
-      background: cyan;
-    }
-    button { 
-      width: 25px;
-      height: 30px;
+      background-color: cyan;
     }
     #title { 
       display: none;
     }
-    #div3, #sureS, #pageS { 
+    #div3, #sureS, button { 
       font-size: 3vw;
     }
     #text { 
@@ -26,11 +25,7 @@
 
 @media screen and (min-width: 851px) {
     body { 
-      background: #cfc;
-    }
-    button { 
-      width: 30px;
-      height: 30px;
+      background-color: #cfc;
     }
     #title {
       margin: 0;
@@ -56,16 +51,22 @@
     }
 }
 /** common to all screens **/
+    body { 
+      margin: 0;
+    }
     button {
-      user-select: none;
+      min-width: 36px;
+      height: 36px;
+      /* margin: -1px; */
       cursor: pointer;
+      /* font-size: 16px; */
       font-weight: bolder;
-      padding: 5px 18px 5px 8px;
     }
     div { 
       text-align: center;
     }
     #sureS {
+      height: 30px;
       padding: 4px 0;
     }
     #pageS {
@@ -80,7 +81,7 @@
       overflow-x: hidden;
     }
     #div0 { 
-      height: 30px;
+      height: 36px;
     }
     #bilgi { 
       display: none;
@@ -89,7 +90,7 @@
       min-width: 90px;
       text-align: center;
       color: blue;
-      background: #ff7;
+      background-color: #ff7;
       border: black 1px solid;
       padding-bottom: 5px;
       cursor: pointer;
@@ -106,7 +107,7 @@
       bottom: 0;
     }
     #text, #html {
-      background: white;
+      background-color: white;
       padding: 4px 8px;
     }
     #text { 
@@ -124,14 +125,11 @@
       line-height: 2;
       direction: rtl;
     }
-@media screen and (max-height: 420px) {
-    #div1 { display: none; }
-}
     #infoS { 
       display: none;
       user-select: none;
       font-size: 14px;
-      background: #ff7;
+      background-color: #ff7;
       color: blue;
       text-align: center;
       padding: 5px 5px;
@@ -144,14 +142,14 @@
     }
     #slider {
       position: relative;
-      top: 6px;
+      top: 4px;
       width: 72%;
       max-width: 604px;
       margin: 0;
     }
     .divider { 
       margin-top: 8px;
-      background: url("../image/sura.png");
+      background-image: url("../image/sura.png");
       background-repeat: no-repeat;
       background-size: contain;
     }
@@ -163,11 +161,11 @@
       color: blue;
     }
     .gri { 
-      background : #ffa;
+      background-color : #ffa;
     }
     ::selection {
       color: yellow; 
-      background: blue;
+      background-color: blue;
     }
 	@font-face {
 	  font-family: me_quran;
@@ -177,14 +175,13 @@
 /* Menu Style
   Ref: https://dev.to/iamafro/how-to-create-a-custom-context-menu--5d7p
 */
-
     .menu {
       box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
       position: fixed;
       display: none;
       border: black 1px solid;
       color: blue;
-      background: #eee;
+      background-color: #eee;
       font: 13px sansserif, arial;
       user-select: none;
       overflow-y: auto;
@@ -203,7 +200,7 @@
       padding: 10px 12px;
     }
     .menuC:hover, .menuK:hover {
-      background: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.2);
     }
 
 /* End of menu style */

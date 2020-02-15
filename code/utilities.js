@@ -124,13 +124,13 @@ function encodeLine(s) {
  *     decodeLine('38z3fs3x8') returns 3 cv's
  */
 function decodeLine(s) {
-    let v = "";
+    let cv = "";
     for (let j = 0; j < s.length; j += 3) {
-        const c = s.substring(j, j + 3);
-        const cv = toCV(decode36(c));
-        v += cv[0] + ":" + cv[1] + " ";
+        let t = s.substring(j, j + 3);
+        let [c, v] = toCV(decode36(t));
+        cv += c + ":" + v + " ";
     }
-    return v;
+    return cv;
 }
 /**
 * @param {string} s The line string to be decoded.
@@ -138,7 +138,7 @@ function decodeLine(s) {
 * 
 *  @example
 *
-*     decodeLine('38z3fs3x8') returns 3 VerseRef's
+*     decodeToArray('38z3fs3x8') returns 3 VerseRef's
 */
 function decodeToArray(s) {
    let v = []

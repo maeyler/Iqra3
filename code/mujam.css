@@ -6,7 +6,7 @@
         font-family: arial, sans-serif;
     }
     body, th {
-        background: #eee;
+        background-color: #eee;
     }
     #div1, #div2 {
         width: 100%;
@@ -18,13 +18,13 @@
     .item {
         display: inline-block;
         color: black;
-        background: hsl(240, 100%, 95%);
+        background-color: hsl(240, 100%, 95%);
         margin: 4px 2px;
         border: 1px solid;
         padding: 6px;
     }
     .item:hover { 
-        background: hsl(240, 100%, 85%);
+        background-color: hsl(240, 100%, 85%);
     }
     select, li, #out3 {
         font: 18px me_quran, serif;
@@ -34,13 +34,14 @@
         color: blue;
     }
     button {
+        min-width: 36px;
+        height: 36px;
+        cursor: pointer;
         margin: 2px;
         font: inherit;
-        cursor: pointer;
-        padding: 4px; 
     }
     table, li { 
-        background: white;
+        background-color: white;
     }
     li {
         margin: 12px 0;
@@ -95,10 +96,10 @@
         color: black;
     }
     .t1 {
-        background: #eee;
+        background-color: #eee;
     }
     .t2 {
-        background: #ff7;
+        background-color: #ff7;
     }
     #corpus {
         color: blue;
@@ -118,7 +119,7 @@
       border: black 1px solid;
       text-align: center;
       color: blue;
-      background: #eee;
+      background-color: #eee;
       font: 13px sansserif, arial;
       user-select: none;
       z-index: 1;
@@ -131,6 +132,6 @@
       padding: 10px;
     }
     .menuK:hover {
-      background: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.2);
     }
 

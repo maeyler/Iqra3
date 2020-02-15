@@ -2,7 +2,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.24a";
+const VERSION = "V3.24c";
 
 /**
  * html file extension -- empty for remote GitHub files

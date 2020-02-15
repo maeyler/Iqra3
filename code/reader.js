@@ -43,7 +43,7 @@ function setBookmarks(text, data) { //called once in initReader()
 function setStorage(synch) {
     if (!LS) return
     let page  = curPage
-    let roots = showR.style.background? true : false
+    let roots = showR.style.backgroundColor? true : false
     let marks = [...bookmarks]
     let pref = {page, roots, marks}
     localStorage.iqra = JSON.stringify(pref)
@@ -102,14 +102,14 @@ function suraContainsPage(k) {
     return (i<=k && k<j);
 }
 function displayWord(evt) {
-    if (!showR.style.background) return
+    if (!showR.style.backgroundColor) return
     let t = evt.target
     let w = t.innerText.trim()
     let r = wordToRoot.get(toBuckwalter(w))
     if (!r) { hideElement(bilgi); return }
     let n = rootToList.get(r).length
     bilgi.innerText = toArabic(r)  //+' => '+n
-    t.style.background = '#ddd'; t.append(bilgi)
+    t.style.backgroundColor = '#ddd'; t.append(bilgi)
     let y = t.offsetTop + t.offsetHeight
     setPosition(bilgi, t.offsetLeft+24, y-6, 105)
 }
@@ -122,7 +122,7 @@ function selectWord(evt) {
     }
 }
 function hideWord(evt) {
-    evt.target.style.background = ''
+    evt.target.style.backgroundColor = ''
     hideElement(bilgi)
 }
 function adjustPage(adj) {
@@ -146,7 +146,7 @@ function gotoPage(k, adjusting) { // 1<=k<=P
     slider.value = k;
     text.innerText = (kur[k]);
     html.innerHTML = processBR(qur[k]);
-    starB.style.background = 
+    starB.style.backgroundColor = 
         bookmarks.has(k)? CHECKED : ''
     let wc = html.childElementCount
     console.log('Page '+k, wc+' words');
@@ -366,7 +366,7 @@ function initReader() {
     window.name = "iqra" //by A Rajab
     let {roots, marks} = getStorage()
     //we cannot use page yet, files are not read -- see initialPage()
-    showR.style.background = roots? CHECKED : ''
+    showR.style.backgroundColor = roots? CHECKED : ''
     arrayToSet(marks) //immediate action
     if (localStorage.userName) //takes time to load
         readTabularData(setBookmarks, console.error)
@@ -466,12 +466,12 @@ function menuFn() {
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); 
       hideElement(menuS); hideElement(bilgi)
-      linkB.style.background = ''
+      linkB.style.backgroundColor = ''
   }
 
   html.oncontextmenu = (evt) => {
       evt.preventDefault(); 
-      hideElement(menuK); linkB.style.background = ''
+      hideElement(menuK); linkB.style.backgroundColor = ''
       setPosition(menuC, evt.clientX, evt.clientY-60, 220)
   }
 }
@@ -487,14 +487,14 @@ function keyToPage(evt) {
     }
 }
 function toggleTrans() {
-    if (trans.style.background) {
+    if (trans.style.backgroundColor) {
       html.style.display = ''
       text.style.display = ''
-      trans.style.background = ''
+      trans.style.backgroundColor = ''
     } else { //hide html
       html.style.display = 'none'
       text.style.display = 'block'
-      trans.style.background = CHECKED
+      trans.style.backgroundColor = CHECKED
     }
 }
 function makeStarMenu() {
@@ -519,11 +519,11 @@ function handleStars() {
     }
 }
 function toggleStar() {
-    if (starB.style.background) {
-      starB.style.background = ''
+    if (starB.style.backgroundColor) {
+      starB.style.backgroundColor = ''
       bookmarks.delete(curPage)
     } else {
-      starB.style.background = CHECKED
+      starB.style.backgroundColor = CHECKED
       bookmarks.add(curPage)
       let a = [...bookmarks]
       if (a.length > MAX_MARKS)
@@ -532,27 +532,27 @@ function toggleStar() {
     setStorage(true) //may need to synch
 }
 function toggleMenuK() {
-    if (linkB.style.background) {
-      linkB.style.background = ''
+    if (linkB.style.backgroundColor) {
+      linkB.style.backgroundColor = ''
       hideElement(menuK)
     } else {
-      hideMenus(); linkB.style.background = CHECKED
+      hideMenus(); linkB.style.backgroundColor = CHECKED
       displayMenu(menuK, linkB, 120)
     }
 }
 function toggleZoom() {
-    if (zoomB.style.background) {
+    if (zoomB.style.backgroundColor) {
       div2.style.transform = ''
-      zoomB.style.background = ''
+      zoomB.style.backgroundColor = ''
     } else {
       div2.style.transform ='scale(1.16) translate(0, 8%)'
-      zoomB.style.background = CHECKED
+      zoomB.style.backgroundColor = CHECKED
     }
 }
 function toggleWords() {
-    if  (showR.style.background)
-         showR.style.background = ''
-    else showR.style.background = CHECKED
+    if  (showR.style.backgroundColor)
+         showR.style.backgroundColor = ''
+    else showR.style.backgroundColor = CHECKED
     setStorage(false)
 }
 
