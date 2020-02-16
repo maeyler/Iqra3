@@ -10,7 +10,7 @@
     }
     #div1, #div2 {
         width: 100%;
-      /* white-space: nowrap; */
+        white-space: nowrap;
     }
     #out1, #out2, #out4, .item {
         font: 15px arial, sans-serif;
@@ -37,7 +37,6 @@
         min-width: 36px;
         height: 36px;
         cursor: pointer;
-        margin: 2px;
         font: inherit;
     }
     table, li { 
@@ -135,3 +134,21 @@
       background-color: rgba(0, 0, 0, 0.2);
     }
 
+    #dialog {
+        border: 1px solid;
+        background-color: seashell;
+        padding: 8px;
+        width: 314px;
+        position: fixed;
+        top: 8px;
+        z-index: 2;
+    }
+    #dTopic { width: 100px; }
+    #dRefs  { width: 310px; }
+    #dError { color: red; }
+    #dClose {
+        position: absolute;
+        right: 8px;
+        width: auto;
+        height: auto;
+    }

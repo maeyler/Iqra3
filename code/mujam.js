@@ -6,15 +6,15 @@ var bilgi;
 /**
  * Array where page refs are stored -- used in table view
  */
-var pRefs;
+var pRefs = [];
 /**
- * Array where topic refs are stored -- used in topic view
+ * Map where topic refs are stored -- used in topic view
  */
-var tRefs;
+var tRefs = new Map();
 /**
  * Array where word refs are stored -- used in list view
  */
-var wRefs;
+var wRefs = [];
 /**
  * Global array to hold the places of Sajda.
  * used in marking sajdah verses
@@ -201,9 +201,9 @@ function selectTopic(topic) { //called by menu4 and list items
     if (!topic) topic = menu4.value;
     else if (topic == menu4.value) return;
     else menu4.value = topic;
-    let set = tRefs.find(x => x.name == topic)
-    if (!set) return
-    displayTable(set)
+    let s = tRefs.get(topic)
+    location.hash = s.name +'='+ s.toEncoded()
+    //if (s) displayTable(s)
 }
 /**
  * calculate the index array for given root.
@@ -262,32 +262,32 @@ function parseRoots(roots) { //root array in Arabic
 /**
  * Add given topic to tRefs, menu4, and localStorage
  * 
- * @param {string} str topic + Encoded indexes
+ * @param {string} topic
+ * @param {string} enc Encoded indexes
  */
-function addTopic(str) {
-    let [topic, enc] = str.split('=')
-    let set = tRefs.find(x => x.name == topic)
-    if (set) {
+function addTopic(topic, enc) {
+    let s = tRefs.get(topic)
+    if (s) {
         menu4.value = topic
-        console.log(topic, 'already in tRefs')
-        return set
+        return s
     }
-    set = RefSet.fromEncoded(topic, enc)
-    tRefs.splice(0, 0, set)  //insert as item 0
-    localStorage.topics = str +'\n'+ localStorage.topics
+    s = RefSet.fromEncoded(topic, enc)
+    tRefs.set(topic, s)
+    localStorage.topics 
+        = topic+'='+enc+'\n'+ localStorage.topics
     menu4.innerHTML = menu4.innerHTML
         .replace('>','>'+topic+'</option><option>')
     console.log(topic, 'inserted to tRefs')
-    return set
+    return s
 }
 /**
  * Make tRefs & menu4 from localStorage.topics
  */
 function readTopics() {
-    tRefs = []; let a = []
+    tRefs.clear(); let a = []
     for (let s of localStorage.topics.split('\n')) {
         let [topic, enc] = s.split('=')
-        tRefs.push(RefSet.fromEncoded(topic, enc))
+        tRefs.set(topic, RefSet.fromEncoded(topic, enc))
         a.push(topic)
     }
     makeMenu(menu4, a)
@@ -468,9 +468,9 @@ function gotoHashRoot() {
   if (!h) return false
   showSelections(false); let set
   if (h.startsWith('#')) { //given topic
-    //let [topic, enc] = h.substring(1).split('=')
+    let [topic, enc] = h.substring(1).split('=')
     //parseRefs(topic, enc)  use tRefs
-    set = addTopic(h.substring(1))
+    set = addTopic(topic, enc)
     showTopics(true)
   } else { //given roots
     let roots = h.split('&r=').map(toArabic)
@@ -557,6 +557,63 @@ function showTopics(show) {
     div1.hidden = true
     div4.hidden = !show
     if (show) selectTopic()
+}
+function showDialog(topic, button, callback) {
+  function checkInput() {
+    dError.innerText = ''
+    dAccept.disabled = true
+    let s = tRefs.get(dTopic.value)
+    if (s && s.name != topic)
+        dError.innerText = 'Bu konu var zaten'
+    else if (dTopic.value && dRefs.value)
+        dAccept.disabled = false
+  }
+    dialog.innerHTML = 
+    'Konu &emsp;<input id=dTopic type=text> '
+    +'<span id=dError></span><BR><BR>'
+    +'Ayetler <BR><input id=dRefs type=text><BR><BR>'
+    +'<input type=button id=dAccept disabled>'
+    +'<input type=button id=dClose>'
+    dTopic.value = topic
+    dTopic.oninput = checkInput
+    let s1 = tRefs.get(topic)
+    dRefs.value = s1? s1.cvList : ''
+    dRefs.oninput = checkInput
+    dAccept.value = button
+    dAccept.onclick = callback
+    dClose.value = 'x'
+    dClose.onclick = () => {dialog.hidden = true}
+    dialog.onkeydown = (evt) => {
+        if (evt.key == 'Escape')
+            dClose.onclick()
+        if (evt.key == 'Enter' && !dAccept.disabled)
+            dAccept.onclick()
+    }
+    dialog.hidden = false
+    dTopic.focus()
+}
+function topicFromDialog() {
+    dialog.hidden = true
+    let topic = dTopic.value
+    let enc = encodeLine(dRefs.value)
+    addTopic(topic, enc)
+    let h = '#'+topic +'='+ enc
+    if (location.hash.includes(topic))
+        history.replaceState(null, '', h) 
+    else location.hash = h
+}
+function replaceTopic() {
+    deleteTopic(menu4.value); topicFromDialog()
+}
+function deleteTopic(t, conf) {
+    let a = []
+    if (conf && !confirm(t+' silinecek')) return
+    for (let s of localStorage.topics.split('\n')) {
+        let [topic] = s.split('=')
+        if (topic != t) a.push(s)
+    }
+    localStorage.topics = a.join('\n')
+    readTopics()
 }
 function getPageOf(td) {
     let r = td.parentElement.rowIndex;

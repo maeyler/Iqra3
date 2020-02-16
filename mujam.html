@@ -42,11 +42,15 @@
    <span id=out4>page count</span> &nbsp;
    <select id=menu4 onChange="selectTopic()">
    <span class='t1'>Aranan konu</span>
-   </select>
-   <button id=combin4 onClick="gotoHashRoot()">◀</button>
+   </select><button onClick="showDialog('', 'Ekle', topicFromDialog)">+
+   </button><button onClick="showDialog(menu4.value, 'Değiştir', replaceTopic)">E
+   </button><button onClick="deleteTopic(menu4.value, 'confirm')">x
+   </button>&emsp;
+   <!-- <button id=combin4 onClick="gotoHashRoot()">◀</button> -->
    <p id=konular></p>
 </div>
 
+<div id=dialog hidden></div>
 <table id=tablo></table>
 
 <!--div id=bilgi>produce again for each table</div-->

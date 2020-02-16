@@ -30,22 +30,31 @@ class RefSet {
         this.list = list
     }
     contains(v) {
-        return this.list.find(x => x.index == v.index)
+        for (let x of this.list)
+            if (x.index == v.index) return true
+        return false
     }
     addAll(refSet) { //modifies list
         for (let v of refSet.list)
             if (!this.contains(v)) this.list.push(v)
     }
+    toEncoded() {
+        return this.list.map(v => encode36(v.index)).join('')
+    }
     toString() {
-        return this.name+' '+this.list.map(v => v.cv).join(' ')
+        return this.name+'='+this.cvList
+    }
+    get cvList() {
+        return this.list.map(v => v.cv).join(' ')
     }
     static fromString(str) {
-        let [name, ...list] = str.split(' ')
-        list = list.map(cv => VerseRef.fromChapVerse(cv))
+        let [name, rest] = str.split('=')
+        let list = rest.split(' ')
+            .map(cv => VerseRef.fromChapVerse(cv))
         return new RefSet(name, list)
     }
-    static fromEncoded(name, str) {
-        return RefSet.fromIndexes(name, decodeIndexes(str))
+    static fromEncoded(name, enc) {
+        return RefSet.fromIndexes(name, decodeIndexes(enc))
     }
     static fromIndexes(name, indA) {
         let list = indA.map(i => new VerseRef(i))
