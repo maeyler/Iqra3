@@ -188,7 +188,7 @@ function selectWord(word) { //called by menu3 and list items
     let set = wRefs.find(x => x.name == word)
     if (!set) return
     displayTable(set)
-    for (let i of liste.querySelectorAll('li'))
+    for (let i of kelimeler.querySelectorAll('li'))
       i.style.backgroundColor =  //set colors
         i.firstElementChild.innerText == word? '#fec' : ''
 }
@@ -295,15 +295,15 @@ function readTopics() {
 /**
  * Build and display the HTML list. Uses global Array wRefs
  */
-function displayList() {
+function displayList(refs, liste) {
     const MAX_REFS = 8  //hide larger lists
     const SPAN = '<span class=item>', _SPAN = '</span>'
     let BUTTON = '', _BUTTON = ''
-    if (wRefs.length > 1) {
+    if (refs.length > 1) {
         BUTTON = '<button>'; _BUTTON = '</button>'
     }
     let s = ''
-    for (let x of wRefs) { // x is {word, list}
+    for (let x of refs) { // x is {name, list}
         s += '<li>'+BUTTON+ x.name +_BUTTON+'<div>'
         for (let y of x.list) // y is VerseRef
             s += SPAN+ y.cv +_SPAN
@@ -472,6 +472,7 @@ function gotoHashRoot() {
     //parseRefs(topic, enc)  use tRefs
     set = addTopic(topic, enc)
     showTopics(true)
+    displayList([set], konular)
   } else { //given roots
     let roots = h.split('&r=').map(toArabic)
     set = parseRoots(roots)
@@ -550,7 +551,7 @@ function showSelections(show) {
     div0.hidden = show
     div1.hidden = !show
     div4.hidden = true
-    if (show) displayList(out3.innerText)
+    if (show) displayList(wRefs, kelimeler)
 }
 function showTopics(show) {
     div0.hidden = show
@@ -582,18 +583,18 @@ function showDialog(topic, button, callback) {
     dAccept.value = button
     dAccept.onclick = callback
     dClose.value = 'x'
-    dClose.onclick = () => {dialog.hidden = true}
-    dialog.onkeydown = (evt) => {
+    dClose.onclick = () => {modal.hidden = true}
+    modal.onkeydown = (evt) => {
         if (evt.key == 'Escape')
             dClose.onclick()
         if (evt.key == 'Enter' && !dAccept.disabled)
             dAccept.onclick()
     }
-    dialog.hidden = false
+    modal.hidden = false
     dTopic.focus()
 }
 function topicFromDialog() {
-    dialog.hidden = true
+    modal.hidden = true
     let topic = dTopic.value
     let enc = encodeLine(dRefs.value)
     addTopic(topic, enc)
@@ -627,7 +628,7 @@ function doHover(evt) {  //listener for each td and span element
         let cv = evt.target.innerText
         ref = VerseRef.fromChapVerse(cv)
         cls = 't2>' //backgroundColor yellow
-        cw = liste.clientWidth
+        cw = kelimeler.clientWidth
     } else { // TD
         let p = getPageOf(evt.target)
         if (pRefs[p]) {
