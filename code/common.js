@@ -2,15 +2,8 @@
 /**
  * The code version.
  */
-const VERSION = "V3.24d";
+const VERSION = "V3.24e";
 
-/**
- * html file extension -- empty for remote GitHub files
- *   in fast.io, we need full extension
- *
- * @see isRemote
- */
-const EXT = /*isRemote()? '' : */ '.html'
 /**
  * Location for data files
  */
@@ -67,7 +60,7 @@ function openSitePage(s, p) {
   let url, name;
   switch (s) {
     case 'Y': case '?':  //Yardım
-        url = 'guideQ'+EXT; name = 'NewTab'; break
+        url = 'guideQ.html'; name = 'NewTab'; break
     case 'K':
         url = "http://kuranmeali.com/Sayfalar.php?sayfa="+p
         name = "Kuran"; break

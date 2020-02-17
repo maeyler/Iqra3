@@ -378,9 +378,9 @@ function initReader() {
  * We have two Menu elements: menuC (context)  menuK (open source)
  *
  */
-//const EXT  defined in common.js
-var LINKF = '../BahisQurani/finder'+EXT+'#w='
-var LINKM = 'mujam'+EXT+'#r='
+var LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder.html#w='
+//  LINKF = '../BahisQurani/finder.html#w='
+var LINKM = 'mujam.html#r='
 function openMujam(...a) { //array of roots in Buckwalter
     let p = a.join('&r=')
     mujam = window.open(LINKM + p, "mujam")

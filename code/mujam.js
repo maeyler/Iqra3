@@ -428,7 +428,7 @@ function doClick(evt) {
         h = "#p="+p;
     }
     console.log(h); hideMenus()
-    iqra = window.open("reader"+EXT + h, "iqra")
+    iqra = window.open("reader.html"+h, "iqra")
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
@@ -634,7 +634,7 @@ function doHover(evt) {  //listener for each td and span element
         if (pRefs[p]) {
             let [f, ...L] = pRefs[p]
             ref = f.toString()
-            if (L)  //convert Array to string
+            if (L.length)  //convert Array to string
               ref += ' '+L.map(x => x.cv).join(' ')
                   + EM_SPACE +'('+ (L.length+1) +')'
             cls = 't2>' //backgroundColor
@@ -656,6 +656,8 @@ function doHover(evt) {  //listener for each td and span element
     dx = Math.min(dx, cw-mw-x0)
     //if (x0+mw/2 > cw) dx = cw-mw-x0
     bilgi.style.left = (dx)+'px'
+    let y = evt.target.clientTop + evt.target.clientHeight
+    bilgi.style.top = (y-1)+'px'
     bilgi.style.display = "block"
 }
 function test(prop='index') {
