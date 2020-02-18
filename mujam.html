@@ -42,9 +42,10 @@
    <span id=out4>page count</span> &nbsp;
    <select id=menu4 onChange="selectTopic()">
    <span class='t1'>Aranan konu</span>
-   </select><button onClick="showDialog('', 'Ekle', topicFromDialog)">+
-   </button><button onClick="showDialog(menu4.value, 'Değiştir', replaceTopic)">E
-   </button><button onClick="deleteTopic(menu4.value, 'confirm')">x
+   </select>&emsp;
+<button id=ekleD onClick="showDialog('', 'Ekle', topicFromDialog)">&nbsp;
+   </button> <button id=editD onClick="showDialog(menu4.value, 'Değiştir', replaceTopic)">&nbsp;
+   </button> <button id=deleD onClick="deleteTopic(menu4.value, 'confirm')">&nbsp;
    </button>&emsp;
    <!-- <button id=combin4 onClick="gotoHashRoot()">◀</button> -->
    <p id=konular></p>

@@ -205,3 +205,27 @@ button {
     }
 
 /* End of menu style */
+
+/*
+Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+*/
+Button {
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#starB {
+    background-image: url(../image/star.png);
+}
+#trans {
+    background-image: url(../image/Tee.png);
+}
+#linkB {
+    background-image: url(../image/menu.png);
+}
+#zoomB {
+    background-image: url(../image/search.png);
+}
+#showR {
+    background-image: url(../image/Kay.png);
+}
+

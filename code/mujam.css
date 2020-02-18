@@ -162,3 +162,26 @@
         width: auto;
         height: auto;
     }
+
+/*
+Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+*/
+    #div4 {
+        background-color: white;
+    }
+button {
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#ekleD {
+    background-image: url(../image/add.png);
+    border: none;
+}
+#editD {
+    background-image: url(../image/edit.png);
+    border: none;
+}
+#deleD {
+    background-image: url(../image/bin.png);
+    border: none;
+}
