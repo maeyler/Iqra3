@@ -180,7 +180,7 @@ function gotoSura(k) {
     gotoPage(first[k]);
 }
 function dragStart(evt) {
-    if (menuK.style.display || menuC.style.display) {
+    if (menuK.style.display || menuC.style.display || menuS.style.display) {
         hideMenus(); evt.preventDefault(); return
     }
     if (swipe.t>0) return
@@ -505,15 +505,13 @@ function makeStarMenu() {
         t += span+'s'+k+' '+names[suraFromPage(k)]+'</span>\n'
     starred.innerHTML = t
 }
-function displayMenu(m, e, w) {
-      setPosition(m, e.offsetLeft+27, e.offsetTop+27, w)
-}
 function handleStars() {
     if (menuS.style.display) {
       hideElement(menuS)
     } else {
       hideMenus(); makeStarMenu()
-      displayMenu(menuS, pageS, 90)
+      let e = pageS
+      setPosition(menuS, e.offsetLeft+35, e.offsetTop+35, 110)
       sayNo.value = curPage
       sayNo.select(0,3); sayNo.focus()
     }
@@ -537,7 +535,8 @@ function toggleMenuK() {
       hideElement(menuK)
     } else {
       hideMenus(); linkB.style.backgroundColor = CHECKED
-      displayMenu(menuK, linkB, 120)
+      let e = linkB
+      setPosition(menuK, e.offsetLeft+10, e.offsetTop+35, 120)
     }
 }
 function toggleZoom() {

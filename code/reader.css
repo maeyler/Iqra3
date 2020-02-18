@@ -203,13 +203,18 @@ button {
     .menuC:hover, .menuK:hover {
       background-color: rgba(0, 0, 0, 0.2);
     }
+    #menuS {
+      min-width: 120px;
+      left: 130px;
+      top: 0px;
+    }
 
 /* End of menu style */
 
 /*
 Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 */
-Button {
+button {
     background-size: contain;
     background-repeat: no-repeat;
 }

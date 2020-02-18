@@ -43,9 +43,11 @@
    <select id=menu4 onChange="selectTopic()">
    <span class='t1'>Aranan konu</span>
    </select>&emsp;
-<button id=ekleD onClick="showDialog('', 'Ekle', topicFromDialog)">&nbsp;
-   </button> <button id=editD onClick="showDialog(menu4.value, 'Değiştir', replaceTopic)">&nbsp;
-   </button> <button id=deleD onClick="deleteTopic(menu4.value, 'confirm')">&nbsp;
+   <button id=ekleD onClick="showDialog('', 'Ekle', topicFromDialog)">&nbsp;
+   </button>&nbsp;
+   <button id=editD onClick="showDialog(menu4.value, 'Değiştir', replaceTopic)">&nbsp;
+   </button>
+   <button id=deleD onClick="deleteTopic(menu4.value, 'confirm')">&nbsp;
    </button>&emsp;
    <!-- <button id=combin4 onClick="gotoHashRoot()">◀</button> -->
    <p id=konular></p>
