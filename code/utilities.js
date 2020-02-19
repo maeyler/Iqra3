@@ -1,6 +1,17 @@
 "use strict";
 
+/**
+ * Immutable reference to a verse
+ */
 class VerseRef {
+    /**
+     * All properties are numbers
+     * 
+     * @param {number} index 
+     * @param {number} chap 
+     * @param {number} verse 
+     * @param {number} page 
+     */
     constructor(index, chap, verse, page) {
         this.index = index
         if (!chap) [chap, verse] = toCV(index)
@@ -14,9 +25,20 @@ class VerseRef {
     toString() {
         return 'S.'+this.page+' '+sName[this.chap]+EM_SPACE+this.cv
     }
+    /**
+     * factory method to make VerseRef
+     * 
+     * @param {number} chap 
+     * @param {number} verse 
+     */
     static fromNumbers(chap, verse) {
         return new VerseRef(indexOf(chap, verse), chap, verse)
     }
+    /**
+     * factory method to make VerseRef
+     * 
+     * @param {string} cv 
+     */
     static fromChapVerse(cv) {
         let [chap, verse] = cv.split(':')
         if (isNaN(verse)) return null
@@ -24,16 +46,35 @@ class VerseRef {
     }
 }
 
+/**
+ * Collection of VerseRef's -- implemented in an Array
+ */
 class RefSet {
+    /**
+     * name of collection and list of verses in it
+     * 
+     * @param {string} name 
+     * @param {VerseRef[]} list 
+     */
     constructor(name, list) {
         this.name = name
         this.list = list
     }
+    /**
+     * 
+     * @param {VerseRef} v 
+     * @returns true if list contains a verse equals to v
+     */
     contains(v) {
         for (let x of this.list)
             if (x.index == v.index) return true
         return false
     }
+    /**
+     * Add all verses to this.list
+     * 
+     * @param {RefSet} refSet 
+     */
     addAll(refSet) { //modifies list
         for (let v of refSet.list)
             if (!this.contains(v)) this.list.push(v)
@@ -47,15 +88,32 @@ class RefSet {
     get cvList() {
         return this.list.map(v => v.cv).join(' ')
     }
+    /**
+     * factory method to make RefSet
+     * 
+     * @param {string} cv  name = cv's
+     */
     static fromString(str) {
         let [name, rest] = str.split('=')
         let list = rest.split(' ')
             .map(cv => VerseRef.fromChapVerse(cv))
         return new RefSet(name, list)
     }
+    /**
+     * factory method to make RefSet
+     * 
+     * @param {string} name
+     * @param {string} enc encoded string
+     */
     static fromEncoded(name, enc) {
         return RefSet.fromIndexes(name, decodeIndexes(enc))
     }
+    /**
+     * factory method to make RefSet
+     * 
+     * @param {string} name
+     * @param {number[]} indA Array  of indexes 
+     */
     static fromIndexes(name, indA) {
         let list = indA.map(i => new VerseRef(i))
         return new RefSet(name, list)
@@ -106,9 +164,7 @@ function decodeIndexes(str) {
  * @param {string} s The line string to be encoded.
  * @returns {string} encoded number 
  * 
- * 
  *  @example
- *
  *     encodeLine('25:60 27:1 36:83')
  */
 function encodeLine(s) {
@@ -129,7 +185,6 @@ function encodeLine(s) {
  * @returns {string} decoded cv's 
  * 
  *  @example
- *
  *     decodeLine('38z3fs3x8') returns 3 cv's
  */
 function decodeLine(s) {
@@ -146,7 +201,6 @@ function decodeLine(s) {
 * @returns {Array} decoded VerseRef's 
 * 
 *  @example
-*
 *     decodeToArray('38z3fs3x8') returns 3 VerseRef's
 */
 function decodeToArray(s) {
@@ -157,19 +211,12 @@ function decodeToArray(s) {
    }
    return v
 }
-// legacy code.
-function charCode(i) {
-    return String.fromCharCode(MIN + i);
-}
 /**
  * Get the verses index in the Quran based on chapter and its number in it.
- * 
  * 
  * @param {number} c The chapter number.
  * @param {number} v The verses number.
  * @returns {number} The index. 
- * 
- * 
  */
 function indexOf(c, v) {
     // check last holds the summed number of verses till that chapter..
@@ -179,12 +226,9 @@ function indexOf(c, v) {
  * Get the page number based on chapter and verses numbers.
  * used index which initialized at init();
  * 
- * 
  * @param {number} c The chapter number.
  * @param {number} v The verses number.
  * @returns {number} The Page number. 
- * 
- * 
  */
 function pageOf(c, v) {
     const i = indexOf(c, v);

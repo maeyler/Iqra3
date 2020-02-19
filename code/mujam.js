@@ -209,7 +209,7 @@ function selectTopic(topic) { //called by menu4 and list items
  * calculate the index array for given root.
  * 
  * @param {string} root to be displayed
- * @returns {Array} Array of VerseRef's
+ * @returns {VerseRef[]} Array of VerseRef's
  */
 function getReferences(root) {
     let cnt = rootToCounts.get(root);
@@ -293,7 +293,10 @@ function readTopics() {
     makeMenu(menu4, a)
 }
 /**
- * Build and display the HTML list. Uses global Array wRefs
+ * Build and display the HTML list.
+ * 
+ * @param {RefSet[]} refs Array
+ * @param {Element} liste to be modified
  */
 function displayList(refs, liste) {
     const MAX_REFS = 8  //hide larger lists
@@ -337,7 +340,7 @@ function displayList(refs, liste) {
     /**
  * Build and display the HTML table. Uses global Array pRefs
  * 
- * @param {String} word: on single word
+ * @param {RefSet} set to be displayed
  */
 function displayTable(set) {
     // put three zeros on the first of the number (K)
@@ -407,7 +410,7 @@ function hideBilgi() {
 }
 
 /**
- * Open the quran webPage after checking it's event.
+ * Open the quran webPage after checking its event.
  * 
  * @param {*} evt get the event trigger. 
  */
@@ -432,8 +435,6 @@ function doClick(evt) {
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
- *  
- * @see toBuckwalter
  * 
  */
 function doClick2() {
