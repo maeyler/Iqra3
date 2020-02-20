@@ -166,19 +166,18 @@
 /*
 Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 */
-button {
-    background-size: contain;
-    background-repeat: no-repeat;
-}
 #ekleD {
     background-image: url(../image/add.png);
+    background-size: contain;
     border: none;
 }
 #editD {
     background-image: url(../image/edit.png);
+    background-size: contain;
     border: none;
 }
 #deleD {
-    background-image: url(../image/bin.png);
+    background-image: url(../image/del.png);
+    background-size: contain;
     border: none;
 }

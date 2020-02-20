@@ -441,11 +441,11 @@ function menuFn() {
           openSitePage(k, curPage)
       else switch (k) {
           case 'ARROWLEFT':
-            if (!evt.altKey && !evt.ctrlKey)
+            if (!evt.altKey && !evt.ctrlKey && !evt.metaKey)
               {gotoPage(curPage-1); evt.preventDefault()}
             break
           case 'ARROWRIGHT':
-            if (!evt.altKey && !evt.ctrlKey)
+            if (!evt.altKey && !evt.ctrlKey && !evt.metaKey)
               {gotoPage(curPage+1); evt.preventDefault()}
             break
           case 'T':
@@ -462,11 +462,29 @@ function menuFn() {
             toggleWords(); break
           default: return
       }
-}
+  }
   window.hideMenus = () => { 
       hideElement(menuC); hideElement(menuK); 
       hideElement(menuS); hideElement(bilgi)
       linkB.style.backgroundColor = ''
+  }
+  var prevTime
+  let timeString = (t, a, str) => t>a? (t/a).toFixed()+' '+str : ''
+  document.onvisibilitychange = () => {
+    if (document.hidden) {
+      prevTime = Date.now()/1000
+      console.log('Hiding')
+    } else if (prevTime) {
+      let dt = Date.now()/1000 - prevTime
+      let s = timeString(dt, 7*86400, 'weeks')
+           || timeString(dt, 86400, 'days')
+           || timeString(dt, 3600, 'hours')
+           || timeString(dt, 60, 'minutes')
+           || timeString(dt, 1, 'seconds')
+      console.log(dt.toFixed(), s+" since hiding");
+      if (dt > 86000 && localStorage.userName) //more than a day
+          readTabularData(setBookmarks, console.error)
+    }
   }
 
   html.oncontextmenu = (evt) => {
