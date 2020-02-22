@@ -18,7 +18,6 @@ var mujam, /*hashInProgress,*/ bookmarks;
 const LS = location.protocol.startsWith('http') && localStorage;
 const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
 const MAX_MARKS = 12  // if more marks, delete the oldest
-//const PAGES = '_pages_'  //topic for page marks
 
 function getStorage() {
     if (!LS || !localStorage.iqra) return DEFAULT
@@ -35,8 +34,8 @@ function setBookmarks(text, data) { //called once in initReader()
     if (!text || !data.length) return
     console.log(data)
     let b = data.reverse()  //b is the latest entry in data
-      .find(x => x.user == localStorage.userName) //&& x.topic == PAGES)
-    console.log(b); if (!b) return
+      .find(x => x.user == localStorage.userName)
+    if (!b) return
     arrayToSet(b.marks.split(' '))
     setStorage(false)
 }
@@ -469,11 +468,10 @@ function menuFn() {
       linkB.style.backgroundColor = ''
   }
   var prevTime
-  let timeString = (t, a, str) => t>a? (t/a).toFixed()+' '+str : ''
+  let timeString = (t, a, str) => t>a? (t/a).toFixed(1)+' '+str : ''
   document.onvisibilitychange = () => {
     if (document.hidden) {
       prevTime = Date.now()/1000
-      console.log('Hiding')
     } else if (prevTime) {
       let dt = Date.now()/1000 - prevTime
       let s = timeString(dt, 7*86400, 'weeks')
@@ -481,8 +479,8 @@ function menuFn() {
            || timeString(dt, 3600, 'hours')
            || timeString(dt, 60, 'minutes')
            || timeString(dt, 1, 'seconds')
-      console.log(dt.toFixed(), s+" since hiding");
-      if (dt > 86000 && localStorage.userName) //more than a day
+      console.log("invisible "+s);
+      if (dt > 9999 && localStorage.userName) //more than 3 hours
           readTabularData(setBookmarks, console.error)
     }
   }

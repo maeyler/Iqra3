@@ -19,6 +19,9 @@
     .large  {
         max-width: 100%;
     }
+    .center {
+        text-align: center;
+    }
 @media screen and (max-width: 500px) {
     img  {
         width: 100%;
