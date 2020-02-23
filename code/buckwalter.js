@@ -3,7 +3,7 @@
 // buckwalter-converter/blob/master/arabic/js/buckwalter-converter.js
 // http://corpus.quran.com/java/buckwalter.jsp
 
-let BWC = {}
+export let BWC = {}
 
 class BWChar {
     constructor(ar, bw) { this.ar = ar; this.bw = bw; }

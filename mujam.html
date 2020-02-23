@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="code/mujam.css" media="all">
     <link rel="manifest" href="manifest.json"> 
     <link rel="icon" href="image/iconF.png">
-    <script src="code/common.js"></script>
-    <script src="code/mujam.js"></script>
-    <script src="code/utilities.js"></script>
-    <script src="code/buckwalter.js"></script>
     <title>Mucem </title>
 </head>
 
@@ -70,7 +66,12 @@
    <span class="menuK">Yardım -- F1</span>
 </div>
 
+<!-- <script src="code/common.js"></script> -->
+<script type="module" src="code/mujam.js"></script>
+<!-- <script src="code/utilities.js"></script> -->
+<!-- <script src="code/buckwalter.js"></script> -->
 <script>
+// import * as mjm from "./code/mujam.js";
 "use strict";
     /*if (navigator.serviceWorker && isRemote()) {
         navigator.serviceWorker.register('sw.js')
@@ -78,7 +79,7 @@
         .catch(alert)
     }*/
     const TITLE = document.title; 
-    initMujam();
+   //  mjm.initMujam();
 </script>
 </body>
 </html>

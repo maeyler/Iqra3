@@ -1,5 +1,8 @@
 "use strict";
-//const DATA_URL = "https://maeyler.github.io/Iqra3/data/"; in common.js
+import * as util from './utilities.js';
+import * as common from './common.js';
+
+//const common.DATA_URL = "https://maeyler.github.io/Iqra3/data/"; in common.js
 const LEFT = 0xFD3E, RIGHT = 0xFD3F;
 const M = 114; //suras
 const names = new Array(M+1);
@@ -67,7 +70,7 @@ function forceSelection() {
 function markWord(w, root, cls='mavi') {
     let n=0
     for (let x of html.children) {
-      let b = toBuckwalter(x.innerText.trim())
+      let b = common.toBuckwalter(x.innerText.trim())
       if (root) b = wordToRoot.get(b)
       if (b != w) continue
       x.classList.add(cls); n++
@@ -104,13 +107,13 @@ function displayWord(evt) {
     if (!showR.style.backgroundColor) return
     let t = evt.target
     let w = t.innerText.trim()
-    let r = wordToRoot.get(toBuckwalter(w))
-    if (!r) { hideElement(bilgi); return }
+    let r = wordToRoot.get(common.toBuckwalter(w))
+    if (!r) { common.hideElement(bilgi); return }
     let n = rootToList.get(r).length
-    bilgi.innerText = toArabic(r)  //+' => '+n
+    bilgi.innerText = common.toArabic(r)  //+' => '+n
     t.style.backgroundColor = '#ddd'; t.append(bilgi)
     let y = t.offsetTop + t.offsetHeight
-    setPosition(bilgi, t.offsetLeft+24, y-6, 105)
+    common.setPosition(bilgi, t.offsetLeft+24, y-6, 105)
 }
 function selectWord(evt) {
     let s = window.getSelection()
@@ -122,7 +125,7 @@ function selectWord(evt) {
 }
 function hideWord(evt) {
     evt.target.style.backgroundColor = ''
-    hideElement(bilgi)
+    common.hideElement(bilgi)
 }
 function adjustPage(adj) {
     infoS.style.display = adj? 'block' : ''
@@ -157,7 +160,7 @@ function gotoPage(k, adjusting) { // 1<=k<=P
     bilgi = document.createElement('span')
     bilgi.id = 'bilgi'; document.body.append(bilgi)
     bilgi.onclick = 
-      () => {openMujam(toBuckwalter(bilgi.innerText))} 
+      () => {openMujam(common.toBuckwalter(bilgi.innerText))} 
     document.title = 'Iqra s'+k;
     //if (!hashInProgress)
         location.hash = '#p='+curPage
@@ -247,7 +250,7 @@ function readNames(name) {
       console.log(name, names.length); labels.pop()
       sureS.innerHTML = '<option>'+labels.join('<option>')
     }
-    fetch(DATA_URL+name).then(x => x.text()).then(toNames)
+    fetch(common.DATA_URL+name).then(x => x.text()).then(toNames)
 }
 function readText(name, array) {
     function toLines(t) {
@@ -258,7 +261,7 @@ function readText(name, array) {
       console.log(name, a.length); 
       if (qur[0] && kur[0]) initialPage();
     }
-    fetch(DATA_URL+name).then(x => x.text()).then(toLines)
+    fetch(common.DATA_URL+name).then(x => x.text()).then(toLines)
 }
 function readWords(name) {
     function toWords(t) {
@@ -271,7 +274,7 @@ function readWords(name) {
       }
       console.log(name, rootToList.size, wordToRoot.size); 
     }
-    fetch(DATA_URL+name).then(x => x.text()).then(toWords)
+    fetch(common.DATA_URL+name).then(x => x.text()).then(toWords)
 }
 function processStr(s) {
     const bismi = /^(بِسْمِ|بِّسْمِ)/
@@ -334,7 +337,7 @@ function initialPage() {
 }
 function initReader() {
     title.innerHTML = 'Iqra -- Oku'+'&emsp;';
-    version.innerText = 'Iqra '+VERSION;
+    version.innerText = 'Iqra '+util.VERSION;
     text.addEventListener("touchstart", dragStart);
     html.addEventListener("touchstart", dragStart);
     text.addEventListener("touchmove", drag);
@@ -401,7 +404,7 @@ function menuFn() {
           case 'M':
               let a = []
               for (let w of s.split(' ')) {
-                let r = wordToRoot.get(toBuckwalter(w))
+                let r = wordToRoot.get(common.toBuckwalter(w))
                 if (r) a.push(r)
               }
               if (a.length > 0) openMujam(...a)
@@ -463,8 +466,8 @@ function menuFn() {
       }
   }
   window.hideMenus = () => { 
-      hideElement(menuC); hideElement(menuK); 
-      hideElement(menuS); hideElement(bilgi)
+      common.hideElement(menuC); common.hideElement(menuK); 
+      common.hideElement(menuS); common.hideElement(bilgi)
       linkB.style.backgroundColor = ''
   }
   var prevTime
@@ -487,8 +490,8 @@ function menuFn() {
 
   html.oncontextmenu = (evt) => {
       evt.preventDefault(); 
-      hideElement(menuK); linkB.style.backgroundColor = ''
-      setPosition(menuC, evt.clientX, evt.clientY-60, 220)
+      common.hideElement(menuK); linkB.style.backgroundColor = ''
+      common.setPosition(menuC, evt.clientX, evt.clientY-60, 220)
   }
 }
 /**
@@ -496,10 +499,10 @@ function menuFn() {
 ***********************************************/
 function keyToPage(evt) {
     if (evt.key == 'Escape') {
-      hideElement(menuS)
+      common.hideElement(menuS)
     } else if (evt.key == 'Enter') {
       gotoPage(sayNo.value)
-      hideElement(menuS)
+      common.hideElement(menuS)
     }
 }
 function toggleTrans() {
@@ -523,11 +526,11 @@ function makeStarMenu() {
 }
 function handleStars() {
     if (menuS.style.display) {
-      hideElement(menuS)
+      common.hideElement(menuS)
     } else {
       hideMenus(); makeStarMenu()
       let e = pageS
-      setPosition(menuS, e.offsetLeft+35, e.offsetTop+35, 110)
+      common.setPosition(menuS, e.offsetLeft+35, e.offsetTop+35, 110)
       sayNo.value = curPage
       sayNo.select(0,3); sayNo.focus()
     }
@@ -548,11 +551,11 @@ function toggleStar() {
 function toggleMenuK() {
     if (linkB.style.backgroundColor) {
       linkB.style.backgroundColor = ''
-      hideElement(menuK)
+      common.hideElement(menuK)
     } else {
       hideMenus(); linkB.style.backgroundColor = CHECKED
       let e = linkB
-      setPosition(menuK, e.offsetLeft+10, e.offsetTop+35, 120)
+      common.setPosition(menuK, e.offsetLeft+10, e.offsetTop+35, 120)
     }
 }
 function toggleZoom() {
@@ -571,3 +574,4 @@ function toggleWords() {
     setStorage(false)
 }
 
+initReader();

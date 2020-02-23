@@ -1,4 +1,8 @@
 "use strict";
+// Use import and export to avoid calling files in the main page... would be even much prettier and clearner to call it at another place.
+import * as common from './common.js';
+import * as util from './utilities.js';
+
 /**
  * div element that shows page info
  */
@@ -30,7 +34,7 @@ var iqra;
  * base color in the table -- default is blue
  * hue indicates angle in color wheel
  */
-var HUE = (isRemote() && localStorage.mujamHue) || 240
+var HUE = (common.isRemote() && localStorage.mujamHue) || 240
 
 /**
  * A map holds the letters and its roots.
@@ -57,8 +61,8 @@ const wordToRefs = new Map();
  */
 function currentRoot() {
     if (!menu2.value) return null
-    let [v] = menu2.value.split(EM_SPACE)
-    return toBuckwalter(v)
+    let [v] = menu2.value.split(common.EM_SPACE)
+    return common.toBuckwalter(v)
 }
 
 /**
@@ -70,9 +74,9 @@ function currentRoot() {
 function report2(t) {
     function convert(s) {
         let [w, n] = s.split(' ')
-        let a = toArabic(w)
+        let a = common.toArabic(w)
         //convert space to em-space " "
-        return [a, a+EM_SPACE+n] 
+        return [a, a+common.EM_SPACE+n] 
     }
     let line = t.split('\n')
     let m = line.length - 1
@@ -112,9 +116,8 @@ function report2(t) {
  * @see report2
  */
 function readData() {
-    out2.innerText = "Reading data";
     //const DATA_URL = "https://maeyler.github.io/Iqra3/data/" in common.js
-    fetch(DATA_URL+"refs.txt")
+    fetch(common.DATA_URL+"refs.txt")
         .then(r => r.text()) //response
         .then(report2); //text
 }
@@ -149,7 +152,7 @@ function selectLetter(ch) {
  * @param {string} root to be seleceted, example: سجد 23
  */
 function selectRoot(root, modifyHash=true) { //root in Arabic 
-    if (!root) [root] = menu2.value.split(EM_SPACE);
+    if (!root) [root] = menu2.value.split(common.EM_SPACE);
     else if (menu2.value.startsWith(root)) return;
     else {
       selectLetter(root.charAt(0))
@@ -167,7 +170,7 @@ function selectRoot(root, modifyHash=true) { //root in Arabic
     combine.hidden = true;
     if (!modifyHash) return
     //replace special chars
-    let b = encodeURI(toBuckwalter(root))
+    let b = encodeURI(common.toBuckwalter(root))
     location.hash = "#r=" + b;
 }
 /**
@@ -216,7 +219,7 @@ function getReferences(root) {
     let refA = []
     for (let word of rootToWords.get(cnt)) {
         let enc = wordToRefs.get(word)
-        let set = RefSet.fromEncoded(word, enc)
+        let set = util.RefSet.fromEncoded(word, enc)
         for (let v of set.list) refA.push(v)
         //refA.concat(set.list)  concat returns another Array
         wRefs.push(set)
@@ -229,7 +232,7 @@ function getReferences(root) {
  * @param {Array} list number Array
  */
 function indexToArray(list) {
-    pRefs = new Array(nPage + 1)
+    pRefs = new Array(util.nPage + 1)
     for (let v of list) {
         let p = v.page
         if (pRefs[p]) pRefs[p].push(v)
@@ -245,7 +248,7 @@ function parseRoots(roots) { //root array in Arabic
     wRefs = []
     let [word, ...rest] = roots
     let i1 = getReferences(word) //combined
-    if (rest) { //multiple roots, single RefSet
+    if (rest) { //multiple roots, single util.RefSet
         for (let r of rest) {
             let i2 = getReferences(r)
             //find intersection
@@ -254,7 +257,7 @@ function parseRoots(roots) { //root array in Arabic
         }
         word = roots.map(x => rootToCounts.get(x)).join(' + ')
     }
-    let set = new RefSet(word, i1)
+    let set = new util.RefSet(word, i1)
     if (rest.length > 0) wRefs = [set]
     return set
 }
@@ -271,7 +274,7 @@ function addTopic(topic, enc) {
         menu4.value = topic
         return s
     }
-    s = RefSet.fromEncoded(topic, enc)
+    s = util.RefSet.fromEncoded(topic, enc)
     tRefs.set(topic, s)
     localStorage.topics 
         = topic+'='+enc+'\n'+ localStorage.topics
@@ -287,7 +290,7 @@ function readTopics() {
     tRefs.clear(); let a = []
     for (let s of localStorage.topics.split('\n')) {
         let [topic, enc] = s.split('=')
-        tRefs.set(topic, RefSet.fromEncoded(topic, enc))
+        tRefs.set(topic, util.RefSet.fromEncoded(topic, enc))
         a.push(topic)
     }
     makeMenu(menu4, a)
@@ -295,7 +298,7 @@ function readTopics() {
 /**
  * Build and display the HTML list.
  * 
- * @param {RefSet[]} refs Array
+ * @param {util.RefSet[]} refs Array
  * @param {Element} liste to be modified
  */
 function displayList(refs, liste) {
@@ -340,7 +343,7 @@ function displayList(refs, liste) {
     /**
  * Build and display the HTML table. Uses global Array pRefs
  * 
- * @param {RefSet} set to be displayed
+ * @param {util.RefSet} set to be displayed
  */
 function displayTable(set) {
     // put three zeros on the first of the number (K)
@@ -380,7 +383,7 @@ function displayTable(set) {
             row += "<td style='" +toColor(c)+"'>"+ ch + "</td>"
         }
         if (i > m) { //use th for the last row
-          row += "<th colspan=13>Iqra "+VERSION+" (C) 2019 MAE</th>"
+          row += "<th colspan=13>Iqra "+common.VERSION+" (C) 2019 MAE</th>"
            +"<th id=corpus colspan=3 onClick=doClick2()>Corpus</th>"
         }
         text += "<tr>" + row + "</tr>"
@@ -418,7 +421,7 @@ function doClick(evt) {
     //do not handle if menuK is on or bilgi is off
     if (menuK.style.display || !bilgi.style.display) return
     evt.preventDefault()
-    let [nam, refs] = bilgi.innerText.split(EM_SPACE)
+    let [nam, refs] = bilgi.innerText.split(common.EM_SPACE)
     let [xx, p] = nam.split(/\.| /)  //dot or space
     let h;
     if (pRefs[p]) { //use first reference & root
@@ -475,7 +478,7 @@ function gotoHashRoot() {
     showTopics(true)
     displayList([set], konular)
   } else { //given roots
-    let roots = h.split('&r=').map(toArabic)
+    let roots = h.split('&r=').map(common.toArabic)
     set = parseRoots(roots)
     selectRoot(roots[0], false)
   }
@@ -486,13 +489,14 @@ function gotoHashRoot() {
  * Initialize the globals
  */
 function initMujam() {
-    version.innerText = 'Iqra '+VERSION;
+    version.innerText = 'Iqra '+common.VERSION;
     //showSelections(false);
 sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 999]
     let letters = [];
     for (let c=1575; c<1609; c++) letters.push(String.fromCharCode(c));
     makeMenu(menu1, letters); 
     try {
+        out2.innerText = "Reading data";
         readData();
     } catch(err) { 
         out2.innerText = ""+err;
@@ -513,7 +517,7 @@ function menuFn() {
         openSitePage('Y')
       let s = bilgi.innerText
       if (!s) return
-      let [nam, refs] = s.split(EM_SPACE)
+      let [nam, refs] = s.split(common.EM_SPACE)
       if (!refs) return
       let [cv] = refs.split(' ')
       let [c, v] = cv.split(':')
@@ -637,7 +641,7 @@ function doHover(evt) {  //listener for each td and span element
             ref = f.toString()
             if (L.length)  //convert Array to string
               ref += ' '+L.map(x => x.cv).join(' ')
-                  + EM_SPACE +'('+ (L.length+1) +')'
+                  + common.EM_SPACE +'('+ (L.length+1) +')'
             cls = 't2>' //backgroundColor
         } else { //no ref on this page
             ref = labels[p]
@@ -676,3 +680,4 @@ function test(prop='index') {
     console.log(b = testJoin(b))
     console.log(a == b)
 }
+initMujam();

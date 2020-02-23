@@ -1,31 +1,32 @@
 "use strict";
+import * as bw from "./buckwalter.js";
 /**
  * The code version.
  */
-const VERSION = "V3.24T";
+export const VERSION = "V3.24T";
 
 /**
  * Location for data files
  */
-const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
-
+export const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
+// to modules...
 /**
  * &emsp; used in both Mujam
  * used at report2 @see report2
  */
-const EM_SPACE = String.fromCharCode(8195)
+export const EM_SPACE = String.fromCharCode(8195)
 
 /**
  * Translating Arabic letters to Buckwalter.
  * 
- * uses BWC object in src="buckwalter.js"
+ * uses bw.BWC object in src="buckwalter.js"
  * code from https://github.com/stts-se/buckwalter-converter
  *
  * @param {string} s  Arabic string 
  * @returns {string}  Buckwalter transliteration 
  */
-function toBuckwalter(s) {
-    return BWC.convert(BWC.a2bMap, s).output
+export function toBuckwalter(s) {
+    return bw.BWC.convert(bw.BWC.a2bMap, s).output
 }
 
 /**
@@ -34,14 +35,14 @@ function toBuckwalter(s) {
  * @param {string} s  Buckwalter transliteration
  * @returns {string}  Arabic string
  */
-function toArabic(s) {
-    return BWC.convert(BWC.b2aMap, s).output
+export function toArabic(s) {
+    return bw.BWC.convert(bw.BWC.b2aMap, s).output
 }
 
 /**
- * Menu functions
+ * Menu export functions
  */
-function setPosition(elt, x, y, mw=200) {
+export function setPosition(elt, x, y, mw=200) {
     mw = elt.clientWidth || mw
     x = x - mw/2  //center over parent
     let cw = document.body.clientWidth
@@ -52,11 +53,11 @@ function setPosition(elt, x, y, mw=200) {
     elt.style.display = 'block'
 }
 
-function hideElement(elt) {
+export function hideElement(elt) {
     elt.style.display = '' 
 }
 
-function openSitePage(s, p) {
+export function openSitePage(s, p) {
   let url, name;
   switch (s) {
     case 'Y': case '?':  //Yardım
@@ -71,7 +72,7 @@ function openSitePage(s, p) {
   window.open(url, name); hideMenus()
 }
 
-function openSiteVerse(s, c, v) {
+export function openSiteVerse(s, c, v) {
   let url, name;
   switch (s) {
     case 'K':
@@ -94,7 +95,8 @@ function openSiteVerse(s, c, v) {
   window.open(url, name); hideMenus()
 }
 
-function isRemote() {
+export function isRemote() {
     return location.protocol.startsWith('http')
 }
 
+export * from './common.js';
