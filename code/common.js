@@ -1,48 +1,24 @@
 "use strict";
-import * as bw from "./buckwalter.js";
 /**
  * The code version.
  */
-export const VERSION = "V3.24T";
+const VERSION = "V3.25a";
 
 /**
  * Location for data files
  */
-export const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
-// to modules...
+const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
+
 /**
  * &emsp; used in both Mujam
  * used at report2 @see report2
  */
-export const EM_SPACE = String.fromCharCode(8195)
+const EM_SPACE = String.fromCharCode(8195)
 
 /**
- * Translating Arabic letters to Buckwalter.
- * 
- * uses bw.BWC object in src="buckwalter.js"
- * code from https://github.com/stts-se/buckwalter-converter
- *
- * @param {string} s  Arabic string 
- * @returns {string}  Buckwalter transliteration 
+ * Menu functions
  */
-export function toBuckwalter(s) {
-    return bw.BWC.convert(bw.BWC.a2bMap, s).output
-}
-
-/**
- * Translating to Arabic letters back from Buckwalter.
- * 
- * @param {string} s  Buckwalter transliteration
- * @returns {string}  Arabic string
- */
-export function toArabic(s) {
-    return bw.BWC.convert(bw.BWC.b2aMap, s).output
-}
-
-/**
- * Menu export functions
- */
-export function setPosition(elt, x, y, mw=200) {
+function setPosition(elt, x, y, mw=200) {
     mw = elt.clientWidth || mw
     x = x - mw/2  //center over parent
     let cw = document.body.clientWidth
@@ -53,11 +29,11 @@ export function setPosition(elt, x, y, mw=200) {
     elt.style.display = 'block'
 }
 
-export function hideElement(elt) {
+function hideElement(elt) {
     elt.style.display = '' 
 }
 
-export function openSitePage(s, p) {
+function openSitePage(s, p) {
   let url, name;
   switch (s) {
     case 'Y': case '?':  //Yardım
@@ -72,7 +48,7 @@ export function openSitePage(s, p) {
   window.open(url, name); hideMenus()
 }
 
-export function openSiteVerse(s, c, v) {
+function openSiteVerse(s, c, v) {
   let url, name;
   switch (s) {
     case 'K':
@@ -95,8 +71,9 @@ export function openSiteVerse(s, c, v) {
   window.open(url, name); hideMenus()
 }
 
-export function isRemote() {
+function isRemote() {
     return location.protocol.startsWith('http')
 }
 
-export * from './common.js';
+export {VERSION, DATA_URL, EM_SPACE, 
+    setPosition, hideElement, openSitePage, openSiteVerse, isRemote}

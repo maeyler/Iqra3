@@ -14,38 +14,26 @@
 
 <body>
 <div id=div0>
-   <button onClick="showSelections(true)">Liste</button> &nbsp;
+   <button id=showS>Liste</button> &nbsp;
    <span id=out2>page count</span> &nbsp;
    <span id=out3>root/word</span>
-   <button onClick="showTopics(true)">Konular</button>
+   <button id=showT>Konular</button>
 </div>
 <div id=div1 hidden>
    <span id=out1>page count</span> &nbsp;
-   <select id=menu1 onChange="selectLetter()">
-   <span class='t1'>Aranan kökün ilk harfi</span>
-   </select>
-   Kök: <select id=menu2 onChange="selectRoot()">
-   <span class='t1'>Aranan kök ya da özel isim</span>
-   </select>
-   <select id=menu3 onChange="selectWord()">
-   <span class='t1'>Aranan kelime</span>
-   </select>
-   <button id=combine onClick="gotoHashRoot()">◀</button>
-   <!--span class='t1'>Kelimeleri birleştir</span-->
+   <select id=menu1></select>
+   Kök: <select id=menu2></select>
+   <select id=menu3></select>
+   <button id=combine>◀</button>
    <p id=kelimeler></p>
 </div>
 <div id=div4 hidden>
    <span id=out4>page count</span> &nbsp;
-   <select id=menu4 onChange="selectTopic()">
-   <span class='t1'>Aranan konu</span>
-   </select>&emsp;
-   <button id=ekleD onClick="showDialog('', 'Ekle', topicFromDialog)">&nbsp;
-   </button>&nbsp;
-   <button id=editD onClick="showDialog(menu4.value, 'Değiştir', replaceTopic)">&nbsp;
-   </button>&nbsp;
-   <button id=deleD onClick="deleteTopic(menu4.value, 'confirm')">&nbsp;
-   </button>&emsp;
-   <button onClick="history.back()">◀</button>
+   <select id=menu4></select>&emsp;
+   <button id=ekleD>&nbsp;</button>&nbsp;
+   <button id=editD>&nbsp;</button>&nbsp;
+   <button id=deleD>&nbsp;</button>&emsp;
+   <button id=back>◀</button>
    <p id=konular></p>
 </div>
 
@@ -66,12 +54,8 @@
    <span class="menuK">Yardım -- F1</span>
 </div>
 
-<!-- <script src="code/common.js"></script> -->
 <script type="module" src="code/mujam.js"></script>
-<!-- <script src="code/utilities.js"></script> -->
-<!-- <script src="code/buckwalter.js"></script> -->
 <script>
-// import * as mjm from "./code/mujam.js";
 "use strict";
     /*if (navigator.serviceWorker && isRemote()) {
         navigator.serviceWorker.register('sw.js')
@@ -79,7 +63,7 @@
         .catch(alert)
     }*/
     const TITLE = document.title; 
-   //  mjm.initMujam();
+    //initMujam();
 </script>
 </body>
 </html>

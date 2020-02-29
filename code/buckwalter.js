@@ -3,7 +3,7 @@
 // buckwalter-converter/blob/master/arabic/js/buckwalter-converter.js
 // http://corpus.quran.com/java/buckwalter.jsp
 
-export let BWC = {}
+let BWC = {}
 
 class BWChar {
     constructor(ar, bw) { this.ar = ar; this.bw = bw; }
@@ -257,3 +257,28 @@ BWC.b2a = function(s) {
 BWC.a2b = function(s) {
     return BWC.convert(BWC.a2bMap, s, true);
 };
+
+/**
+ * Translating Arabic letters to Buckwalter.
+ * 
+ * uses bw.BWC object in src="buckwalter.js"
+ * code from https://github.com/stts-se/buckwalter-converter
+ *
+ * @param {string} s  Arabic string 
+ * @returns {string}  Buckwalter transliteration 
+ */
+function toBuckwalter(s) {
+    return BWC.convert(BWC.a2bMap, s).output
+}
+
+/**
+ * Translating to Arabic letters back from Buckwalter.
+ * 
+ * @param {string} s  Buckwalter transliteration
+ * @returns {string}  Arabic string
+ */
+ function toArabic(s) {
+    return BWC.convert(BWC.b2aMap, s).output
+}
+
+export {toArabic, toBuckwalter}

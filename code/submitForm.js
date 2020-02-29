@@ -81,4 +81,5 @@ class TabularData {
       return this.keys.join(', ')
     }
   }
-  
+
+export {readTabularData, submitData}

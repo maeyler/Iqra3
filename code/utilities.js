@@ -1,11 +1,10 @@
 "use strict";
 
+import {EM_SPACE} from './common.js';
 /**
  * Immutable reference to a verse
  */
-import * as common from './common.js';
-
-export class VerseRef {
+class VerseRef {
     /**
      * All properties are numbers
      * 
@@ -25,7 +24,7 @@ export class VerseRef {
         return this.chap+':'+this.verse
     }
     toString() {
-        return 'S.'+this.page+' '+sName[this.chap]+common.EM_SPACE+this.cv
+        return 'S.'+this.page+' '+sName[this.chap]+EM_SPACE+this.cv
     }
     /**
      * factory method to make VerseRef
@@ -51,7 +50,7 @@ export class VerseRef {
 /**
  * Collection of VerseRef's -- implemented in an Array
  */
-export class RefSet {
+class RefSet {
     /**
      * name of collection and list of verses in it
      * 
@@ -129,7 +128,7 @@ export class RefSet {
  * @param {number} n The string to be encoded
  * @returns {string} encoded string.
  */
-export function encode36(n) {
+function encode36(n) {
     n += 36 * 36;
     return n.toString(36);
 }
@@ -140,7 +139,7 @@ export function encode36(n) {
  * @param {string} s The string to be decoded
  * @returns {number} decoded number 
  */
-export function decode36(s) {
+function decode36(s) {
     return Number.parseInt(s, 36) - 36 * 36;
 }
 
@@ -151,7 +150,7 @@ export function decode36(s) {
  * @param {string} encoded indexes.
  * @param {Array} of indexes. 
  */
-export function decodeIndexes(str) {
+function decodeIndexes(str) {
     let a = []
     for (let j = 0; j < str.length; j += 3) {
         let code = str.substring(j, j + 3);
@@ -169,7 +168,7 @@ export function decodeIndexes(str) {
  *  @example
  *     encodeLine('25:60 27:1 36:83')
  */
-export function encodeLine(s) {
+function encodeLine(s) {
     const sa = s.split(" ");
     let v = "";
     for (let j = 0; j < sa.length; j++) {
@@ -189,7 +188,7 @@ export function encodeLine(s) {
  *  @example
  *     decodeLine('38z3fs3x8') returns 3 cv's
  */
-export function decodeLine(s) {
+function decodeLine(s) {
     let cv = "";
     for (let j = 0; j < s.length; j += 3) {
         let t = s.substring(j, j + 3);
@@ -205,7 +204,7 @@ export function decodeLine(s) {
 *  @example
 *     decodeToArray('38z3fs3x8') returns 3 VerseRef's
 */
-export function decodeToArray(s) {
+function decodeToArray(s) {
    let v = []
    for (let j = 0; j < s.length; j += 3) {
        const c = s.substring(j, j + 3)
@@ -220,7 +219,7 @@ export function decodeToArray(s) {
  * @param {number} v The verses number.
  * @returns {number} The index. 
  */
-export function indexOf(c, v) {
+function indexOf(c, v) {
     // check last holds the summed number of verses till that chapter..
     return last[c - 1] + v;
 }
@@ -232,7 +231,7 @@ export function indexOf(c, v) {
  * @param {number} v The verses number.
  * @returns {number} The Page number. 
  */
-export function pageOf(c, v) {
+function pageOf(c, v) {
     const i = indexOf(c, v);
     // n=number;
     let p = Math.trunc(i * nPage / nVerse);
@@ -248,7 +247,7 @@ export function pageOf(c, v) {
  * @param {number} i index number.
  * @returns {number} chapter number.
  */
-export function toChapter(i) {
+function toChapter(i) {
     // loop all chapters and check if the index is in it, 
     // last holds the cumulative number of indexes till that chapter.
     for (let c = 1; c <= nChap; c++)
@@ -263,14 +262,14 @@ export function toChapter(i) {
  * @returns {Array} [c,v]]
  * 
  */
-export function toCV(i) {
+function toCV(i) {
     const c = toChapter(i);
     return [c, i - last[c - 1]];
 }
 /**
  * Array holds the cumulative number of verses based on chapter location.
  */
-export const last = [0, 7, 293, 493, 669, 789, 954, 1160, 1235, 1364,
+const last = [0, 7, 293, 493, 669, 789, 954, 1160, 1235, 1364,
     1473, 1596, 1707, 1750, 1802, 1901, 2029, 2140, 2250, 2348, 2483,
     2595, 2673, 2791, 2855, 2932, 3159, 3252, 3340, 3409, 3469, 3503,
     3533, 3606, 3660, 3705, 3788, 3970, 4058, 4133, 4218, 4272, 4325,
@@ -286,7 +285,7 @@ export const last = [0, 7, 293, 493, 669, 789, 954, 1160, 1235, 1364,
 /**
  * n stands for number.
  */
-export const nChap = last.length - 1,
+const nChap = last.length - 1,
     nVerse = last[nChap];
 /**
  * index: verse index for each page
@@ -294,14 +293,14 @@ export const nChap = last.length - 1,
  * sName: Sura names
  * labels: show the sura name, number, and first verse of this page.
  */
-export var index, nPage, sName  //global
-export const labels = ['']
+var index, nPage, sName  //global
+const labels = ['']
 /**
  * initialize the utilities and set the attributes.
  *  
  * 
  */
-export function init() {
+function init() {
     console.log(nChap + " suras -> " + nVerse);
     // count of verses in a page.
     const count = [0, 12, 11, 8, 5, 8, 11, 9, 4, 8, 7, 7, 5, 5, 8, 4, 7, 7, 7, 8, 7, 4, 8, 10, 6, //7,5
@@ -457,4 +456,7 @@ Nas`;
     }
     console.log(nPage + " pages -> " + index[nPage]);
 }
+
 init()
+
+export {VerseRef, RefSet, nPage, nVerse, labels, indexOf, pageOf, toCV}
