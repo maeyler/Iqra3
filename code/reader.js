@@ -1,11 +1,9 @@
-"use strict";
-import {pageOf} from './utilities.js';
+import {pageOf, timeString} from './utilities.js';
 import {VERSION, DATA_URL, setPosition, hideElement, openSitePage} from './common.js'
 import {toArabic, toBuckwalter} from "./buckwalter.js"
 import {readTabularData, submitData} from "./submitForm.js"
 
 //const DATA_URL = "https://maeyler.github.io/Iqra3/data/"; in common.js
-const LEFT = 0xFD3E, RIGHT = 0xFD3F;
 const M = 114; //suras
 const names = new Array(M+1);
 const first = new Array(M+1);
@@ -17,8 +15,8 @@ const rootToList = new Map()
 const wordToRoot = new Map()
 const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
-var curSura, curPage, bilgi;
-var mujam, /*hashInProgress,*/ bookmarks;
+var curSura, curPage, bilgi, bookmarks;
+window.mujam = undefined
 
 const LS = location.protocol.startsWith('http') && localStorage;
 const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
@@ -387,7 +385,7 @@ var LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder.html#w='
 var LINKM = 'mujam.html#r='
 function openMujam(...a) { //array of roots in Buckwalter
     let p = a.join('&r=')
-    mujam = window.open(LINKM + p, "mujam")
+    window.mujam = window.open(LINKM + p, "mujam")
     for (let r of a) markWord(r, true); 
     console.log('mucem: r='+p)
 }
@@ -473,18 +471,12 @@ function menuFn() {
       linkB.style.backgroundColor = ''
   }
   var prevTime
-  let timeString = (t, a, str) => t>a? (t/a).toFixed(1)+' '+str : ''
   document.onvisibilitychange = () => {
     if (document.hidden) {
       prevTime = Date.now()/1000
     } else if (prevTime) {
       let dt = Date.now()/1000 - prevTime
-      let s = timeString(dt, 7*86400, 'weeks')
-           || timeString(dt, 86400, 'days')
-           || timeString(dt, 3600, 'hours')
-           || timeString(dt, 60, 'minutes')
-           || timeString(dt, 1, 'seconds')
-      console.log("invisible "+s);
+      console.log("invisible "+timeString(dt))
       if (dt > 9999 && localStorage.userName) //more than 3 hours
           readTabularData(setBookmarks, console.error)
     }
@@ -577,3 +569,5 @@ function toggleWords() {
 }
 
 initReader()
+
+export {names, first, rootToList, wordToRoot}

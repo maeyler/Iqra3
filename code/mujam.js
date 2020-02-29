@@ -1,6 +1,5 @@
-"use strict";
-import {VERSION, DATA_URL, EM_SPACE, 
-    setPosition, hideElement, openSitePage, openSiteVerse, isRemote} from './common.js'
+import {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
+    openSitePage, openSiteVerse, isRemote} from './common.js'
 import {VerseRef, RefSet, nPage, labels} from './utilities.js'
 import {toArabic, toBuckwalter} from "./buckwalter.js"
 
@@ -30,13 +29,17 @@ var sajda;
  * the same window is used on each click
  * (this is much better than <a> tag)
  */
-var iqra;
+window.iqra = undefined
 /**
  * base color in the table -- default is blue
  * hue indicates angle in color wheel
  */
 var HUE = (isRemote() && localStorage.mujamHue) || 240
 
+/**
+ * Prefix to the title of the page
+ */
+window.TITLE = 'Mucem'
 /**
  * A map holds the letters and its roots.
  * set at report2 @see report2
@@ -179,7 +182,7 @@ function selectRoot(root, modifyHash=true) { //root in Arabic
  * Select word, if undefined menu3 values will be the selected one.
  * when its used combine will be shown.
  * 
- * get the references from wordsToRefs map.
+ * get the references from wordToRefs map.
  * 
  * @param {string} word to be selected.
  */
@@ -436,7 +439,7 @@ function doClick(evt) {
         h = "#p="+p;
     }
     console.log(h); hideMenus()
-    iqra = window.open("reader.html"+h, "iqra")
+    window.iqra = window.open("reader.html"+h, "iqra")
 }
 /**
  * Open Corpus quran link that related to the selected word specific word. 
@@ -660,7 +663,7 @@ function doHover(evt) {  //listener for each td and span element
             cls = 't1>' //no color
         }
         cw = tablo.clientWidth
-}
+    }
     bilgi.innerHTML = "<div class="+ cls + ref +"</div>"
     evt.target.append(bilgi); 
     //center over evt.target
@@ -677,6 +680,7 @@ function doHover(evt) {  //listener for each td and span element
     bilgi.style.top = (y-1)+'px'
     bilgi.style.display = "block"
 }
+
 function test(prop='index') {
     if (div1.hidden) showSelections(true)
     let testEval = (a) => {
@@ -694,3 +698,5 @@ function test(prop='index') {
 }
 
 initMujam()
+
+export {pRefs, tRefs, wRefs, rootToWords, wordToRefs, test}

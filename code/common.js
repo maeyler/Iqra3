@@ -1,8 +1,7 @@
-"use strict";
 /**
  * The code version.
  */
-const VERSION = "V3.25a";
+const VERSION = "V3.25b";
 
 /**
  * Location for data files

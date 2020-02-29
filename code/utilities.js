@@ -1,6 +1,5 @@
-"use strict";
-
 import {EM_SPACE} from './common.js';
+
 /**
  * Immutable reference to a verse
  */
@@ -457,6 +456,21 @@ Nas`;
     console.log(nPage + " pages -> " + index[nPage]);
 }
 
-init()
+ init()
 
-export {VerseRef, RefSet, nPage, nVerse, labels, indexOf, pageOf, toCV}
+ /**
+ * Convert seconds to usual units
+ * 
+ * @param {number} t 
+ */
+function timeString(t) {
+    let t2u = (ratio, unit) => ratio<1? '' : ratio.toPrecision(2)+' '+unit
+    return t2u(t/86400, 'days')
+        || t2u(t/3600, 'hours')
+        || t2u(t/60, 'minutes')
+        || t2u(t, 'seconds')
+        || (1000*t).toFixed()+' msec'
+ }
+ //window.ts = timeString  for testing
+
+export {VerseRef, RefSet, nPage, labels, indexOf, pageOf, toCV, timeString}

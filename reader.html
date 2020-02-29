@@ -64,8 +64,9 @@
    <span class="menuK">Yardım -- F1</span>
 </div>
 
-<script type="module" src="code/reader.js"></script>
-<script>
+<script type="module">
+import {names, first, rootToList, wordToRoot} from "./code/reader.js"
+
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('sw.js')
         .then(reg => { console.log('Service worker', reg.scope) })
