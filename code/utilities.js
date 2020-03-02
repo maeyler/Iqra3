@@ -473,4 +473,4 @@ function timeString(t) {
  }
  //window.ts = timeString  for testing
 
-export {VerseRef, RefSet, nPage, labels, indexOf, pageOf, toCV, timeString}
+export {VerseRef, RefSet, nPage, labels, encodeLine, indexOf, pageOf, toCV, timeString}

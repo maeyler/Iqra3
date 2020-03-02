@@ -65,7 +65,8 @@
 </div>
 
 <script type="module">
-import {names, first, rootToList, wordToRoot} from "./code/reader.js"
+  import * as Q from "./code/reader.js"
+  console.log(Q)
 
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('sw.js')

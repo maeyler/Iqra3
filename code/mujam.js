@@ -1,6 +1,6 @@
 import {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
     openSitePage, openSiteVerse, isRemote} from './common.js'
-import {VerseRef, RefSet, nPage, labels} from './utilities.js'
+import {VerseRef, RefSet, nPage, encodeLine, labels} from './utilities.js'
 import {toArabic, toBuckwalter} from "./buckwalter.js"
 
 /**
