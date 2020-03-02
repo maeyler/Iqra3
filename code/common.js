@@ -1,7 +1,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.25d";
+const VERSION = "V3.25";
 
 /**
  * Location for data files
@@ -15,7 +15,12 @@ const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
 const EM_SPACE = String.fromCharCode(8195)
 
 /**
- * Menu functions
+ * Menu functions -- place menu over elt
+ * 
+ * @param {Element} elt 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} mw menu width
  */
 function setPosition(elt, x, y, mw=200) {
     mw = elt.clientWidth || mw
@@ -28,10 +33,21 @@ function setPosition(elt, x, y, mw=200) {
     elt.style.display = 'block'
 }
 
+/**
+ * Make elt invisible
+ * 
+ * @param {Element} elt 
+ */
 function hideElement(elt) {
     elt.style.display = '' 
 }
 
+/**
+ * Open remote site -- goto page p
+ * 
+ * @param {string} s site -- uppercase char
+ * @param {number} p page
+ */
 function openSitePage(s, p) {
   let url, name;
   switch (s) {
@@ -47,6 +63,13 @@ function openSitePage(s, p) {
   window.open(url, name); hideMenus()
 }
 
+/**
+ * Open remote site -- goto (c, v)
+ * 
+ * @param {string} s site -- uppercase char
+ * @param {number} c chapter
+ * @param {number} v verse
+ */
 function openSiteVerse(s, c, v) {
   let url, name;
   switch (s) {
@@ -70,9 +93,18 @@ function openSiteVerse(s, c, v) {
   window.open(url, name); hideMenus()
 }
 
-function isRemote() {
-    return location.protocol.startsWith('http')
-}
-
-export {VERSION, DATA_URL, EM_SPACE, 
-    setPosition, hideElement, openSitePage, openSiteVerse, isRemote}
+/**
+ * Read text file from link, then invoke callback
+ * 
+ * @param {string} url 
+ * @param {function} callback 
+ */
+async function fetch_text_then(url, callback) {
+    // fetch(url).then(r => r.text()).then(report2)
+       let r = await fetch(url) //response
+       let t = await r.text()   //text
+       callback(t)
+   }
+   
+export {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
+    openSitePage, openSiteVerse, fetch_text_then}

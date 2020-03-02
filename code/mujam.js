@@ -1,5 +1,5 @@
 import {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
-    openSitePage, openSiteVerse, isRemote} from './common.js'
+    openSitePage, openSiteVerse, fetch_text_then} from './common.js'
 import {VerseRef, RefSet, nPage, encodeLine, labels} from './utilities.js'
 import {toArabic, toBuckwalter} from "./buckwalter.js"
 
@@ -34,7 +34,7 @@ window.iqra = undefined
  * base color in the table -- default is blue
  * hue indicates angle in color wheel
  */
-var HUE = (isRemote() && localStorage.mujamHue) || 240
+var HUE = localStorage.mujamHue || 240
 
 /**
  * Prefix to the title of the page
@@ -114,17 +114,6 @@ function report2(t) {
     // sort and set menu1 (letters)
     makeMenu(menu1, keys.sort());
     if (!gotoHashRoot()) selectRoot("سجد");
-}
-/**
- * Read data file from link, then store it.
- * @see report2
- */
-function readData() {
-    out2.innerText = "Reading data";
-    //const DATA_URL = "https://maeyler.github.io/Iqra3/data/" in common.js
-    fetch(DATA_URL+"refs.txt")
-        .then(r => r.text()) //response
-        .then(report2); //text
 }
 
 /**
@@ -501,7 +490,9 @@ sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 9
     for (let c=1575; c<1609; c++) letters.push(String.fromCharCode(c));
     makeMenu(menu1, letters); 
     try {
-        readData();
+        out2.innerText = "Reading data"
+        // const DATA_URL = "https://maeyler.github.io/Iqra3/data/" in common.js
+        fetch_text_then(DATA_URL+"refs.txt", report2)
     } catch(err) { 
         out2.innerText = ""+err;
     }

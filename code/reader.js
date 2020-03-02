@@ -1,5 +1,6 @@
 import {pageOf, timeString} from './utilities.js';
-import {VERSION, DATA_URL, setPosition, hideElement, openSitePage} from './common.js'
+import {VERSION, DATA_URL, setPosition, 
+    hideElement, openSitePage, fetch_text_then} from './common.js'
 import {toArabic, toBuckwalter} from "./buckwalter.js"
 import {readTabularData, submitData} from "./submitForm.js"
 
@@ -250,7 +251,8 @@ function readNames(name) {
       console.log(name, names.length); labels.pop()
       sureS.innerHTML = '<option>'+labels.join('<option>')
     }
-    fetch(DATA_URL+name).then(x => x.text()).then(toNames)
+  //fetch(DATA_URL+name).then(x => x.text()).then(toNames)
+    fetch_text_then(DATA_URL+name, toNames)
 }
 function readText(name, array) {
     function toLines(t) {
@@ -261,7 +263,8 @@ function readText(name, array) {
       console.log(name, a.length); 
       if (qur[0] && kur[0]) initialPage();
     }
-    fetch(DATA_URL+name).then(x => x.text()).then(toLines)
+  //fetch(DATA_URL+name).then(x => x.text()).then(toLines)
+    fetch_text_then(DATA_URL+name, toLines)
 }
 function readWords(name) {
     function toWords(t) {
@@ -274,7 +277,8 @@ function readWords(name) {
       }
       console.log(name, rootToList.size, wordToRoot.size); 
     }
-    fetch(DATA_URL+name).then(x => x.text()).then(toWords)
+  //fetch(DATA_URL+name).then(x => x.text()).then(toWords)
+    fetch_text_then(DATA_URL+name, toWords)
 }
 function processStr(s) {
     const bismi = /^(بِسْمِ|بِّسْمِ)/
