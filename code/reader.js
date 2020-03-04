@@ -130,7 +130,7 @@ function hideWord(evt) {
 }
 function adjustPage(adj) {
     infoS.style.display = adj? 'block' : ''
-    gotoPage(slider.value, adj)
+    gotoPage(slider.value, adj? 'slider' : '')
     if (adj) {
       let s = sureS.value+' -- Sayfa '+slider.value
       infoS.innerText = s
@@ -144,7 +144,7 @@ function gotoPage(k, adjusting) { // 1<=k<=P
     sayfa.innerText = k;
     if (curPage == k) return;
     setSura(suraFromPage(k));
-    if (adjusting) return;
+    if (adjusting == 'slider') return;
     curPage = k;
     slider.value = k;
     text.innerText = (kur[k]);
@@ -162,11 +162,8 @@ function gotoPage(k, adjusting) { // 1<=k<=P
     bilgi.id = 'bilgi'; document.body.append(bilgi)
     bilgi.onclick = 
       () => {openMujam(toBuckwalter(bilgi.innerText))} 
-    document.title = 'Iqra s'+k;
-    //if (!hashInProgress)
-        location.hash = '#p='+curPage
-        //history.pushState('', '', '#p='+curPage)
-    //hashInProgress = false
+    if (adjusting != 'hashInProgress') //cv are not set
+      location.hash = '#p='+curPage
     setStorage(false)
     hideMenus();  //html.scrollTo(0)
 }
@@ -309,7 +306,9 @@ function gotoHashPage() {
     let s = e.substring(2)
     switch (e.charAt(0)) {
       case 'p': // p=245
-        gotoPage(s); break
+        gotoPage(s)
+        document.title = 'Iqra Sayfa '+s
+        break
       case 'r': // r=Sbr
         let L = rootToList.get(s)
         if (L) markWord(s, true)
@@ -322,14 +321,14 @@ function gotoHashPage() {
       case 'v': // v=12:90
         let [c, v] = s.split(':') 
         c = Number(c); v = Number(v)
-        gotoPage(pageOf(c, v))
+        gotoPage(pageOf(c, v), 'hashInProgress')
+        document.title = 'Iqra Ayet '+s
         markVerse(v); break
       default: 
         console.log("wrong hash" + e)
         return false
     }
   }
-  //hashInProgress = true; 
   return true
 }
 function initialPage() {
@@ -368,6 +367,20 @@ function initReader() {
         console.log(err)
     }
     menuFn(); 
+    var prevTime
+    document.onvisibilitychange = () => {
+      if (document.hidden) {
+        prevTime = Date.now()/1000
+      } else if (!prevTime) { //initial call
+        console.log('Start', new Date())
+      } else {
+        let dt = Date.now()/1000 - prevTime
+        console.log("invisible "+timeString(dt))
+        if (dt > 9999 && localStorage.userName) //more than 3 hours
+            readTabularData(setBookmarks, console.error)
+      }
+    }
+  
     window.onhashchange = gotoHashPage
     window.name = "iqra" //by A Rajab
     let {roots, marks} = getStorage()
@@ -474,18 +487,6 @@ function menuFn() {
       hideElement(menuS); hideElement(bilgi)
       linkB.style.backgroundColor = ''
   }
-  var prevTime
-  document.onvisibilitychange = () => {
-    if (document.hidden) {
-      prevTime = Date.now()/1000
-    } else if (prevTime) {
-      let dt = Date.now()/1000 - prevTime
-      console.log("invisible "+timeString(dt))
-      if (dt > 9999 && localStorage.userName) //more than 3 hours
-          readTabularData(setBookmarks, console.error)
-    }
-  }
-
   html.oncontextmenu = (evt) => {
       evt.preventDefault(); 
       hideElement(menuK); linkB.style.backgroundColor = ''

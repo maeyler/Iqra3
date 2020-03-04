@@ -232,9 +232,7 @@ function indexOf(c, v) {
  */
 function pageOf(c, v) {
     const i = indexOf(c, v);
-    // n=number;
     let p = Math.trunc(i * nPage / nVerse);
-    // TODO;
     if (i == index[p]) return p;
     while (i < index[p]) p--;
     while (i > index[p + 1]) p++;
