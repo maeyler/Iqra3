@@ -1,8 +1,10 @@
-import {pageOf, timeString} from './utilities.js';
-import {VERSION, DATA_URL, setPosition, 
-    hideElement, openSitePage, fetch_text_then} from './common.js'
-import {toArabic, toBuckwalter} from "./buckwalter.js"
-import {readTabularData, submitData} from "./submitForm.js"
+"use strict";
+
+// import {pageOf, timeString} from './utilities.js';
+// import {VERSION, DATA_URL, setPosition, 
+//     hideElement, openSitePage, fetch_text_then} from './common.js'
+// import {toArabic, toBuckwalter} from "./buckwalter.js"
+// import {readTabularData, submitData} from "./submitForm.js"
 
 //const DATA_URL = "https://maeyler.github.io/Iqra3/data/"; in common.js
 const M = 114; //suras
@@ -575,4 +577,4 @@ function toggleWords() {
 
 initReader()
 
-export {names, first, rootToList, wordToRoot}
+// export {names, first, rootToList, wordToRoot}

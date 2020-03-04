@@ -281,4 +281,4 @@ function toBuckwalter(s) {
     return BWC.convert(BWC.b2aMap, s).output
 }
 
-export {toArabic, toBuckwalter}
+// export {toArabic, toBuckwalter}

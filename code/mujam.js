@@ -1,7 +1,9 @@
-import {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
-    openSitePage, openSiteVerse, fetch_text_then} from './common.js'
-import {VerseRef, RefSet, nPage, encodeLine, labels} from './utilities.js'
-import {toArabic, toBuckwalter} from "./buckwalter.js"
+"use strict";
+
+// import {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
+//     openSitePage, openSiteVerse, fetch_text_then} from './common.js'
+// import {VerseRef, RefSet, nPage, encodeLine, labels} from './utilities.js'
+// import {toArabic, toBuckwalter} from "./buckwalter.js"
 
 /**
  * div element that shows page info
@@ -690,4 +692,4 @@ function test(prop='index') {
 
 initMujam()
 
-export {pRefs, tRefs, wRefs, rootToWords, wordToRefs, test}
+// export {pRefs, tRefs, wRefs, rootToWords, wordToRefs, test}

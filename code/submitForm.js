@@ -82,4 +82,4 @@ class TabularData {
     }
   }
 
-export {readTabularData, submitData}
+// export {readTabularData, submitData}

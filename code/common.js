@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * The code version.
  */
@@ -106,5 +108,5 @@ async function fetch_text_then(url, callback) {
        callback(t)
    }
    
-export {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
-    openSitePage, openSiteVerse, fetch_text_then}
+// export {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
+//     openSitePage, openSiteVerse, fetch_text_then}

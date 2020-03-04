@@ -1,4 +1,6 @@
-import {EM_SPACE} from './common.js';
+"use strict";
+
+// import {EM_SPACE} from './common.js';
 
 /**
  * Immutable reference to a verse
@@ -471,4 +473,4 @@ function timeString(t) {
  }
  //window.ts = timeString  for testing
 
-export {VerseRef, RefSet, nPage, labels, encodeLine, indexOf, pageOf, toCV, timeString}
+// export {VerseRef, RefSet, nPage, labels, encodeLine, indexOf, pageOf, toCV, timeString}
