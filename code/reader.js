@@ -21,12 +21,12 @@ const swipe = { t:0, x:0, y:0 }
 var curSura, curPage, bilgi, bookmarks;
 window.mujam = undefined
 
-const LS = location.protocol.startsWith('http') && localStorage;
+//const LS = location.protocol.startsWith('http') && localStorage;
 const DEFAULT = {page:1, roots:true, marks:[71,573,378]}
 const MAX_MARKS = 12  // if more marks, delete the oldest
 
 function getStorage() {
-    if (!LS || !localStorage.iqra) return DEFAULT
+    if (!localStorage.iqra) return DEFAULT
     return JSON.parse(localStorage.iqra)
 }
 function arrayToSet(m) {
@@ -46,7 +46,7 @@ function setBookmarks(text, data) { //called once in initReader()
     setStorage(false)
 }
 function setStorage(synch) {
-    if (!LS) return
+    //if (!LS) return
     let page  = curPage
     let roots = showR.style.backgroundColor? true : false
     let marks = [...bookmarks]

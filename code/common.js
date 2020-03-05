@@ -3,7 +3,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.26a";
+const VERSION = "V3.26";
 
 /**
  * Location for data files
@@ -52,7 +52,7 @@ function hideElement(elt) {
  */
 function openSitePage(s, p) {
   let url, name;
-  switch (s) {
+  switch (s.toUpperCase()) {
     case 'Y': case '?':  //Yardım
         url = 'guideQ.html'; name = 'NewTab'; break
     case 'K':
@@ -74,7 +74,7 @@ function openSitePage(s, p) {
  */
 function openSiteVerse(s, c, v) {
   let url, name;
-  switch (s) {
+  switch (s.toUpperCase()) {
     case 'K':
         url = "http://kuranmeali.com/AyetKarsilastirma.php?sure="+c+"&ayet="+v
         name = "Kuran"; break
