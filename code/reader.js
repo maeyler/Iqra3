@@ -546,7 +546,7 @@ function toggleStar() {
       let a = [...bookmarks]
       if (a.length > MAX_MARKS)
       bookmarks.delete(a[0]) //the oldest entry
-  }
+    }
     setStorage(true) //may need to synch
 }
 function toggleMenuK() {

@@ -3,7 +3,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.26";
+const VERSION = "V3.27";
 
 /**
  * Location for data files
@@ -103,10 +103,34 @@ function openSiteVerse(s, c, v) {
  */
 async function fetch_text_then(url, callback) {
     // fetch(url).then(r => r.text()).then(report2)
-       let r = await fetch(url) //response
-       let t = await r.text()   //text
-       callback(t)
-   }
-   
+    let r = await fetch(url) //response
+    let t = await r.text()   //text
+    callback(t)
+}
+
+/**
+ * BeforeInstallPromptEvent saved for later use
+ */
+var pevt
+/**
+ * Prevent Chrome from showing the InstallPrompt
+ * from  https://love2dev.com/blog/beforeinstallprompt/
+ * 
+ * @param {BeforeInstallPromptEvent} e 
+ */
+function beforeinstallCB(e) {
+  function addToHomeScreen() {
+    pevt.prompt()  //ask user
+    pevt.userChoice.then(console.log)
+    add2hs.style.display = 'none'
+    pevt = null; hideMenus()
+  }
+    e.preventDefault(); pevt = e
+    add2hs.style.display = '' //show button
+    add2hs.onclick = addToHomeScreen
+}
+window.onbeforeinstallprompt = beforeinstallCB
+add2hs.style.display = 'none' //hide button at start
+
 // export {VERSION, DATA_URL, EM_SPACE, setPosition, hideElement, 
 //     openSitePage, openSiteVerse, fetch_text_then}
