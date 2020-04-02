@@ -500,7 +500,7 @@ sajda = [175, 250, 271, 292, 308, 333, 364, 378, 415, 453, 479, 527, 589, 597, 9
     }
     if (!localStorage.topics)
         localStorage.topics = 'Secde=1w82bu2i62ne2s430l38z3gg3pq42y4a74qm5k15q5'
-    readTopics(); window.name = "mujam"
+    readTopics(); window.name = "finder"
     window.onhashchange = gotoHashRoot
     showS.onclick  = () => {showSelections(true)}
     showT.onclick  = () => {showTopics(true)}

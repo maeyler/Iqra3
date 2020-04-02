@@ -399,12 +399,12 @@ function initReader() {
  * We have two Menu elements: menuC (context)  menuK (open source)
  *
  */
-var LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder.html#w='
-//  LINKF = '../BahisQurani/finder.html#w='
+var //LINKF = 'https://a0m0rajab.github.io/BahisQurani/finder.html#w='
+    LINKF = '../BahisQurani/finder.html#w='
 var LINKM = 'mujam.html#r='
 function openMujam(...a) { //array of roots in Buckwalter
     let p = a.join('&r=')
-    window.mujam = window.open(LINKM + p, "mujam")
+    window.mujam = window.open(LINKM + p, "finder")
     for (let r of a) markWord(r, true); 
     console.log('mucem: r='+p)
 }
@@ -560,11 +560,12 @@ function toggleMenuK() {
     }
 }
 function toggleZoom() {
+    let e = document.body
     if (zoomB.style.backgroundColor) {
-      div2.style.transform = ''
+      e.style.transform = ''
       zoomB.style.backgroundColor = ''
     } else {
-      div2.style.transform ='scale(1.16) translate(0, 8%)'
+      e.style.transform ='scale(1.16) translate(0, 8%)'
       zoomB.style.backgroundColor = CHECKED
     }
 }

@@ -4,15 +4,10 @@ body {
 button {
   min-width: 36px;
   height: 36px;
-  /* margin: -1px; */
   cursor: pointer;
   font-size: 16px;
-  /* font-weight: bold; */
 }
 
-@media screen and (max-width: 450px) {
-    #zoomB { display: none; }
-}
 @media screen and (max-height: 420px) {
     #div1 { display: none; }
 }
@@ -20,9 +15,8 @@ button {
     body { 
       background-color: cyan;
     }
-    #title { 
-      display: none;
-    }
+    #title { display: none; }
+    #zoomB { display: none; }
     #div3, #sureS, button { 
       font-size: 3vw;
     }

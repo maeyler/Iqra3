@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"    content="width=device-width">
+    <meta name="author"      content="M A Eyler, Istanbul, 2020" />
+    <meta name="description" content="Reader for the Quran" />
+    <!-- <link rel="stylesheet" href="code/main.css" media="all">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="image/icon.png"> -->
+    <title>Iqra Introduction</title>
+  <style>
+    * { box-sizing: border-box;}
+    body {
+      margin: 0;
+      /* margin-left: auto; */
+      /* margin-right: auto; */
+    }
+    iframe {
+      display: inline-block;
+      width: 49%;
+      max-width: 490px;
+      height: 750px;
+    }
+  @media screen and (max-width: 850px) {
+    iframe {
+      width: 99%;
+      max-width: 990px;
+    }
+  }
+  </style>
+  </head>
+  <body>
+
+<iframe id=search src='mujam.html' name=finder>
+</iframe>
+<iframe id=reader src='reader.html' name=iqra>
+</iframe>
+
+<script src=""></script>
+<script>
+function makeButton(frm, id, val, callback) {
+  let b = document.createElement('button')
+  b.id = id; b.innerText = val
+  b.style="position:fixed; background:pink; top:0; right:0;"
+  b.onclick = callback
+  frm.contentDocument.body.appendChild(b)
+  return b
+}
+function addButtons() {
+  openM  = makeButton(reader, 'openM', 'M', showFinder)
+  closeM = makeButton(search, 'closeM', 'x', hideFinder)
+  hideFinder(); console.log(openM, closeM)
+}
+function hideFinder() {
+  search.style.display='none'
+  reader.style.width='98%'
+  reader.style.maxWidth='990px'
+  closeM.hidden=true; openM.hidden=false; 
+}
+function showFinder() {
+  search.style.display=''
+  reader.style.width=''
+  reader.style.maxWidth=''
+  closeM.hidden=false; openM.hidden=true; 
+}
+  const VERSION = '4a1'
+  var openM, closeM  //switching buttons
+  setTimeout(addButtons, 2000)
+  document.title = 'Iqra '+VERSION
+  // window.name = "NewTab"
+</script>
+    
+  </body>
+</html>
