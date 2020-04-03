@@ -10,24 +10,14 @@
     <link rel="icon" href="image/icon.png"> -->
     <title>Iqra Introduction</title>
   <style>
-    * { box-sizing: border-box;}
     body {
       margin: 0;
-      /* margin-left: auto; */
-      /* margin-right: auto; */
     }
     iframe {
-      display: inline-block;
-      width: 49%;
-      max-width: 490px;
-      height: 750px;
+      display: none;
+      position: absolute;
+      box-sizing: border-box;
     }
-  @media screen and (max-width: 850px) {
-    iframe {
-      width: 99%;
-      max-width: 990px;
-    }
-  }
   </style>
   </head>
   <body>
@@ -50,25 +40,57 @@ function makeButton(frm, id, val, callback) {
 function addButtons() {
   openM  = makeButton(reader, 'openM', 'M', showFinder)
   closeM = makeButton(search, 'closeM', 'x', hideFinder)
-  hideFinder(); console.log(openM, closeM)
+  showFinder(); //console.log(openM, closeM)
+  //search.addEventListener('hashchange', showFinder) NO EFFECT
 }
 function hideFinder() {
-  search.style.display='none'
-  reader.style.width='98%'
-  reader.style.maxWidth='990px'
-  closeM.hidden=true; openM.hidden=false; 
+  closeM.hidden=true; openM.hidden=false;
+  resize()
 }
 function showFinder() {
-  search.style.display=''
-  reader.style.width=''
-  reader.style.maxWidth=''
   closeM.hidden=false; openM.hidden=true; 
+  resize()
 }
-  const VERSION = '4a1'
+function resize() {
+    const WIDTH = 520, BORDER = 4
+    const isNarrow = () => W <= 850
+    const margin = (w) => Math.trunc((W-w-BORDER)/2)
+    let W = window.innerWidth - BORDER
+    let H = window.innerHeight - BORDER
+    let w1, w2, x1, x2
+    if (closeM.hidden) { //hideFinder
+      search.style.display = 'none'
+      reader.style.display = 'inline-block'
+      let k = (isNarrow()? 1 : 2)
+      w1 = 0; w2 = Math.min(k*WIDTH, W)
+      x1 = 0; x2 = margin(w2)
+    } else { //showFinder
+      search.style.display = 'inline-block'
+      if (isNarrow()) { //single column
+        reader.style.display = 'none'
+        w1 = Math.min(WIDTH, W); w2 = 0
+      } else { //two columns
+        reader.style.display = 'inline-block'
+        w1 = Math.min(WIDTH, Math.trunc(W/2))
+        w2 = w1
+      }
+      x1 = margin(w1+w2); x2 = x1 + BORDER + w1
+    }
+    search.style.left = x1+"px"
+    search.style.width = w1+"px"
+    reader.style.left = x2+"px"
+    reader.style.width = w2+"px"
+    search.height = H
+    reader.height = H
+    // console.log('resize', W, H)
+}
+  const VERSION = '4a3'
   var openM, closeM  //switching buttons
-  setTimeout(addButtons, 2000)
+  setTimeout(addButtons, 500)
   document.title = 'Iqra '+VERSION
-  // window.name = "NewTab"
+  window.name = "NewTab"
+  window.onresize = resize
+  // resize()  called in addButtons
 </script>
     
   </body>
