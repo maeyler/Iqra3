@@ -22,7 +22,7 @@
   </head>
   <body>
 
-<iframe id=search src='mujam.html' name=finder>
+<iframe id=search name=finder>
 </iframe>
 <iframe id=reader src='reader.html' name=iqra>
 </iframe>
@@ -35,20 +35,30 @@ function makeButton(frm, id, val, callback) {
   b.style="position:fixed; background:pink; top:0; right:0;"
   b.onclick = callback
   frm.contentDocument.body.appendChild(b)
+  frm.contentWindow.addEventListener('hashchange', reportHash)
   return b
 }
 function addButtons() {
-  openM  = makeButton(reader, 'openM', 'M', showFinder)
-  closeM = makeButton(search, 'closeM', 'x', hideFinder)
-  showFinder(); //console.log(openM, closeM)
-  //search.addEventListener('hashchange', showFinder) NO EFFECT
+  openM = makeButton(reader, 'openM', 'M', showFinder)
+  hideFinder()
+}
+function reportHash(e) {
+  // console.log(e.newURL, e.target.document.title)
+  document.title = e.target.document.title
+  let b = search.contentDocument.querySelector('#closeM')
+  if (closeM != b) //make closer button
+    closeM = makeButton(search, 'closeM', 'x', hideFinder)
 }
 function hideFinder() {
-  closeM.hidden=true; openM.hidden=false;
+  closeM.hidden=true; openM.hidden=false
+  document.title = reader.contentDocument.title
   resize()
 }
 function showFinder() {
-  closeM.hidden=false; openM.hidden=true; 
+  closeM.hidden=false; openM.hidden=true
+  if (search.src) 
+    document.title = search.contentDocument.title
+  else search.src = 'mujam.html'
   resize()
 }
 function resize() {
@@ -84,11 +94,11 @@ function resize() {
     reader.height = H
     // console.log('resize', W, H)
 }
-  const VERSION = '4a3'
-  var openM, closeM  //switching buttons
+  const VERSION = '4a2'
+  var openM, closeM = {hidden:1}  //switching buttons
   setTimeout(addButtons, 500)
   document.title = 'Iqra '+VERSION
-  window.name = "NewTab"
+  window.name = 'iqra'+VERSION
   window.onresize = resize
   // resize()  called in addButtons
 </script>
