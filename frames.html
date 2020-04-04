@@ -32,7 +32,7 @@
 
 <script src=""></script>
 <script>
-const VERSION = '4a4'
+const VERSION = '4a5'
 function setTitle(str) {
   document.title = VERSION +' '+ str
 }
@@ -95,9 +95,9 @@ function resize() {
       x1 = margin(w1+w2); x2 = x1 + BORDER + w1
     }
     function setStyle(s, x, w) {
-      //if W<600 use full width
-      s.left = (x==0 || W<600)? 0 : x+'px'
-      s.width = w==0? 0 : W<600? '100%' : w+'px'
+      //if W<610 use full width
+      s.left = (x==0 || W<610)? 0 : x+'px'
+      s.width = w==0? 0 : W<610? '100%' : w+'px'
     }
     setStyle(findFrm.style, x1, w1)
     setStyle(readFrm.style, x2, w2)
@@ -112,6 +112,12 @@ function resize() {
 
   // navigator.serviceWorker.register('sw.js')  in reader.html
   //       .then(reg => { console.log('Start', reg.scope) })
+
+  window.onbeforeinstallprompt = (e) => {
+    readFrm.contentWindow.beforeinstallCB(e)
+    console.log('beforeinstallprompt event')
+  }
+
 </script>
     
   </body>
