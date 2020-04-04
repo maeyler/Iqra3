@@ -22,9 +22,9 @@
   </head>
   <body>
 
-<iframe id=search name=finder>
+<iframe id=findFrm name=finder>
 </iframe>
-<iframe id=reader src='reader.html' name=iqra>
+<iframe id=readFrm src='reader.html' name=iqra>
 </iframe>
 
 <script src=""></script>
@@ -39,26 +39,26 @@ function makeButton(frm, id, val, callback) {
   return b
 }
 function addButtons() {
-  openM = makeButton(reader, 'openM', 'M', showFinder)
+  openM = makeButton(readFrm, 'openM', 'M', showFinder)
   hideFinder()
 }
 function reportHash(e) {
   // console.log(e.newURL, e.target.document.title)
   document.title = e.target.document.title
-  let b = search.contentDocument.querySelector('#closeM')
+  let b = findFrm.contentDocument.querySelector('#closeM')
   if (closeM != b) //make closer button
-    closeM = makeButton(search, 'closeM', 'x', hideFinder)
+    closeM = makeButton(findFrm, 'closeM', 'x', hideFinder)
 }
 function hideFinder() {
   closeM.hidden=true; openM.hidden=false
-  document.title = reader.contentDocument.title
+  document.title = readFrm.contentDocument.title
   resize()
 }
 function showFinder() {
   closeM.hidden=false; openM.hidden=true
-  if (search.src) 
-    document.title = search.contentDocument.title
-  else search.src = 'mujam.html'
+  if (findFrm.src) 
+    document.title = findFrm.contentDocument.title
+  else findFrm.src = 'mujam.html'
   resize()
 }
 function resize() {
@@ -69,29 +69,29 @@ function resize() {
     let H = window.innerHeight - BORDER
     let w1, w2, x1, x2
     if (closeM.hidden) { //hideFinder
-      search.style.display = 'none'
-      reader.style.display = 'inline-block'
+      findFrm.style.display = 'none'
+      readFrm.style.display = 'inline-block'
       let k = (isNarrow()? 1 : 2)
       w1 = 0; w2 = Math.min(k*WIDTH, W)
       x1 = 0; x2 = margin(w2)
     } else { //showFinder
-      search.style.display = 'inline-block'
+      findFrm.style.display = 'inline-block'
       if (isNarrow()) { //single column
-        reader.style.display = 'none'
+        readFrm.style.display = 'none'
         w1 = Math.min(WIDTH, W); w2 = 0
       } else { //two columns
-        reader.style.display = 'inline-block'
+        readFrm.style.display = 'inline-block'
         w1 = Math.min(WIDTH, Math.trunc(W/2))
         w2 = w1
       }
       x1 = margin(w1+w2); x2 = x1 + BORDER + w1
     }
-    search.style.left = x1+"px"
-    search.style.width = w1+"px"
-    reader.style.left = x2+"px"
-    reader.style.width = w2+"px"
-    search.height = H
-    reader.height = H
+    findFrm.style.left = x1+"px"
+    findFrm.style.width = w1+"px"
+    readFrm.style.left = x2+"px"
+    readFrm.style.width = w2+"px"
+    findFrm.height = H
+    readFrm.height = H
     // console.log('resize', W, H)
 }
   const VERSION = '4a2'
