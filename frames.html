@@ -17,6 +17,7 @@
       display: none;
       position: absolute;
       box-sizing: border-box;
+      height: 100%;
     }
   </style>
   </head>
@@ -29,6 +30,10 @@
 
 <script src=""></script>
 <script>
+const VERSION = '4a3'
+function setTitle(str) {
+  document.title = VERSION +' '+ str
+}
 function makeButton(frm, id, val, callback) {
   let b = document.createElement('button')
   b.id = id; b.innerText = val
@@ -43,30 +48,32 @@ function addButtons() {
   hideFinder()
 }
 function reportHash(e) {
-  // console.log(e.newURL, e.target.document.title)
-  document.title = e.target.document.title
   let b = findFrm.contentDocument.querySelector('#closeM')
   if (closeM != b) //make closer button
     closeM = makeButton(findFrm, 'closeM', 'x', hideFinder)
+  setTitle(e.target.document.title)
+  if (e.target.name == 'iqra') {
+    if (readFrm.style.display == 'none') hideFinder()
+  } else { // finder
+    if (findFrm.style.display == 'none') showFinder() 
+  }
 }
 function hideFinder() {
   closeM.hidden=true; openM.hidden=false
-  document.title = readFrm.contentDocument.title
+  //setTitle(readFrm.contentDocument.title)
   resize()
 }
 function showFinder() {
   closeM.hidden=false; openM.hidden=true
-  if (findFrm.src) 
-    document.title = findFrm.contentDocument.title
-  else findFrm.src = 'mujam.html'
+  if (!findFrm.src) findFrm.src = 'mujam.html'
   resize()
 }
 function resize() {
     const WIDTH = 520, BORDER = 4
     const isNarrow = () => W <= 850
     const margin = (w) => Math.trunc((W-w-BORDER)/2)
-    let W = window.innerWidth - BORDER
-    let H = window.innerHeight - BORDER
+    let W = Math.min(window.innerWidth, screen.width) - BORDER
+    // let H = Math.min(window.innerHeight, screen.height) - BORDER
     let w1, w2, x1, x2
     if (closeM.hidden) { //hideFinder
       findFrm.style.display = 'none'
@@ -86,20 +93,20 @@ function resize() {
       }
       x1 = margin(w1+w2); x2 = x1 + BORDER + w1
     }
-    findFrm.style.left = x1+"px"
-    findFrm.style.width = w1+"px"
-    readFrm.style.left = x2+"px"
-    readFrm.style.width = w2+"px"
-    findFrm.height = H
-    readFrm.height = H
+    function setStyle(s, x, w) {
+      //if W<600 use full width
+      s.left = (x==0 || W<600)? 0 : x+'px'
+      s.width = w==0? 0 : W<600? '100%' : w+'px'
+    }
+    setStyle(findFrm.style, x1, w1)
+    setStyle(readFrm.style, x2, w2)
     // console.log('resize', W, H)
 }
-  const VERSION = '4a2'
   var openM, closeM = {hidden:1}  //switching buttons
-  setTimeout(addButtons, 500)
   document.title = 'Iqra '+VERSION
   window.name = 'iqra'+VERSION
   window.onresize = resize
+  setTimeout(addButtons, 500)
   // resize()  called in addButtons
 </script>
     
