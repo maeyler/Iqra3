@@ -144,7 +144,7 @@ button {
     }
     .divider { 
       margin-top: 8px;
-      background-image: url("../image/sura.png");
+      background-image: url(../image/sura.png);
       background-repeat: no-repeat;
       background-size: contain;
     }
@@ -164,7 +164,7 @@ button {
     }
 	@font-face {
 	  font-family: me_quran;
-	  src: url("../image/me_quran.ttf")
+	  src: url(../image/me_quran.ttf)
 	}
 
 /* Menu Style
@@ -206,7 +206,9 @@ button {
 /* End of menu style */
 
 /*
-Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+Icons made by 
+<a href=https://www.flaticon.com/authors/kiranshastry>Kiranshastry</a> 
+from <a href=https://www.flaticon.com/>www.flaticon.com</a>
 */
 button {
     background-size: contain;
