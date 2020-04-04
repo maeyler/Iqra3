@@ -12,11 +12,13 @@
   <style>
     body {
       margin: 0;
+      background-color: #eee;
     }
     iframe {
       display: none;
       position: absolute;
       box-sizing: border-box;
+      border: none;
       height: 100%;
     }
   </style>
@@ -30,7 +32,7 @@
 
 <script src=""></script>
 <script>
-const VERSION = '4a3'
+const VERSION = '4a4'
 function setTitle(str) {
   document.title = VERSION +' '+ str
 }
@@ -60,7 +62,6 @@ function reportHash(e) {
 }
 function hideFinder() {
   closeM.hidden=true; openM.hidden=false
-  //setTitle(readFrm.contentDocument.title)
   resize()
 }
 function showFinder() {
@@ -69,7 +70,7 @@ function showFinder() {
   resize()
 }
 function resize() {
-    const WIDTH = 520, BORDER = 4
+    const WIDTH = 520, BORDER = 0 //default 4
     const isNarrow = () => W <= 850
     const margin = (w) => Math.trunc((W-w-BORDER)/2)
     let W = Math.min(window.innerWidth, screen.width) - BORDER
