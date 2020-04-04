@@ -5,9 +5,9 @@
     <meta name="viewport"    content="width=device-width">
     <meta name="author"      content="M A Eyler, Istanbul, 2020" />
     <meta name="description" content="Reader for the Quran" />
-    <!-- <link rel="stylesheet" href="code/main.css" media="all">
+    <!-- <link rel="stylesheet" href="code/main.css" media="all"> -->
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="image/icon.png"> -->
+    <link rel="icon" href="image/icon.png">
     <title>Iqra Introduction</title>
   <style>
     body {
@@ -109,6 +109,9 @@ function resize() {
   window.onresize = resize
   setTimeout(addButtons, 500)
   // resize()  called in addButtons
+
+  // navigator.serviceWorker.register('sw.js')  in reader.html
+  //       .then(reg => { console.log('Start', reg.scope) })
 </script>
     
   </body>
