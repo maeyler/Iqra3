@@ -1,5 +1,6 @@
 body { 
   margin: 0;
+  background-color: cyan;
 }
 button {
   min-width: 36px;
@@ -12,9 +13,6 @@ button {
     #div1 { display: none; }
 }
 @media screen and (max-width: 850px) {
-    body { 
-      background-color: cyan;
-    }
     #title { display: none; }
     #zoomB { display: none; }
     #div3, #sureS, button { 
@@ -30,9 +28,6 @@ button {
 }
 
 @media screen and (min-width: 851px) {
-    body { 
-      background-color: #cfc;
-    }
     #title {
       margin: 0;
       font-size: 15px;

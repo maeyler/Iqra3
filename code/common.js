@@ -3,7 +3,7 @@
 /**
  * The code version.
  */
-const VERSION = "V3.28";
+const VERSION = "V3.29";
 
 /**
  * Location for data files
@@ -86,7 +86,7 @@ function openSiteVerse(s, c, v) {
         name = "NewTab"; break
     case 'A':
         url = "https://acikkuran.com/"+c+"/"+v
-        name = "NewTab"; break
+        name = "finder"; break
     case 'R':
         alert('Reader -- not implemented yet')
     default:  return

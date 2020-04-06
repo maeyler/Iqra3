@@ -1,15 +1,21 @@
     body {
         max-width: 600px;
         min-width: 450px;
-        margin-right: 0;
+        margin: 0;
         font-size: 12px;
         font-family: arial, sans-serif;
     }
     body, th {
         background-color: #eee;
     }
+    #div0 {
+        background-color: cyan;
+    }
     #out1, #out2, #out4, .item {
         font: 15px arial, sans-serif;
+    }
+    #out1, #out2, #out4 {
+        margin-left: 8px;
     }
     .item {
         display: inline-block;
@@ -50,7 +56,7 @@
         border-collapse: collapse; 
         text-align: center;
         cursor: default;
-        margin: 8px  8px 20px 0;
+        margin: 20px 8px;
     }
     th { 
         color: black;
