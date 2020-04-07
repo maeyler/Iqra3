@@ -12,7 +12,7 @@
   <style>
     body {
       margin: 0;
-      background-color: #eee;
+      background-color: cyan;
     }
     iframe {
       display: none;
@@ -21,44 +21,43 @@
       border: none;
       height: 100%;
     }
+    button {
+      position: fixed;
+      top: 0; right: 0;
+      background-color: pink;
+    }
   </style>
   </head>
   <body>
 
-<iframe id=findFrm name=finder>
-</iframe>
-<iframe id=readFrm src='reader.html' name=iqra>
-</iframe>
+  <iframe id=findFrm name=finder></iframe>
+  <iframe id=readFrm src='reader.html' name=iqra></iframe>
+
+  <button id=closeM>x</button>
+  <button id=openM hidden>M</button>
 
 <script src=""></script>
 <script>
-const VERSION = '4a5'
+const VERSION = '4a6'
+function addListener(frm) {
+  frm.contentWindow.addEventListener('hashchange', reportHash)
+  console.log('* addListener *', frm.name)
+}
 function setTitle(str) {
   document.title = VERSION +' '+ str
 }
-function makeButton(frm, id, val, callback) {
-  let b = document.createElement('button')
-  b.id = id; b.innerText = val
-  b.style="position:fixed; background:pink; top:0; right:0;"
-  b.onclick = callback
-  frm.contentDocument.body.appendChild(b)
-  frm.contentWindow.addEventListener('hashchange', reportHash)
-  return b
-}
-function addButtons() {
-  openM = makeButton(readFrm, 'openM', 'M', showFinder)
-  hideFinder()
-}
 function reportHash(e) {
-  let b = findFrm.contentDocument.querySelector('#closeM')
-  if (closeM != b) //make closer button
-    closeM = makeButton(findFrm, 'closeM', 'x', hideFinder)
-  setTitle(e.target.document.title)
+  let s = '[Dış kaynak]'
   if (e.target.name == 'iqra') {
     if (readFrm.style.display == 'none') hideFinder()
+    s = e.target.document.title
   } else { // finder
+    if (last != null && e.target.document) 
+      s = e.target.document.title
     if (findFrm.style.display == 'none') showFinder() 
   }
+  // console.log('* reportHash *', s)
+  setTitle(s)
 }
 function hideFinder() {
   closeM.hidden=true; openM.hidden=false
@@ -101,23 +100,33 @@ function resize() {
     }
     setStyle(findFrm.style, x1, w1)
     setStyle(readFrm.style, x2, w2)
-    // console.log('resize', W, H)
-}
-  var openM, closeM = {hidden:1}  //switching buttons
+  }
+  function sourceChanged(e) {
+    try {
+      let p = findFrm.contentWindow.location.pathname
+      if (last != p) {
+        last = p; addListener(findFrm)
+      }
+    } catch (e) {
+      last = null // cannot read location
+    }
+    console.log('* sourceChanged *', last)
+    reportHash(e)
+  }
+  var last  // finder location
   document.title = 'Iqra '+VERSION
   window.name = 'iqra'+VERSION
   window.onresize = resize
-  setTimeout(addButtons, 500)
-  // resize()  called in addButtons
-
-  // navigator.serviceWorker.register('sw.js')  in reader.html
-  //       .then(reg => { console.log('Start', reg.scope) })
-
+  setTimeout(() => addListener(readFrm), 500)
+  closeM.onclick = hideFinder
+  openM.onclick  = showFinder
+  hideFinder(); resize()
+  findFrm.onload = sourceChanged
+  window.onerror = console.log
   window.onbeforeinstallprompt = (e) => {
     readFrm.contentWindow.beforeinstallCB(e)
     console.log('beforeinstallprompt event')
   }
-
 </script>
     
   </body>
