@@ -36,12 +36,17 @@ button {
     #div3, #sureS, #pageS {
       font-size: 14px;
     }
+    #div2 { 
+      overflow-y: auto;
+      margin: 0 auto;
+      width: 840px;
+    }
     #text, #html {
       width: 400px; 
       display: inline-block;
       vertical-align: middle;
-      overflow-y: auto;
-      height: 88vh;
+      /* overflow-y: auto;
+      height: 88vh; */
       border: black 1px solid;
     }
     #text { 
@@ -64,11 +69,8 @@ button {
       width: auto;
       font-weight: normal;
     }
-    #sayNo {  
+    #sayNo {
       margin-top: 6px;
-    }
-    #div2 { 
-      overflow-x: hidden;
     }
     #div0 { 
       height: 36px;
@@ -99,6 +101,8 @@ button {
     #text, #html {
       background-color: white;
       padding: 4px 8px;
+      vertical-align: top;
+      min-height: 100%;
     }
     #text { 
       text-align: left;
@@ -208,6 +212,11 @@ from <a href=https://www.flaticon.com/>www.flaticon.com</a>
 button {
     background-size: contain;
     background-repeat: no-repeat;
+    background-color: Transparent;
+    border: none;
+}
+button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 #starB {
     background-image: url(../image/star.png);

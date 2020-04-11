@@ -199,7 +199,7 @@ function drag(evt) {
     let dx = Math.round(evt.touches[0].clientX) - swipe.x
     let dy = Math.round(evt.touches[0].clientY) - swipe.y
     if (Math.abs(dx) < 3*Math.abs(dy)) { //not horizontal
-        console.log("cancel", dx, dy)
+        // console.log("cancel", dx, dy)
         trg.style.transform = ""; swipe.t = 0; 
         return  //swipe cancelled
     }
@@ -341,7 +341,7 @@ function initialPage() {
     }
 }
 function initReader() {
-    title.innerHTML = 'Iqra -- Oku'+'&emsp;';
+    title.innerHTML = 'Iqra '+VERSION+'&emsp;';
     version.innerText = 'Iqra '+VERSION;
     text.addEventListener("touchstart", dragStart);
     html.addEventListener("touchstart", dragStart);

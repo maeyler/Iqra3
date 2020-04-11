@@ -29,6 +29,7 @@
 <div id=div2>
   <div id=text>Türkçe meal yükleniyor</div>
   <div id=html readonly>Kuran metni yükleniyor</div>
+  <div id=div0></div>
 </div>
 
 <div id=div1>
@@ -37,8 +38,6 @@
   <span  id=infoS></span>
   <button id=rightB>▷</button>
 </div>
-
-<div id=div0></div>
 
 <!--span id=bilgi>produce again for each page</span-->
 
@@ -82,6 +81,30 @@
         .catch(alert)
     }
     //initReader()
+    
+/**
+ * BeforeInstallPromptEvent saved for later use
+ */
+ var pevt
+/**
+ * Prevent Chrome from showing the InstallPrompt
+ * from  https://love2dev.com/blog/beforeinstallprompt/
+ * 
+ * @param {BeforeInstallPromptEvent} e 
+ */
+function beforeinstallCB(e) {
+  function addToHomeScreen() {
+    pevt.prompt()  //ask user
+    pevt.userChoice.then(console.log)
+    add2hs.style.display = 'none'
+    pevt = null; hideMenus()
+  }
+    e.preventDefault(); pevt = e
+    add2hs.style.display = '' //show button
+    add2hs.onclick = addToHomeScreen
+}
+window.onbeforeinstallprompt = beforeinstallCB
+add2hs.style.display = 'none' //hide button at start
 </script>
 </body>
 </html>
