@@ -15,7 +15,7 @@
       background-color: cyan;
     }
     iframe {
-      display: none;
+      display: inline-block;
       position: absolute;
       box-sizing: border-box;
       border: none;
@@ -38,7 +38,6 @@
 
 <script src="code/common.js"></script>
 <script>
-// const VERSION = '4a8'
 function addListener(frm) {
   frm.contentWindow.addEventListener('hashchange', reportHash)
   console.log('* addListener *', frm.name)
@@ -69,37 +68,32 @@ function showFinder() {
   resize()
 }
 function resize() {
-    const WIDTH = 520, BORDER = 0 //default 4
-    const isNarrow = () => W <= 850
-    const margin = (w) => Math.trunc((W-w-BORDER)/2)
-    let W = Math.min(window.innerWidth, screen.width) - BORDER
-    let w1, w2, x1, x2
+    const HIDE = 'none', SHOW = ''
+    let W = Math.min(window.innerWidth, screen.width)
     if (closeM.hidden) { //hideFinder
-      findFrm.style.display = 'none'
-      readFrm.style.display = 'inline-block'
-      let k = (isNarrow()? 1 : 2)
-      w1 = 0; w2 = Math.min(k*WIDTH, W)
-      x1 = 0; x2 = margin(w2)
-    } else { //showFinder
-      findFrm.style.display = 'inline-block'
-      if (isNarrow()) { //single column
-        readFrm.style.display = 'none'
-        w1 = Math.min(WIDTH, W); w2 = 0
+      setStyle(findFrm.style, HIDE)
+      let x2 = 0, w2 = W, WM = 610
+      if (W>WM && W<=850) { //single column
+        x2 = Math.trunc((W-WM)/2); w2 = WM
+      }
+      setStyle(readFrm.style, SHOW, x2, w2)
+  } else { //showFinder
+      if (W <= 850) { //single column
+        setStyle(findFrm.style, SHOW, 0, W)
+        setStyle(readFrm.style, HIDE)
       } else { //two columns
         findFrm.style.borderRight = '1px solid cyan'
-        readFrm.style.display = 'inline-block'
-        w1 = Math.min(WIDTH, Math.trunc(W/2))
-        w2 = w1
+        let w2 = 490; Math.min(500, Math.trunc(W/2))
+        let x2 = W - w2
+        setStyle(findFrm.style, SHOW, 0, x2)
+        setStyle(readFrm.style, SHOW, x2, w2)
       }
-      x1 = margin(w1+w2); x2 = x1 + BORDER + w1
     }
-    function setStyle(s, x, w) {
-      //if W<610 use full width
-      s.left = (x==0 || W<610)? 0 : x+'px'
-      s.width = w==0? 0 : W<610? '100%' : w+'px'
+    function setStyle(s, d, x, w) {
+      s.display = d; if (d == HIDE) return
+      s.left  = (x == 0)? 0 : x+'px'
+      s.width = (w == W)? '100%' : w+'px'
     }
-    setStyle(findFrm.style, x1, w1)
-    setStyle(readFrm.style, x2, w2)
   }
   function sourceChanged(e) {
     try {

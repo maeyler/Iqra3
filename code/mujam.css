@@ -68,8 +68,8 @@
         width: 4.5vw;
         height: 4.5vw;
         min-width: 21px;
-        min-height: 21px;
-        max-height: 28px;
+        /* min-height: 21px; ignored
+        max-height: 28px; */
         border: 1px solid black; 
         padding: 0px;
         position: relative;
