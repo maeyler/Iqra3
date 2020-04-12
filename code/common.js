@@ -17,6 +17,19 @@ const DATA_URL = "https://maeyler.github.io/Iqra3/data/";
 const EM_SPACE = String.fromCharCode(8195)
 
 /**
+ * Use the hash part of URL in the address bar
+ *
+ * @returns null (no hash) or decoded hash (strip '#')
+ * 
+ */
+function decodedHash() {
+    let h = location.hash
+    if (h.length < 2) return null
+    //replace special chars: call decodeURI() by A Rajab
+    return decodeURI(h.substring(1))  // '#'
+  }
+  
+/**
  * Menu functions -- place menu over elt
  * 
  * @param {Element} elt 

@@ -325,14 +325,12 @@ function displayList(refs, liste) {
             div.hidden = true
         }
         x.onclick = () => {
-        //x == evt.target && div == x.nextElementSibling
             if (div.hidden) {
                 x.style.backgroundColor = ''
                 x.parentElement.style.backgroundColor = ''
                 div.hidden = false
-            } else {
-                selectWord(x.innerText)
-            }
+            } 
+            selectWord(x.innerText)
         } 
     }
 }
@@ -446,20 +444,6 @@ function doClick2() {
 /**
  * Use the hash part of URL in the address bar
  *
- * @returns null (no hash), decoded hash ('r='), or as-is (named) 
- * 
- */
-function decodedHash() {
-  let h = location.hash
-  if (h.length < 4) return null
-  if (h.startsWith('#r='))
-    //replace special chars: call decodeURI() by A Rajab
-    return decodeURI(h.substring(3))  //strip '#r='
-  else return h
-}
-/**
- * Use the hash part of URL in the address bar
- *
  * @returns true if hash part of URL is not empty
  * 
  */
@@ -467,13 +451,14 @@ function gotoHashRoot() {
   let h = decodedHash()
   if (!h) return false
   showSelections(false); let set
-  if (h.startsWith('#')) { //given topic
-    let [topic, enc] = h.substring(1).split('=')
+  if (!h.startsWith('r=')) { //given topic
+    let [topic, enc] = h.split('=')
     //parseRefs(topic, enc)  use tRefs
     set = addTopic(topic, enc)
     showTopics(true)
     displayList([set], konular)
   } else { //given roots
+    h = h.substring(2)  //strip 'r='
     let roots = h.split('&r=').map(toArabic)
     set = parseRoots(roots)
     selectRoot(roots[0], false)
@@ -612,7 +597,7 @@ function topicFromDialog() {
     let enc = encodeLine(dRefs.value)
     addTopic(topic, enc)
     let h = '#'+topic +'='+ enc
-    if (location.hash.includes(topic))
+    if (decodedHash().includes(topic))
         history.replaceState(null, '', h) 
     else location.hash = h
 }

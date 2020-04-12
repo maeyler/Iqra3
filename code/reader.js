@@ -300,8 +300,8 @@ function processBR(page) {
 function gotoHashPage() {
 //re-designed by Abdurrahman Rajab
 //all text is in Buckwalter
-//omit first char '#'
-  let h = location.hash.substring(1)
+  let h = decodedHash()
+  if (!h) return false
   if (!h.startsWith('p=') && !h.startsWith('v=')) 
     return false
   for (let e of h.split('&')) {
