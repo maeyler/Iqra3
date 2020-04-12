@@ -441,7 +441,7 @@ function doClick2() {
     let p = "";
     if (menu2.value) p = "?q=" + currentRoot()
     console.log("Corpus" + p);
-    window.open(REF + p, "NewTab")  //, "resizable,scrollbars");
+    window.open(REF + p, "Kuran")  //, "resizable,scrollbars");
 }
 /**
  * Use the hash part of URL in the address bar

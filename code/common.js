@@ -3,7 +3,7 @@
 /**
  * The code version.
  */
-const VERSION = "V4b0";
+const VERSION = "V4b1";
 
 /**
  * Location for data files
@@ -54,7 +54,7 @@ function openSitePage(s, p) {
   let url, name;
   switch (s.toUpperCase()) {
     case 'Y': case '?':  //Yardım
-        url = 'guideQ.html'; name = 'NewTab'; break
+        url = 'guideQ.html'; name = 'Kuran'; break
     case 'K':
         url = "http://kuranmeali.com/Sayfalar.php?sayfa="+p
         name = "Kuran"; break
@@ -80,10 +80,10 @@ function openSiteVerse(s, c, v) {
         name = "Kuran"; break
     case 'C':
         url = "http://corpus.quran.com/wordbyword.jsp?chapter="+c+"&verse="+v
-        name = "NewTab"; break
+        name = "Kuran"; break
     case 'Q':
         url = "https://quran.com/"+c+"/"+v
-        name = "NewTab"; break
+        name = "finder"; break
     case 'A':
         url = "https://acikkuran.com/"+c+"/"+v
         name = "finder"; break
