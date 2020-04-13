@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"    content="width=device-width">
+    <meta name="author"      content="M A Eyler, Istanbul, 2020" />
+    <meta name="description" content="Reader for the Quran" />
+    <link rel="icon" href="image/icon.png">
+    <title>Iqra Ana sayfa </title>
+
+  <style>
+    body { max-width: 440px; }
+    body, h2, h3 { margin: 20px; }
+    h2 { margin-bottom: 16px; }
+    body, input, button { 
+      font: 16px arial;
+    }
+    #text {
+      width: 360px;
+    }
+    #page, #root {
+      width: 80px;
+    }
+  </style>
+</head>
+
+<!-- Modify or remove all items marked xxx -->
+
+<body>
+
+<h2 id=title></h2>
+
+<hr />
+<p><label>
+Arapça/Türkçe/İngilizce <br>
+<input type=text id=text placeholder='Aranacak metin'>
+<!-- <br><button id=srch>Ara</button> -->
+</p>
+<p><label>
+Sayfa <br>
+<input type=number id=page placeholder='1-604'>
+</p>
+<p><label>
+Kök <br>
+<input type=text id=root placeholder='ktb'>
+</p>
+<hr />
+<p></p>
+
+<script>
+"use strict";
+function doSearch() {
+    let s = text.value
+    window.open('../BahisQurani/finder.html#b='+s, 'finder')
+}
+function doPage() {
+    let s = page.value
+    window.open('reader.html#p='+s, 'iqra')
+}
+function doRoot() {
+    let s = root.value
+    window.open('mujam.html#r='+s, 'finder')
+}
+    title.innerText = document.title
+    text.onchange = doSearch
+    // srch.onclick  = doSearch
+    page.onchange = doPage
+    root.onchange = doRoot
+</script>
+
+</body>
+</html>

@@ -30,7 +30,7 @@
   </head>
   <body>
 
-  <iframe id=findFrm name=finder></iframe>
+  <iframe id=findFrm src='start.html' name=finder></iframe>
   <iframe id=readFrm src='reader.html' name=iqra></iframe>
 
   <button id=closeM>x</button>
@@ -64,17 +64,17 @@ function hideFinder() {
 }
 function showFinder() {
   closeM.hidden=false; openM.hidden=true
-  if (!findFrm.src) findFrm.src = 'mujam.html'
+  // if (!findFrm.src) findFrm.src = 'mujam.html'
   resize()
 }
-function resize() {
+function resize(WIDTH = 490) { //can be modified in dev tools
     const HIDE = 'none', SHOW = ''
     let W = Math.min(window.innerWidth, screen.width)
     if (closeM.hidden) { //hideFinder
       setStyle(findFrm.style, HIDE)
-      let x2 = 0, w2 = W, WM = 610
-      if (W>WM && W<=850) { //single column
-        x2 = Math.trunc((W-WM)/2); w2 = WM
+      let x2 = 0, w2 = W
+      if (W>WIDTH && W<=850) { //single column
+        x2 = Math.trunc((W-WIDTH)/2); w2 = WIDTH
       }
       setStyle(readFrm.style, SHOW, x2, w2)
   } else { //showFinder
@@ -114,7 +114,7 @@ function resize() {
   setTimeout(() => addListener(readFrm), 500)
   closeM.onclick = hideFinder
   openM.onclick  = showFinder
-  hideFinder(); resize()
+  showFinder(); resize()
   findFrm.onload = sourceChanged
   window.onerror = console.log
   window.onbeforeinstallprompt = (e) => {
