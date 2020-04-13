@@ -31,7 +31,7 @@
   <body>
 
   <iframe id=findFrm src='start.html' name=finder></iframe>
-  <iframe id=readFrm src='reader.html' name=iqra></iframe>
+  <iframe id=readFrm src='reader.html' name=iqra hidden></iframe>
 
   <button id=closeM>x</button>
   <button id=openM hidden>M</button>
@@ -46,17 +46,44 @@ function setTitle(str) {
   document.title = VERSION +' '+ str
 }
 function reportHash(e) {
-  let s = '[Dış kaynak]'
+  let s = '[Dış kaynak]', h = ''
   if (e.target.name == 'iqra') {
+    if (firstEvent) {
+      firstEvent = false; return
+    }
+    readFrm.hidden = false
     if (readFrm.style.display == 'none') hideFinder()
     s = e.target.document.title
+    h = e.target.location.hash
   } else { // finder
-    if (last != null && e.target.document) 
+    if (last != null && e.target.document) {
       s = e.target.document.title
+      h = e.target.location.hash
+    }
     if (findFrm.style.display == 'none') showFinder() 
   }
-  // console.log('* reportHash *', s)
-  setTitle(s)
+  console.log('* reportHash *', e.target.name, s)
+  setTitle(s); window.location.hash = h
+  hashInProgress = true
+}
+function hashModified(evt) {
+  let h = decodedHash()
+  console.log('hashInProgress='+hashInProgress, h)
+  if (hashInProgress || !h || h.length<3) {
+    hashInProgress = false; return 
+  } else switch (h.substring(0, 2)) { //new address entered
+    case 'p=': case 'v=':
+      window.open('reader.html#'+h, 'iqra')
+      break;
+    case 'r=':
+      window.open('mujam.html#'+h, 'finder')
+      break;
+    case 'b=': case 'w=':
+      window.open('../BahisQurani/finder.html#'+h, 'finder')
+      break
+    default:
+        console.log('unknown hash entered', h)
+  }
 }
 function hideFinder() {
   closeM.hidden=true; openM.hidden=false
@@ -77,7 +104,7 @@ function resize(WIDTH = 490) { //can be modified in dev tools
         x2 = Math.trunc((W-WIDTH)/2); w2 = WIDTH
       }
       setStyle(readFrm.style, SHOW, x2, w2)
-  } else { //showFinder
+    } else { //showFinder
       if (W <= 850) { //single column
         setStyle(findFrm.style, SHOW, 0, W)
         setStyle(readFrm.style, HIDE)
@@ -101,20 +128,24 @@ function resize(WIDTH = 490) { //can be modified in dev tools
       if (last != p) {
         last = p; addListener(findFrm)
       }
-    } catch (e) {
+    } catch (err) {
       last = null // cannot read location
     }
     console.log('* sourceChanged *', last)
     reportHash(e)
   }
+  function initReader() {
+    addListener(readFrm); showFinder(); resize()
+  }
   var last  // finder location
-  document.title = 'Iqra '+VERSION
+  var hashInProgress = false, firstEvent = true
+  setTitle('Iqra ')
   window.name = 'iqra'+VERSION
   window.onresize = resize
-  setTimeout(() => addListener(readFrm), 500)
+  setTimeout(initReader, 500)
+  window.onhashchange = hashModified
   closeM.onclick = hideFinder
   openM.onclick  = showFinder
-  showFinder(); resize()
   findFrm.onload = sourceChanged
   window.onerror = console.log
   window.onbeforeinstallprompt = (e) => {

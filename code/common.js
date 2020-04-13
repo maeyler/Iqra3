@@ -3,7 +3,7 @@
 /**
  * The code version.
  */
-const VERSION = "V4b1";
+const VERSION = "V4b2";
 
 /**
  * Location for data files
