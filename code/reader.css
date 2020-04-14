@@ -2,12 +2,6 @@ body {
   margin: 0;
   background-color: cyan;
 }
-button {
-  min-width: 36px;
-  height: 36px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
 @media screen and (max-height: 420px) {
     #div1 { display: none; }
@@ -60,14 +54,23 @@ button {
     div { 
       text-align: center;
     }
-    #sureS {
-      height: 30px;
-      padding: 4px 0;
+    button {
+      min-width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 50%;
     }
     #pageS {
-      padding: 4px;
       width: auto;
       font-weight: normal;
+    }
+    #sureS, #pageS {
+      padding: 4px;
+      height: 30px;
+      background-color: #eee;
+      border-radius: 15px;
+      border: none;
     }
     #sayNo {
       margin-top: 6px;

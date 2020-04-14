@@ -66,7 +66,7 @@ function reportHash(e) {
   setTitle(s); window.location.hash = h
   hashInProgress = true
 }
-function hashModified(evt) {
+function hashModified() {
   let h = decodedHash()
   console.log('hashInProgress='+hashInProgress, h)
   if (hashInProgress || !h || h.length<3) {
@@ -94,13 +94,14 @@ function showFinder() {
   // if (!findFrm.src) findFrm.src = 'mujam.html'
   resize()
 }
-function resize(WIDTH = 490) { //can be modified in dev tools
+var WIDTH = 500  //can be modified in dev tools
+function resize() {
     const HIDE = 'none', SHOW = ''
     let W = Math.min(window.innerWidth, screen.width)
     if (closeM.hidden) { //hideFinder
       setStyle(findFrm.style, HIDE)
       let x2 = 0, w2 = W
-      if (W>WIDTH && W<=850) { //single column
+      if (W>600 && W<=850) { //single column
         x2 = Math.trunc((W-WIDTH)/2); w2 = WIDTH
       }
       setStyle(readFrm.style, SHOW, x2, w2)
@@ -110,8 +111,7 @@ function resize(WIDTH = 490) { //can be modified in dev tools
         setStyle(readFrm.style, HIDE)
       } else { //two columns
         findFrm.style.borderRight = '1px solid cyan'
-        let w2 = 490; Math.min(500, Math.trunc(W/2))
-        let x2 = W - w2
+        let w2 = WIDTH, x2 = W - w2
         setStyle(findFrm.style, SHOW, 0, x2)
         setStyle(readFrm.style, SHOW, x2, w2)
       }
@@ -135,17 +135,18 @@ function resize(WIDTH = 490) { //can be modified in dev tools
     reportHash(e)
   }
   function initReader() {
-    addListener(readFrm); showFinder(); resize()
+    addListener(readFrm); resize(); hashModified()
   }
   var last  // finder location
   var hashInProgress = false, firstEvent = true
   setTitle('Iqra ')
   window.name = 'iqra'+VERSION
   window.onresize = resize
-  setTimeout(initReader, 500)
+  // setTimeout(initReader, 500)
   window.onhashchange = hashModified
   closeM.onclick = hideFinder
   openM.onclick  = showFinder
+  readFrm.onload = initReader
   findFrm.onload = sourceChanged
   window.onerror = console.log
   window.onbeforeinstallprompt = (e) => {

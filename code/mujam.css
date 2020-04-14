@@ -67,9 +67,6 @@
         box-sizing: border-box;
         width: 4.5vw;
         height: 4.5vw;
-        min-width: 21px;
-        /* min-height: 21px; ignored
-        max-height: 28px; */
         border: 1px solid black; 
         padding: 0px;
         position: relative;
@@ -77,6 +74,12 @@
     td:hover { 
         border: 4px solid brown;
     }
+@media screen and (max-width: 460px) {
+    td { width: 21px; height: 21px;}
+}
+@media screen and (min-width: 620px) {
+    td { width: 28px; height: 28px;}
+}
     button:hover .t1 { 
         display: block; 
     }
