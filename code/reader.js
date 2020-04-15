@@ -19,6 +19,7 @@ const wordToRoot = new Map()
 const CHECKED = '#ff7' // color when the button is down
 const swipe = { t:0, x:0, y:0 }
 var curSura, curPage, bilgi, bookmarks;
+var initialized = false
 window.mujam = undefined
 
 //const LS = location.protocol.startsWith('http') && localStorage;
@@ -334,6 +335,7 @@ function gotoHashPage() {
   return true
 }
 function initialPage() {
+    initialized = true
     if (!gotoHashPage()) {
       console.log("initialPage")
       let k = getStorage().page || 1

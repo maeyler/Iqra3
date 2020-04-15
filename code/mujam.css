@@ -75,10 +75,10 @@
         border: 4px solid brown;
     }
 @media screen and (max-width: 460px) {
-    td { width: 21px; height: 21px;}
+    td { width: 20px; height: 20px;}
 }
-@media screen and (min-width: 620px) {
-    td { width: 28px; height: 28px;}
+@media screen and (min-width: 590px) {
+    td { width: 26px; height: 26px;}
 }
     button:hover .t1 { 
         display: block; 
