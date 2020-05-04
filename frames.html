@@ -3,130 +3,19 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport"    content="width=device-width">
-    <meta name="author"      content="M A Eyler, Istanbul, 2020" />
-    <meta name="description" content="Reader for the Quran" />
-    <!-- <link rel="stylesheet" href="code/main.css" media="all"> -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="image/icon.png">
-    <title>Iqra Introduction</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: cyan;
-    }
-    iframe {
-      display: none;
-      position: absolute;
-      box-sizing: border-box;
-      border: none;
-      height: 100%;
-    }
-    button {
-      position: fixed;
-      top: 0; right: 0;
-      background-color: pink;
-    }
-  </style>
+    <title>Iqra Redirect</title>
   </head>
+
   <body>
-
-  <iframe id=findFrm name=finder></iframe>
-  <iframe id=readFrm src='reader.html' name=iqra></iframe>
-
-  <button id=closeM>x</button>
-  <button id=openM hidden>M</button>
-
-<script src=""></script>
+    <p>Page was moved to 
+      <a href="https://maeyler.github.io/Kuran/frames.html">this link</a>
+    </p>
 <script>
-const VERSION = '4a6'
-function addListener(frm) {
-  frm.contentWindow.addEventListener('hashchange', reportHash)
-  console.log('* addListener *', frm.name)
-}
-function setTitle(str) {
-  document.title = VERSION +' '+ str
-}
-function reportHash(e) {
-  let s = '[Dış kaynak]'
-  if (e.target.name == 'iqra') {
-    if (readFrm.style.display == 'none') hideFinder()
-    s = e.target.document.title
-  } else { // finder
-    if (last != null && e.target.document) 
-      s = e.target.document.title
-    if (findFrm.style.display == 'none') showFinder() 
-  }
-  // console.log('* reportHash *', s)
-  setTitle(s)
-}
-function hideFinder() {
-  closeM.hidden=true; openM.hidden=false
-  resize()
-}
-function showFinder() {
-  closeM.hidden=false; openM.hidden=true
-  if (!findFrm.src) findFrm.src = 'mujam.html'
-  resize()
-}
-function resize() {
-    const WIDTH = 520, BORDER = 0 //default 4
-    const isNarrow = () => W <= 850
-    const margin = (w) => Math.trunc((W-w-BORDER)/2)
-    let W = Math.min(window.innerWidth, screen.width) - BORDER
-    // let H = Math.min(window.innerHeight, screen.height) - BORDER
-    let w1, w2, x1, x2
-    if (closeM.hidden) { //hideFinder
-      findFrm.style.display = 'none'
-      readFrm.style.display = 'inline-block'
-      let k = (isNarrow()? 1 : 2)
-      w1 = 0; w2 = Math.min(k*WIDTH, W)
-      x1 = 0; x2 = margin(w2)
-    } else { //showFinder
-      findFrm.style.display = 'inline-block'
-      if (isNarrow()) { //single column
-        readFrm.style.display = 'none'
-        w1 = Math.min(WIDTH, W); w2 = 0
-      } else { //two columns
-        readFrm.style.display = 'inline-block'
-        w1 = Math.min(WIDTH, Math.trunc(W/2))
-        w2 = w1
-      }
-      x1 = margin(w1+w2); x2 = x1 + BORDER + w1
-    }
-    function setStyle(s, x, w) {
-      //if W<610 use full width
-      s.left = (x==0 || W<610)? 0 : x+'px'
-      s.width = w==0? 0 : W<610? '100%' : w+'px'
-    }
-    setStyle(findFrm.style, x1, w1)
-    setStyle(readFrm.style, x2, w2)
-  }
-  function sourceChanged(e) {
-    try {
-      let p = findFrm.contentWindow.location.pathname
-      if (last != p) {
-        last = p; addListener(findFrm)
-      }
-    } catch (e) {
-      last = null // cannot read location
-    }
-    console.log('* sourceChanged *', last)
-    reportHash(e)
-  }
-  var last  // finder location
-  document.title = 'Iqra '+VERSION
-  window.name = 'iqra'+VERSION
-  window.onresize = resize
-  setTimeout(() => addListener(readFrm), 500)
-  closeM.onclick = hideFinder
-  openM.onclick  = showFinder
-  hideFinder(); resize()
-  findFrm.onload = sourceChanged
-  window.onerror = console.log
-  window.onbeforeinstallprompt = (e) => {
-    readFrm.contentWindow.beforeinstallCB(e)
-    console.log('beforeinstallprompt event')
-  }
+  let t = window.location.href
+  console.log(t)
+  t = t.replace('Iqra3', 'Kuran')
+  console.log(t)
+  window.location.href = t
 </script>
     
   </body>
